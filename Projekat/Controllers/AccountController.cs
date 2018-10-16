@@ -98,6 +98,22 @@ namespace Projekat.Controllers
                     return View(model);
             }
         }
+        public PartialViewResult LoggedUserData()
+        {
+            ApplicationUser user = UserManager.FindByName(this.User.Identity.Name);
+            LoggedUserViewModel lu;
+            if (user != null)
+            {
+                lu = new LoggedUserViewModel
+                {
+                    Username = user.UserName,
+                    slika = user.Slika,
+                    Role = user.Uloga
+                };
+                return PartialView(lu);
+            }
+            return PartialView(null);
+        }
 
         //
         // GET: /Account/VerifyCode

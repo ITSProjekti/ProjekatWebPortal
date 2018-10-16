@@ -313,6 +313,7 @@
     <Compile Include="ViewModels\DodajVestViewModel.cs" />
     <Compile Include="ViewModels\ListaKorisnikaViewModel.cs" />
     <Compile Include="ViewModels\ListaNaprednaPretragaViewModel.cs" />
+    <Compile Include="ViewModels\LoggedUserViewModel.cs" />
     <Compile Include="ViewModels\MaterijaliNaprednaPretragaViewModel.cs" />
     <Compile Include="ViewModels\MaterijalUploadViewModel.cs" />
     <Compile Include="ViewModels\MaterijalViewModel.cs" />
@@ -636,6 +637,7 @@
     <Content Include="Views\Shared\DisplayTemplates\MenuHelperModel.cshtml" />
     <Content Include="Views\Shared\DisplayTemplates\CanonicalHelperModel.cshtml" />
     <Content Include="Views\Shared\FileNotFound2.cshtml" />
+    <Content Include="Views\Account\LoggedUserData.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Content\Konfiguracija\" />

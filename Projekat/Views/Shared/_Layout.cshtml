@@ -44,19 +44,11 @@
         <div class="bar bar-middle"></div>
         <div class="bar bar-bottom"></div>
     </div>
-   
+
     <div data-simplebar class="LeftBar">
        
-         <div id="CrveniFiksni"></div>
-        <div id="Crveni">
-            <img src="~/Content/img/prof-slika.png" alt="profilna slika" />
-        </div>
-        <!-- Reseno -->
-        <p id="Ime1"> Jovana Nikolic</p>
-        <p id="uloga1">
-            administrator
-        </p>
-        
+        @{Html.RenderAction("LoggedUserData", "Account");}
+
 
         <!-- Ovde su one levo sto stoje u listi ovo stoji ovde samo da bi mogo da nadjem de pocinje, zato je ovako dugacko -->
         @if (this.User.IsInRole("Administrator"))
