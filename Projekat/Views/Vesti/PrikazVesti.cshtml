@@ -44,7 +44,7 @@
                         </div>
                         <div style="width: 100%; background: linear-gradient(to bottom, #494949, transparent); height: 17%; position: absolute; left: 1px; top: 0;">
                             <p class="card-text" style="position: absolute; font-size: 13px; color: whitesmoke; top: 10px;"> @Model.DatumPostavljanja.ToShortDateString()</p>
-                            @if (User.IsInRole("Administrator") || User.IsInRole("Urednik"))
+                            @if (User.IsInRole("SuperAdministrator") || User.IsInRole("Urednik"))
                             {
                                 <form action="/Vesti/BrisanjeVesti" method="post">
                                     <input type="hidden" value="@Model.Id" name="Id" />
