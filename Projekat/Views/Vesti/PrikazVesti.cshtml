@@ -42,7 +42,7 @@
                             <p class="card-text"> @Model.Naslov </p>
                             <p class="card-text" style="font-size:medium">@Model.KratakOpis</p>
                         </div>
-                        @if (User.IsInRole("Administrator") || User.IsInRole("Urednik"))
+                        @if (User.IsInRole("SuperAdministrator") || User.IsInRole("Urednik"))
                         {
                         <form action="/Vesti/BrisanjeVesti" method="post">
                             <input type="hidden" value="@Model.Id" name="Id" />
@@ -84,7 +84,7 @@
 </div>
 @if (Model != null)
 {
-    if (User.IsInRole("Administrator") || User.IsInRole("Urednik"))
+    if (User.IsInRole("SuperAdministrator") || User.IsInRole("Urednik"))
     {
         <script>changeAllow = true;</script>
         
