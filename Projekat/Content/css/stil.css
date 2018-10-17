@@ -2114,3 +2114,7 @@ div#opisModal .modal-dialog {
         transition: 0.5s all;
         cursor: pointer;
     }
+.ttDugme{
+    background-color: transparent;
+    border: none !important;
+}

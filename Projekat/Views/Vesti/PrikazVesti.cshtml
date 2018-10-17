@@ -42,14 +42,17 @@
                             <p class="card-text"> @Model.Naslov </p>
                             <p class="card-text" style="font-size:medium">@Model.KratakOpis</p>
                         </div>
-                        @if (User.IsInRole("Administrator") || User.IsInRole("Urednik"))
-                        {
-                        <form action="/Vesti/BrisanjeVesti" method="post">
-                            <input type="hidden" value="@Model.Id" name="Id" />
-                            <input type="hidden" value="true" name="glavna" />
-                            <input type="submit" class="btnGlavnaVest" value="&times" onclick="return confirm('Da li želite da obrišete vest?')" />
-                        </form>
-                        }
+                        <div style="width: 100%; background: linear-gradient(to bottom, #494949, transparent); height: 17%; position: absolute; left: 1px; top: 0;">
+                            <p class="card-text" style="position: absolute; font-size: 13px; color: whitesmoke; top: 10px;"> @Model.DatumPostavljanja.ToShortDateString()</p>
+                            @if (User.IsInRole("Administrator") || User.IsInRole("Urednik"))
+                            {
+                                <form action="/Vesti/BrisanjeVesti" method="post">
+                                    <input type="hidden" value="@Model.Id" name="Id" />
+                                    <input type="hidden" value="true" name="glavna" />
+                                    <input type="submit" class="btnGlavnaVest" value="&times" onclick="return confirm('Da li želite da obrišete vest?')" />
+                                </form>
+                            }
+                        </div>
 
                     </div>
                 </a>

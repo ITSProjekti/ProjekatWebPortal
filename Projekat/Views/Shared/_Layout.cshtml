@@ -125,7 +125,7 @@
                 <div id="Novine" class="slikaOdNaslova">
                     <img src="~/Content/img/Novine.png" alt="slika1" />
                 </div>
-                <p id="vestiP">Vesti i obavestenja</p>
+                <p id="vestiP">Vesti </p>
             </li>
             <li class="blok">
                 <a href="@Url.Action("PrikazVesti", "Vesti")">
@@ -146,18 +146,7 @@
                 </a>
             </li>
             }
-            <li class="blok">
-                <div class="slikaLi">
-                    <img id="zvono" src="~/Content/img/zvono.png" alt="slika1" />
-                </div>
-                <p id="l7">Pregled obavestenja</p>
-            </li>
-            <li class="blok">
-                <div class="slikaLi">
-                    <img src="~/Content/img/zvono-plus.png" alt="slika1" />
-                </div>
-                <p id="l8">Novo</p>
-            </li>
+            
         </ul>
     </div>
 }
@@ -171,33 +160,35 @@ else
     </style>
 }
     <div id="gornjaNavigacija">
-       
-         @if (Request.UrlReferrer != null)
+
+        @if (Request.UrlReferrer != null)
         {
             <a id="nazad" onclick="history.go(-1); return false;" href="#"><img src="~/Content/img/back-strelica.png" alt="nazad"></a><br />
-         }
-         else
-         {
-            <a id="nazad" href="#"> </a><br/>
-         }
+        }
+        else
+        {
+            <a id="nazad" href="#"> </a><br />
+        }
 
 
         <div class="divMapiranje">
 
             @Html.MvcSiteMap().SiteMapPath()
         </div>
+        @if (User.Identity.IsAuthenticated)
+        {
+            <img id="gornjeOpcije" src="~/Content/img/tri-tacke.png" alt="opcije" onclick="drop()">
 
-        <img id="gornjeOpcije" src="~/Content/img/tri-tacke.png" alt="opcije" onclick="drop()">
+        }
 
-        
+            @*<img class="gornjiNavIkonice" id="lupaPretragaToggle" src="~/Content/img/lupaPretraga.png" alt="pretraga" />*@
 
-        @*<img class="gornjiNavIkonice" id="lupaPretragaToggle" src="~/Content/img/lupaPretraga.png" alt="pretraga" />*@
+            <div id="zaPretragu">
 
-        <div id="zaPretragu">
-            
+            </div>
+
         </div>
-
-    </div>
+    @if (User.Identity.IsAuthenticated) { 
     <div id="dropdaun" style="display:none;">
         <ul class="dd-lista">
             
@@ -206,11 +197,11 @@ else
             @using (Html.BeginForm("LogOff", "Account", FormMethod.Post))
             {
                 @Html.AntiForgeryToken()
-                <input type="submit" value="Log Out" />
+                <input class="ttDugme" type="submit" value="LOG OUT" />
             }</li>
 
         </ul>
-    </div>
+    </div>}
     <script>
         var x = document.getElementById("dropdaun");
         function drop() {
