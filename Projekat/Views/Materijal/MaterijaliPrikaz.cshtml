@@ -12,7 +12,7 @@
         }
     }
 </style>
-@if (this.User.IsInRole("Administrator") || this.User.IsInRole("Urednik"))
+@if (this.User.IsInRole("SuperAdministrator") || this.User.IsInRole("Urednik"))
 {
 <a id="novi-materijal" href="@Url.Action("UploadMaterijal", "Materijal")">
     <img src="~/Content/img/upload.png" alt="Novi materijal">

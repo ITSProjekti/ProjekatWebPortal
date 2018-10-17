@@ -87,7 +87,7 @@
 </div>
 @if (Model != null)
 {
-    if (User.IsInRole("Administrator") || User.IsInRole("Urednik"))
+    if (User.IsInRole("SuperAdministrator") || User.IsInRole("Urednik"))
     {
         <script>changeAllow = true;</script>
         

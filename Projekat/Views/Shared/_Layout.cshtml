@@ -6,10 +6,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title - Web Portal</title>
     @Styles.Render("~/Content/css")
-    @Scripts.Render("~/bundles/modernizr")
+    
     @Styles.Render("~/Content/select2")
     @Styles.Render("~/Content/select2izgled")
     @Styles.Render("~/Content/css/simplebar.css")
+
+
 
 
     <script src="https://unpkg.com/simplebar@latest/dist/simplebar.js"></script>@*CDN za simplebar*@
@@ -51,8 +53,9 @@
 
 
         <!-- Ovde su one levo sto stoje u listi ovo stoji ovde samo da bi mogo da nadjem de pocinje, zato je ovako dugacko -->
-        @if (this.User.IsInRole("Administrator"))
+        @if (this.User.IsInRole("SuperAdministrator")||User.IsInRole("Administrator"))
         {
+
         <ul class="ListaNav" id="n1">
           
             <li class="naslov">
@@ -86,7 +89,7 @@
                 </div>
                 <p>Materijali</p>
             </li>
-            @if (this.User.IsInRole("Administrator") || this.User.IsInRole("Urednik") || this.User.IsInRole("Profesor"))
+            @if (this.User.IsInRole("SuperAdministrator") || this.User.IsInRole("Urednik") || this.User.IsInRole("Profesor"))
             {
                 if (!this.User.IsInRole("Profesor"))
                 {
@@ -135,7 +138,7 @@
                 <p id="l5">Pregled vesti</p>
                 </a>
             </li>
-            @if (this.User.IsInRole("Urednik") || this.User.IsInRole("Administrator"))
+            @if (this.User.IsInRole("Urednik") || this.User.IsInRole("SuperAdministrator"))
             {
             <li class="blok">
                 <a href="@Url.Action("NovaVest", "Vesti")">
@@ -217,14 +220,17 @@ else
                 
         }
     </script>
+  
+
     <script src="~/Scripts/umdPopper.js"></script>
+   @Scripts.Render("~/bundles/modernizr")
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/jqueryval")
     @Scripts.Render("~/Scripts/UI/select2.min.js")
     @Scripts.Render("~/bundles/bootstrap")
     @Scripts.Render("~/bundles/shared")
     @Scripts.Render("~/bundles/ui")
-
+    
     @RenderBody()
 
 

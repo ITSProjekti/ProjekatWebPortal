@@ -160,7 +160,7 @@ namespace Projekat.Controllers
 
         //
         // GET: /Account/Register
-        [Authorize(Roles = "Administrator")]
+        [Authorize(Roles = "SuperAdministrator,Administrator")]
         public ActionResult Register()
         {
             RegisterViewModel ViewModel = new RegisterViewModel();
@@ -178,7 +178,7 @@ namespace Projekat.Controllers
         /// <param name="ID">Id korisnika kog zelimo da izmenimo.</param>
         /// <returns></returns>
         [HttpGet]
-        [Authorize(Roles = "Administrator")]
+        [Authorize(Roles = "SuperAdministrator,Administrator")]
         public ActionResult IzmeniKorisnika(string ID)
         {
             if (ID != null)
@@ -214,7 +214,7 @@ namespace Projekat.Controllers
         /// <param name="Fajl">Nova slika korisnika. Ukoliko se prosledi null, ostaje stara slika</param>
         /// <returns></returns>
         [HttpPost]
-        [Authorize(Roles = "Administrator")]
+        [Authorize(Roles = "SuperAdministrator,Administrator")]
         public ActionResult IzmeniKorisnika(IzmeniKorisnikaViewModel model, HttpPostedFileBase Fajl)
         {
 
@@ -339,7 +339,7 @@ namespace Projekat.Controllers
         /// <param name="Fajl">Slika korisnika. Ako je null, korisniku se dodeljuje default slika.</param>
         /// <returns></returns>
         [HttpPost]
-        [AllowAnonymous]
+        [Authorize(Roles = "SuperAdministrator,Administrator")]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Register(RegisterViewModel model, HttpPostedFileBase Fajl)
         {
@@ -726,7 +726,7 @@ namespace Projekat.Controllers
         /// </summary>
         /// <param name="vm">Model u kome se nalaze detalji po kojima se vrsi pretraga. <seealso cref="ListaNaprednaPretragaViewModel"/></param>
         /// <returns></returns>
-        [Authorize(Roles = "Administrator")]
+        [Authorize(Roles = "SuperAdministrator,Administrator")]
         public ActionResult ListaKorisnika(ListaNaprednaPretragaViewModel vm)
         {
             MaterijalContext context = new MaterijalContext();
@@ -802,7 +802,7 @@ namespace Projekat.Controllers
         /// </summary>
         /// <param name="Username">Username korisnika za koga zelimo da prikazemo detalje</param>
         /// <returns></returns>
-        [Authorize(Roles = "Administrator")]
+        [Authorize(Roles = "SuperAdministrato,Administratorr")]
         public ActionResult DetaljiKorisnika(string Username)
         {
             if (Username == null)
@@ -834,7 +834,7 @@ namespace Projekat.Controllers
         /// </summary>
         /// <param name="ID">Id korisnika kog zelimo da obrisemo.</param>
         /// <returns></returns>
-        [Authorize(Roles = "Administrator")]
+        [Authorize(Roles = "SuperAdministrator,Administrator")]
         [HttpPost]
         public ActionResult ObrisiKorisnika(string ID)
         {
