@@ -24,7 +24,7 @@
 
             @Html.AntiForgeryToken()
             <h4>Izmenite korisnika</h4>
-            <img id="slika" src="data:image;base64,@System.Convert.ToBase64String(Model.Korisnik.Slika)" class="slika" />
+            <img id="slikaZaIzmenu" src="data:image;base64,@System.Convert.ToBase64String(Model.Korisnik.Slika)" class="slika" />
 
 
             @*@Html.ValidationSummary()*@
@@ -69,7 +69,7 @@
                 @Html.DropDownListFor(m => m.Korisnik.SkolaId, new SelectList(Model.Skole, "IdSkole", "NazivSkole"), new { @class = "customDropdown", @selected = "selected" })
             </div>
 
-            <input type="file" name="Fajl" id="file" class="inputfile" onchange="document.getElementById('slika').src = window.URL.createObjectURL(this.files[0])" />
+            <input type="file" name="Fajl" id="file" class="inputfile" onchange="document.getElementById('slikaZaIzmenu').src = window.URL.createObjectURL(this.files[0])" />
             <label for="file" id="izaberi-materijal"> <span id="filename"> <span> <img src="~/Content/img/upload2.png" alt="Izaberite Sliku"> Izaberite sliku...</span></span> </label>
 
             <div class="izmene">

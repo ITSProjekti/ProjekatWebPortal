@@ -26,7 +26,7 @@ namespace Projekat.Models
             // Add custom user claims here
             return userIdentity;
         }
-        public  static async Task<string> VratiSmer(string username)
+        public static async Task<string> VratiSmer(string username)
         {
             MaterijalContext context = new MaterijalContext();
             ApplicationUser user = await context.Users.FirstOrDefaultAsync(x => x.UserName == username);
@@ -46,6 +46,7 @@ namespace Projekat.Models
             return smer;
 
         }
+       
     }
 
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>

@@ -112,7 +112,8 @@ namespace Projekat.Controllers
                 };
                 return PartialView(lu);
             }
-            return PartialView(null);
+            this.LogOff();
+            return null;
         }
 
         //
@@ -160,7 +161,7 @@ namespace Projekat.Controllers
 
         //
         // GET: /Account/Register
-        [Authorize(Roles = "Administrator")]
+        [Authorize(Roles = "SuperAdministrator,Administrator")]
         public ActionResult Register()
         {
             RegisterViewModel ViewModel = new RegisterViewModel();
@@ -178,7 +179,7 @@ namespace Projekat.Controllers
         /// <param name="ID">Id korisnika kog zelimo da izmenimo.</param>
         /// <returns></returns>
         [HttpGet]
-        [Authorize(Roles = "Administrator")]
+        [Authorize(Roles = "SuperAdministrator,Administrator")]
         public ActionResult IzmeniKorisnika(string ID)
         {
             if (ID != null)
@@ -214,8 +215,8 @@ namespace Projekat.Controllers
         /// <param name="Fajl">Nova slika korisnika. Ukoliko se prosledi null, ostaje stara slika</param>
         /// <returns></returns>
         [HttpPost]
-        [Authorize(Roles = "Administrator")]
-        public ActionResult IzmeniKorisnika(IzmeniKorisnikaViewModel model, HttpPostedFileBase Fajl)
+        [Authorize(Roles = "SuperAdministrator,Administrator")]
+        public async Task<ActionResult> IzmeniKorisnika(IzmeniKorisnikaViewModel model, HttpPostedFileBase Fajl)
         {
 
             if (ModelState.IsValid)
@@ -232,11 +233,13 @@ namespace Projekat.Controllers
                     {
                         GenerisiUsername(user);
                         postojeci.UserName = user.UserName;
+                        await UserManager.SendEmailAsync(postojeci.Id, "Promenjeno korisnicko ime", "Vase novo korisnicko ime za ulaz u web portal je " + user.UserName);
                     }
                     else if ((postojeci.Ime != user.Ime || postojeci.SkolaId != user.SkolaId || postojeci.Prezime != user.Prezime))
                     {
                         GenerisiUsername(user);
                         postojeci.UserName = user.UserName;
+                        await UserManager.SendEmailAsync(postojeci.Id, "Promenjeno korisnicko ime", "Vase novo korisnicko ime za ulaz u web portal je " + user.UserName);
                     }
                     if (user.Uloga != postojeci.Uloga)
                     {
@@ -339,7 +342,7 @@ namespace Projekat.Controllers
         /// <param name="Fajl">Slika korisnika. Ako je null, korisniku se dodeljuje default slika.</param>
         /// <returns></returns>
         [HttpPost]
-        [AllowAnonymous]
+        [Authorize(Roles = "SuperAdministrator,Administrator")]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Register(RegisterViewModel model, HttpPostedFileBase Fajl)
         {
@@ -726,7 +729,7 @@ namespace Projekat.Controllers
         /// </summary>
         /// <param name="vm">Model u kome se nalaze detalji po kojima se vrsi pretraga. <seealso cref="ListaNaprednaPretragaViewModel"/></param>
         /// <returns></returns>
-        [Authorize(Roles = "Administrator")]
+        [Authorize(Roles = "SuperAdministrator,Administrator")]
         public ActionResult ListaKorisnika(ListaNaprednaPretragaViewModel vm)
         {
             MaterijalContext context = new MaterijalContext();
@@ -739,8 +742,19 @@ namespace Projekat.Controllers
             ViewModel.Korisnici = new List<ListaKorisnikaViewModel>();
             List<ListaKorisnikaViewModel> lista = new List<ListaKorisnikaViewModel>();
             List<ApplicationUser> useri;
+            int? skolaId;
 
-            useri = context.Users.ToList();
+
+            if (User.IsInRole("SuperAdministrator"))
+            {
+                useri = context.Users.ToList();
+            }
+            else
+            {
+                skolaId = context.Users.FirstOrDefault(x => x.UserName == User.Identity.Name)?.SkolaId;
+                //useri = context.Users.Where(x => x.SkolaId == skolaId && x.Uloga != "Administrator" && x.Uloga != "SuperAdministrator").ToList();
+                useri = context.Users.Where(x => x.SkolaId == skolaId ).ToList();
+            }
             if (vm.FilterSkolaID != 0)
             {
                 useri = useri.Where(x => x.SkolaId == vm.FilterSkolaID).ToList();
@@ -802,7 +816,7 @@ namespace Projekat.Controllers
         /// </summary>
         /// <param name="Username">Username korisnika za koga zelimo da prikazemo detalje</param>
         /// <returns></returns>
-        [Authorize(Roles = "Administrator")]
+        [Authorize(Roles = "SuperAdministrato,Administrator")]
         public ActionResult DetaljiKorisnika(string Username)
         {
             if (Username == null)
@@ -834,7 +848,7 @@ namespace Projekat.Controllers
         /// </summary>
         /// <param name="ID">Id korisnika kog zelimo da obrisemo.</param>
         /// <returns></returns>
-        [Authorize(Roles = "Administrator")]
+        [Authorize(Roles = "SuperAdministrator,Administrator")]
         [HttpPost]
         public ActionResult ObrisiKorisnika(string ID)
         {

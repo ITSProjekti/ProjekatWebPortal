@@ -33,7 +33,7 @@ namespace Projekat.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        [Authorize(Roles = "Administrator,Urednik")]
+        [Authorize(Roles = "SuperAdministrator,Urednik")]
         public ActionResult DodajPredmet()
         {
 
@@ -52,7 +52,7 @@ namespace Projekat.Controllers
         /// <param name="viewModel">The view model.</param>
         /// <returns></returns>
         [HttpPost]
-        [Authorize(Roles = "Administrator,Urednik")]
+        [Authorize(Roles = "SuperAdministrator,Urednik")]
         public ActionResult DodajPredmet(DodajPremetViewModel viewModel)
         {
 
@@ -97,7 +97,7 @@ namespace Projekat.Controllers
         /// <param name="predmetId">Id predmeta koji treba promeniti.</param>
         /// <returns></returns>
         [HttpPost]
-        [Authorize(Roles = "Administrator,Urednik")]
+        [Authorize(Roles = "SuperAdministrator,Urednik")]
         public ActionResult Edit(int smerId, List<int> smeroviId, string predmetNaziv, string predmetOpis, int predmetId)
         {
             context = new MaterijalContext();

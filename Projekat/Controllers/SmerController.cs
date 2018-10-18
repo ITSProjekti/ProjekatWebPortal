@@ -74,7 +74,7 @@ namespace Projekat.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        [Authorize(Roles = "Administrator,Urednik")]
+        [Authorize(Roles = "SuperAdministrator,Urednik")]
         public ActionResult DodajSmer()
         {
 
@@ -87,7 +87,7 @@ namespace Projekat.Controllers
         /// <param name="smer">Smer za dodavanje</param>
         /// <returns></returns>
         [HttpPost]
-        [Authorize(Roles = "Administrator,Urednik")]
+        [Authorize(Roles = "SuperAdministrator,Urednik")]
         public ActionResult DodajSmer(SmerModel smer)
         {   
             if (ModelState.IsValid)

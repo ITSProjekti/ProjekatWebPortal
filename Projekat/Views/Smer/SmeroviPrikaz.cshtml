@@ -5,7 +5,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <div id="sredina">
-@if (this.User.IsInRole("Administrator") || this.User.IsInRole("Urednik"))
+@if (this.User.IsInRole("SuperAdministrator") || this.User.IsInRole("Urednik"))
 {
     <a id="novi-materijal" href="../Smer/DodajSmer">
         <svg width="60" height="60" xmlns="http://www.w3.org/2000/svg">
@@ -29,7 +29,7 @@
         <div class="kartica-smer clear-fix"  id=@smer.smerId>
             <a class="naziv-smera-na-kartici" href="#">@smer.smerNaziv</a>
             <div class="kontrole clear-fix">
-            @if (this.User.IsInRole("Administrator") || this.User.IsInRole("Urednik"))
+            @if (this.User.IsInRole("SuperAdministrator") || this.User.IsInRole("Urednik"))
             {
                 <a href="#" class="kontrola-ikonica edit" data-toggle="modal" data-target="#editModal"><img src="~/Content/img/uredi.png" alt="uredi" /></a>
             }
@@ -58,7 +58,7 @@
             </div>
         </div>
     </div>
-@if (this.User.IsInRole("Administrator") || this.User.IsInRole("Urednik"))
+@if (this.User.IsInRole("SuperAdministrator") || this.User.IsInRole("Urednik"))
 {
     <div class="modal modal-edit fade" id="editModal" role="dialog">
         <div class="modal-dialog">

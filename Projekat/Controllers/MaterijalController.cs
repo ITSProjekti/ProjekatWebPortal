@@ -134,7 +134,7 @@ namespace Projekat.Controllers
         /// <param name="smerId">Id smera za koji je predmet koji se dodaje.</param>
         /// <returns></returns>
         [HttpGet]
-        [Authorize(Roles ="Administrator,Urednik")]
+        [Authorize(Roles = "SuperAdministrator,Urednik")]
         public ActionResult UploadMaterijal(int? smerId)
         {
             context = new MaterijalContext();
@@ -177,7 +177,7 @@ namespace Projekat.Controllers
         /// <param name="predmet">Predmet za koji je materijal.</param>
         /// <returns></returns>
         [HttpPost]
-        [Authorize(Roles = "Administrator,Urednik")]
+        [Authorize(Roles = "SuperAdministrator,Urednik")]
         public ActionResult UploadMaterijal(MaterijalModel materijal, HttpPostedFileBase file, PredmetPoSmeru predmet/*, string hiddenPredmet*/)
         {
 
@@ -254,7 +254,7 @@ namespace Projekat.Controllers
         /// <param name="id">Id materijala za brisanje</param>
         /// <returns></returns>
         [HttpPost]
-        [Authorize(Roles = "Administrator,Urednik")]
+        [Authorize(Roles = "SuperAdministrator,Urednik")]
         //[ActionName("Delete")]
         //[Route("UploadMaterijal/DeleteConfirmed/{id:int}")]
         public ActionResult DeleteConfirmed(int id)
