@@ -164,6 +164,20 @@
 
     });
 
+    window.onscroll = function () {
+          
+        var scroll = $(window).scrollTop();
+        if(scroll>45)
+        {
+            $('#hamburger-menu-toggle .bar').css('background', '#e21b22');
+        }
+        else
+        {
+            $('#hamburger-menu-toggle .bar').css('background', '#FFF');
+        }
+    
+    };
+
 
     window.onresize = function () {
 
