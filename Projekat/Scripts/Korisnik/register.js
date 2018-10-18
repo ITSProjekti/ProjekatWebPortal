@@ -19,7 +19,7 @@
           
             GodinaUpisa: {
                 required: false,
-                godinaRegex: /^([0-9]{4,4})?$/,
+                godinaRegex: /^(2[0-9]{3,3})?$/,
                 minlength: 4
 
             }
@@ -40,7 +40,7 @@
             },
             
             GodinaUpisa: {
-                minlength: "Godina mora sadržati minimum 4 karaktera."
+                minlength: "Godina mora sadržati minimum 4 karaktera i biti realna."
             }
            
         }
@@ -63,5 +63,5 @@
     $.validator.addMethod("godinaRegex", function (value, element, regexpr) {
         // allow any non-whitespace characters as the host part
         return regexpr.test(value);
-    }, 'Godina mora imati 4 cifre.');
+    }, 'Godina mora sadržati minimum 4 karaktera i biti realna.');
 });
