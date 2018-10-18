@@ -70,7 +70,7 @@
          <div class="izmene">
                 <input type="submit" class="btnsOnIzmeni" value="SAČUVAJ" onclick="return confirm('Molimo vas potvrdite unos korisnika')" />
              
-                <input type="submit" class="btnsOnIzmeni" value="ODUSTANI" onclick="return confirm('Da li želite da odustanete od unosa?')" />
+             <input type="button" id="dugmeBack" class="btnsOnIzmeni" value="ODUSTANI" onclick="return confirm('Da li želite da odustanete od unosa?')" />
             </div>
 
     }
@@ -83,3 +83,9 @@
     
 
 }
+<script>
+
+        $("#dugmeBack").click(function () {
+            location.href="/Account/ListaKorisnika";
+        });
+</script>
