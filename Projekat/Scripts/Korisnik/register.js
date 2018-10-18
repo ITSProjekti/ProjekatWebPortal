@@ -18,6 +18,8 @@
             },
           
             GodinaUpisa: {
+                required: true,
+                godinaRegex: /^([0-9]{4,4})?$/,
                 required: false,
                 godinaRegex: /^(2[0-9]{3,3})?$/,
                 minlength: 4

@@ -12,7 +12,7 @@ using Projekat.Models;
 using System.Collections.Generic;
 using Projekat.ViewModels;
 using System.Security.Cryptography;
-
+using System.Net;
 
 namespace Projekat.Controllers
 {
@@ -162,14 +162,25 @@ namespace Projekat.Controllers
         //
         // GET: /Account/Register
         [Authorize(Roles = "SuperAdministrator,Administrator")]
-        public ActionResult Register()
+        public async Task<ActionResult> Register()
         {
             RegisterViewModel ViewModel = new RegisterViewModel();
 
             MaterijalContext matcont = new MaterijalContext();
-            ViewModel.Skole = matcont.Skole.ToList();
+           
             ViewModel.Smerovi = matcont.smerovi.ToList();
-            ViewModel.Uloge = matcont.Roles.ToList();
+            
+            if (User.IsInRole("Administrator"))
+            {
+                SkolaModel s = await ApplicationUser.vratiSkoluModel(User.Identity.Name) ?? new SkolaModel { NazivSkole="Undefined",IdSkole= 0,Skraceno="Undefined"};
+                ViewModel.Skole = new List<SkolaModel> { s };
+                ViewModel.Uloge = matcont.Roles.Where(x=>x.Name != "Administrator" && x.Name != "SuperAdministrator").ToList();
+            }
+            else
+            {
+                ViewModel.Skole = matcont.Skole.ToList();
+                ViewModel.Uloge = matcont.Roles.ToList();
+            }
             return View(ViewModel);
 
         }
@@ -180,32 +191,52 @@ namespace Projekat.Controllers
         /// <returns></returns>
         [HttpGet]
         [Authorize(Roles = "SuperAdministrator,Administrator")]
-        public ActionResult IzmeniKorisnika(string ID)
+        public async Task<ActionResult> IzmeniKorisnika(string ID)
         {
             if (ID != null)
             {
                 IzmeniKorisnikaViewModel ViewModel = new IzmeniKorisnikaViewModel();
 
                 MaterijalContext matcon = new MaterijalContext();
+                ApplicationUser Korisnik = UserManager.FindById(ID);
 
-                ViewModel.Uloge = matcon.Roles.ToList();
-                ViewModel.Skole = matcon.Skole.ToList();
                 ViewModel.Smerovi = matcon.smerovi.ToList();
 
-                ApplicationUser Korisnik = UserManager.FindById(ID);
+                if (User.IsInRole("Administrator"))
+                {
+                    SkolaModel s = await ApplicationUser.vratiSkoluModel(User.Identity.Name) ?? new SkolaModel { NazivSkole = "Undefined", IdSkole = 0, Skraceno = "Undefined" };
+                    ViewModel.Skole = new List<SkolaModel> { s };
+                    ViewModel.Uloge = matcon.Roles.Where(x => x.Name != "Administrator" && x.Name != "SuperAdministrator").ToList();
+                    int? skola = await ApplicationUser.vratiSkolu(User.Identity.Name);
+                    if (Korisnik != null)
+                    {
+                        if (Korisnik.SkolaId != skola) {
+                            return new HttpStatusCodeResult(HttpStatusCode.Forbidden);
+                        }
+                    }
+                }
+                else
+                {
+                    ViewModel.Skole = matcon.Skole.ToList();
+                    ViewModel.Uloge = matcon.Roles.ToList();
+                }
+               
+
+                
                 if (Korisnik != null)
                 {
+                    
                     ViewModel.Korisnik = Korisnik;
                     return View(ViewModel);
                 }
                 else
                 {
-                    return RedirectToAction("ListaKorisnika");
+                    return new HttpStatusCodeResult(HttpStatusCode.NotFound);
                 }
             }
             else
             {
-                return RedirectToAction("ListaKorisnika");
+                return new HttpStatusCodeResult(HttpStatusCode.NotFound);
             }
         }
         /// <summary>
@@ -229,6 +260,14 @@ namespace Projekat.Controllers
                 ApplicationUser postojeci = UserManager.FindByName(model.Korisnik.UserName);
                 if (postojeci != null)
                 {
+                    //role based izmene, ako je ulogovani korisnik admin ili super admin
+                    if (User.IsInRole("Administrator"))
+                    {
+                        user.SkolaId = await ApplicationUser.vratiSkolu(User.Identity.Name);
+                        if (user.Uloga == "Administrator" ||  user.Uloga == "SuperAdministrator")
+                            return new HttpStatusCodeResult(HttpStatusCode.Forbidden);
+                    }
+                   
                     if ((postojeci.Ime != user.Ime || postojeci.GodinaUpisa != user.GodinaUpisa || postojeci.SkolaId != user.SkolaId || user.SmerId != postojeci.SmerId) && user.Uloga == "Ucenik")
                     {
                         GenerisiUsername(user);
@@ -357,14 +396,27 @@ namespace Projekat.Controllers
                     Email = model.Email,
                     Ime = model.Ime,
                     Prezime = model.Prezime,
-                    SkolaId = model.SelektovanaSkola,
                     SmerId = model.selektovaniSmer,
                     Uloga = model.selektovanaUloga,
                     PhoneNumber = model.phoneNumber
 
 
 
-                };
+                }; 
+                //dodeljivanje skole
+                if(User.IsInRole("Administrator"))
+                {
+                    user.SkolaId = await ApplicationUser.vratiSkolu(User.Identity.Name);
+                    if(model.selektovanaUloga == "Administrator" || model.selektovanaUloga == "SuperAdministrator")
+                        return new HttpStatusCodeResult(HttpStatusCode.Forbidden);
+                }
+                else
+                {
+                    user.SkolaId = model.SelektovanaSkola;
+                }
+                
+                
+                //dodeljivanje godine upisa
                 if (model.selektovanaUloga == "Ucenik")
                 {
                     user.GodinaUpisa = model.GodinaUpisa;
@@ -373,9 +425,9 @@ namespace Projekat.Controllers
                 {
                     user.GodinaUpisa = null;
                 }
-
+                //Generisanje Username
                 GenerisiUsername(user);
-
+                //dodeljivanje slike
                 if (Fajl != null)
                 {
                     user.Slika = new byte[Fajl.ContentLength];
@@ -385,7 +437,7 @@ namespace Projekat.Controllers
                 {
                     user.Slika = System.IO.File.ReadAllBytes(Server.MapPath("~/Content/img/Default.png"));
                 }
-
+                //Generisanje passworda
                 string password = GetRandomPassword(10);
                 var result = await UserManager.CreateAsync(user, password);
 
@@ -404,13 +456,24 @@ namespace Projekat.Controllers
                 }
                 AddErrors(result);
             }
+            // If we got this far, something failed, redisplay form
 
             MaterijalContext matcont = new MaterijalContext();
 
-            model.Skole = matcont.Skole.ToList();
+           
             model.Smerovi = matcont.smerovi.ToList();
-            model.Uloge = matcont.Roles.ToList();
-            // If we got this far, something failed, redisplay form
+           
+            if (User.IsInRole("Administrator"))
+            {
+                model.Skole = null;
+                model.Uloge = matcont.Roles.Where(x => x.Name != "Administrator" && x.Name != "SuperAdministrator").ToList();
+            }
+            else
+            {
+                model.Skole = matcont.Skole.ToList();
+                model.Uloge = matcont.Roles.ToList();
+            }
+          
             return View(model);
         }
 
@@ -461,7 +524,7 @@ namespace Projekat.Controllers
         }
 
         //
-       
+
         [AllowAnonymous]
         public async Task<ActionResult> ConfirmEmail(string userId, string code)
         {
@@ -575,14 +638,14 @@ namespace Projekat.Controllers
 
         //
         // POST: /Account/ExternalLogin
-        [HttpPost]
-        [AllowAnonymous]
-        [ValidateAntiForgeryToken]
-        public ActionResult ExternalLogin(string provider, string returnUrl)
-        {
-            // Request a redirect to the external login provider
-            return new ChallengeResult(provider, Url.Action("ExternalLoginCallback", "Account", new { ReturnUrl = returnUrl }));
-        }
+        //[HttpPost]
+        //[AllowAnonymous]
+        //[ValidateAntiForgeryToken]
+        //public ActionResult ExternalLogin(string provider, string returnUrl)
+        //{
+        //    // Request a redirect to the external login provider
+        //    return new ChallengeResult(provider, Url.Action("ExternalLoginCallback", "Account", new { ReturnUrl = returnUrl }));
+        //}
 
         //
         // GET: /Account/SendCode
@@ -621,71 +684,71 @@ namespace Projekat.Controllers
 
         //
         // GET: /Account/ExternalLoginCallback
-        [AllowAnonymous]
-        public async Task<ActionResult> ExternalLoginCallback(string returnUrl)
-        {
-            var loginInfo = await AuthenticationManager.GetExternalLoginInfoAsync();
-            if (loginInfo == null)
-            {
-                return RedirectToAction("Login");
-            }
+        //[AllowAnonymous]
+        //public async Task<ActionResult> ExternalLoginCallback(string returnUrl)
+        //{
+        //    var loginInfo = await AuthenticationManager.GetExternalLoginInfoAsync();
+        //    if (loginInfo == null)
+        //    {
+        //        return RedirectToAction("Login");
+        //    }
 
-            // Sign in the user with this external login provider if the user already has a login
-            var result = await SignInManager.ExternalSignInAsync(loginInfo, isPersistent: false);
-            switch (result)
-            {
-                case SignInStatus.Success:
-                    return RedirectToLocal(returnUrl);
-                case SignInStatus.LockedOut:
-                    return View("Lockout");
-                case SignInStatus.RequiresVerification:
-                    return RedirectToAction("SendCode", new { ReturnUrl = returnUrl, RememberMe = false });
-                case SignInStatus.Failure:
-                default:
-                    // If the user does not have an account, then prompt the user to create an account
-                    ViewBag.ReturnUrl = returnUrl;
-                    ViewBag.LoginProvider = loginInfo.Login.LoginProvider;
-                    return View("ExternalLoginConfirmation", new ExternalLoginConfirmationViewModel { Email = loginInfo.Email });
-            }
-        }
+        //    // Sign in the user with this external login provider if the user already has a login
+        //    var result = await SignInManager.ExternalSignInAsync(loginInfo, isPersistent: false);
+        //    switch (result)
+        //    {
+        //        case SignInStatus.Success:
+        //            return RedirectToLocal(returnUrl);
+        //        case SignInStatus.LockedOut:
+        //            return View("Lockout");
+        //        case SignInStatus.RequiresVerification:
+        //            return RedirectToAction("SendCode", new { ReturnUrl = returnUrl, RememberMe = false });
+        //        case SignInStatus.Failure:
+        //        default:
+        //            // If the user does not have an account, then prompt the user to create an account
+        //            ViewBag.ReturnUrl = returnUrl;
+        //            ViewBag.LoginProvider = loginInfo.Login.LoginProvider;
+        //            return View("ExternalLoginConfirmation", new ExternalLoginConfirmationViewModel { Email = loginInfo.Email });
+        //    }
+        //}
 
         //
         // POST: /Account/ExternalLoginConfirmation
-        [HttpPost]
-        [AllowAnonymous]
-        [ValidateAntiForgeryToken]
-        public async Task<ActionResult> ExternalLoginConfirmation(ExternalLoginConfirmationViewModel model, string returnUrl)
-        {
-            if (User.Identity.IsAuthenticated)
-            {
-                return RedirectToAction("Index", "Manage");
-            }
+        //[HttpPost]
+        //[AllowAnonymous]
+        //[ValidateAntiForgeryToken]
+        //public async Task<ActionResult> ExternalLoginConfirmation(ExternalLoginConfirmationViewModel model, string returnUrl)
+        //{
+        //    if (User.Identity.IsAuthenticated)
+        //    {
+        //        return RedirectToAction("Index", "Manage");
+        //    }
 
-            if (ModelState.IsValid)
-            {
-                // Get the information about the user from the external login provider
-                var info = await AuthenticationManager.GetExternalLoginInfoAsync();
-                if (info == null)
-                {
-                    return View("ExternalLoginFailure");
-                }
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
-                var result = await UserManager.CreateAsync(user);
-                if (result.Succeeded)
-                {
-                    result = await UserManager.AddLoginAsync(user.Id, info.Login);
-                    if (result.Succeeded)
-                    {
-                        await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
-                        return RedirectToLocal(returnUrl);
-                    }
-                }
-                AddErrors(result);
-            }
+        //    if (ModelState.IsValid)
+        //    {
+        //        // Get the information about the user from the external login provider
+        //        var info = await AuthenticationManager.GetExternalLoginInfoAsync();
+        //        if (info == null)
+        //        {
+        //            return View("ExternalLoginFailure");
+        //        }
+        //        var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
+        //        var result = await UserManager.CreateAsync(user);
+        //        if (result.Succeeded)
+        //        {
+        //            result = await UserManager.AddLoginAsync(user.Id, info.Login);
+        //            if (result.Succeeded)
+        //            {
+        //                await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+        //                return RedirectToLocal(returnUrl);
+        //            }
+        //        }
+        //        AddErrors(result);
+        //    }
 
-            ViewBag.ReturnUrl = returnUrl;
-            return View(model);
-        }
+        //    ViewBag.ReturnUrl = returnUrl;
+        //    return View(model);
+        //}
 
         //
         // POST: /Account/LogOff
@@ -699,11 +762,11 @@ namespace Projekat.Controllers
 
         //
         // GET: /Account/ExternalLoginFailure
-        [AllowAnonymous]
-        public ActionResult ExternalLoginFailure()
-        {
-            return View();
-        }
+        //[AllowAnonymous]
+        //public ActionResult ExternalLoginFailure()
+        //{
+        //    return View();
+        //}
 
         protected override void Dispose(bool disposing)
         {
@@ -752,8 +815,8 @@ namespace Projekat.Controllers
             else
             {
                 skolaId = context.Users.FirstOrDefault(x => x.UserName == User.Identity.Name)?.SkolaId;
-                //useri = context.Users.Where(x => x.SkolaId == skolaId && x.Uloga != "Administrator" && x.Uloga != "SuperAdministrator").ToList();
-                useri = context.Users.Where(x => x.SkolaId == skolaId ).ToList();
+                useri = context.Users.Where(x => x.SkolaId == skolaId && x.Uloga != "Administrator" && x.Uloga != "SuperAdministrator").ToList();
+
             }
             if (vm.FilterSkolaID != 0)
             {
@@ -816,7 +879,7 @@ namespace Projekat.Controllers
         /// </summary>
         /// <param name="Username">Username korisnika za koga zelimo da prikazemo detalje</param>
         /// <returns></returns>
-        [Authorize(Roles = "SuperAdministrato,Administrator")]
+        [Authorize(Roles = "SuperAdministrator,Administrator")]
         public ActionResult DetaljiKorisnika(string Username)
         {
             if (Username == null)
@@ -829,18 +892,20 @@ namespace Projekat.Controllers
             viewmodel.Korisnik = UserManager.FindByName(Username);
             SkolaModel SelektovanaSkola;
             SmerModel SelektovaniSmer;
-
-            if (viewmodel.Korisnik != null)
+            if(viewmodel.Korisnik == null)
+                return new HttpStatusCodeResult(HttpStatusCode.NotFound);
+            if ((viewmodel.Korisnik.SkolaId != UserManager.FindByName(User.Identity.Name).SkolaId || viewmodel.Korisnik.Uloga == "Administrator" || viewmodel.Korisnik.Uloga == "SuperAdministrator") && User.IsInRole("Administrator"))
             {
+                return new HttpStatusCodeResult(HttpStatusCode.Forbidden);
+            }
+           
                 SelektovanaSkola = matCon.Skole.FirstOrDefault(x => x.IdSkole == viewmodel.Korisnik.SkolaId);
                 SelektovaniSmer = matCon.smerovi.FirstOrDefault(x => x.smerId == viewmodel.Korisnik.SmerId);
                 viewmodel.SelektovanaSkola = (SelektovanaSkola == null) ? "NemaSelektovaneSkole" : (SelektovanaSkola.NazivSkole);
                 viewmodel.SelektovaniSmer = (SelektovaniSmer == null) ? "NemaSelektovanogSmera" : (SelektovaniSmer.smerNaziv);
                 return View(viewmodel);
 
-            }
-            else
-                return RedirectToAction("ListaKorisnika", "Account");
+           
 
         }
         /// <summary>

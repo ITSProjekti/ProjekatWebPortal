@@ -64,9 +64,16 @@
                 @Html.DropDownListFor(m => m.Korisnik.Uloga, new SelectList(Model.Uloge, "Name", "Name"), new { @class = "customDropdown", @selected = "selected" })
             </div>
             <div class="noviKorisnikDD">
+                @if (User.IsInRole("SuperAdministrator"))
+                {
+                    <label for="customDropdown" class="cdlLabele"> Odaberite skolu: </label>
+                    @Html.DropDownListFor(m => m.Korisnik.SkolaId, new SelectList(Model.Skole, "IdSkole", "NazivSkole"), new { @class = "customDropdown", @selected = "selected" })
+                }
+                else
+                {
+                    <p>Korisniku ce automatski biti dodeljena skola:<br /> @Model.Skole.First().NazivSkole</p>
+                }
 
-                <label for="customDropdown" class="cdlLabele"> Odaberite skolu: </label>
-                @Html.DropDownListFor(m => m.Korisnik.SkolaId, new SelectList(Model.Skole, "IdSkole", "NazivSkole"), new { @class = "customDropdown", @selected = "selected" })
             </div>
 
             <input type="file" name="Fajl" id="file" class="inputfile" onchange="document.getElementById('slikaZaIzmenu').src = window.URL.createObjectURL(this.files[0])" />
