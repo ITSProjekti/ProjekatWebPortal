@@ -13,7 +13,7 @@
     <link rel="stylesheet" type="text/css" href="~/Content/css/Register.css">
     
 
-    <h2>@ViewBag.Title</h2>
+    <h2 style="margin-left:20px;">@ViewBag.Title</h2>
 
     @using (Html.BeginForm("Register", "Account", FormMethod.Post, new { @name = "forma", @id = "noviKorisnik", @class = "form-horizontal", role = "form", @enctype = "multipart/form-data" }))
     {
@@ -57,12 +57,20 @@
             <label for="customDropdown" class="cdlLabele"> Odaberite ulogu: </label>
             @Html.DropDownListFor(m => m.selektovanaUloga, new SelectList(Model.Uloge, "Name", "Name"), new { @class = "customDropdown", @selected = "selected" })
         </div>
+      
         <div class="noviKorisnikDD">
-
+            @if(User.IsInRole("SuperAdministrator"))
+            {
             <label for="customDropdown" class="cdlLabele"> Odaberite skolu: </label>
             @Html.DropDownListFor(m => m.SelektovanaSkola, new SelectList(Model.Skole, "IdSkole", "NazivSkole"), new { @class = "customDropdown", @selected = "selected" })
-        </div>
+            }
+            else
+            {
+                <p>Novom korisniku ce automatski biti dodeljena skola:<br /> @Model.Skole.First().NazivSkole</p>
+            }
 
+        </div>
+        
 
         <img id="blah"  style="width:100%; height:500px; padding-top:50px;" />
         <input type="file" name="Fajl" id="file" class="inputfile" onchange="document.getElementById('blah').src = window.URL.createObjectURL(this.files[0])"/>
@@ -70,7 +78,7 @@
          <div class="izmene">
                 <input type="submit" class="btnsOnIzmeni" value="SAČUVAJ" onclick="return confirm('Molimo vas potvrdite unos korisnika')" />
              
-                <input type="submit" class="btnsOnIzmeni" value="ODUSTANI" onclick="return confirm('Da li želite da odustanete od unosa?')" />
+             <input type="button" id="dugmeBack" class="btnsOnIzmeni" value="ODUSTANI" onclick="return confirm('Da li želite da odustanete od unosa?')" />
             </div>
 
     }
@@ -83,3 +91,9 @@
     
 
 }
+<script>
+
+        $("#dugmeBack").click(function () {
+            location.href="/Account/ListaKorisnika";
+        });
+</script>

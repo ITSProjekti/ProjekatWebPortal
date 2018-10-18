@@ -26,7 +26,7 @@ namespace Projekat.Models
             // Add custom user claims here
             return userIdentity;
         }
-        public  static async Task<string> VratiSmer(string username)
+        public static async Task<string> VratiSmer(string username)
         {
             MaterijalContext context = new MaterijalContext();
             ApplicationUser user = await context.Users.FirstOrDefaultAsync(x => x.UserName == username);
@@ -46,6 +46,25 @@ namespace Projekat.Models
             return smer;
 
         }
+        public static async Task<int?> vratiSkolu(string username)
+        {
+            MaterijalContext context = new MaterijalContext();
+            ApplicationUser user = await context.Users.FirstOrDefaultAsync(x => x.UserName == username);
+            if (user == null)
+                return null;
+            int? skola = user.SkolaId;
+            return skola;
+        }
+        public static async Task<SkolaModel> vratiSkoluModel(string username)
+        {
+            MaterijalContext context = new MaterijalContext();
+            ApplicationUser user = await context.Users.FirstOrDefaultAsync(x => x.UserName == username);
+            if (user == null)
+                return null;
+            SkolaModel s = await context.Skole.FirstOrDefaultAsync(c => c.IdSkole == user.SkolaId);
+            return s;
+        }
+
     }
 
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
