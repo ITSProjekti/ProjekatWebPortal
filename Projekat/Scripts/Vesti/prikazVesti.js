@@ -46,7 +46,7 @@ function GetData() {
 "<div class=\"card-body\"><div class=\"preveiw\"> <p class=\"prvText\">" + data[i].KratakOpis + "</p></div> <hr/> <div class=\"prikazi\">" +
        "<form action=\"/Vesti/PrikaziVest\" method=\"get\">" +
        "<input type=\"hidden\" name=\"Naslov\" value=\"" + data[i].Naslov + "\" />" +
-       "<input type=\"hidden\"  name=\"Datum\" value=\"" + jsDate.toLocaleDateString() + "\" />" +
+                            "<input type=\"hidden\"  name=\"Datum\" value=\"" + jsDate.toLocaleDateString() + "\" />" + "<p class=\"card-text\" style=\"position: absolute; font-size: 13px; color: whitesmoke; top: 10px;\">" + jsDate.toLocaleDateString() + "</p>" +
        "<input type=\"submit\" class=\"btnsVestiPrikaz\" value=\"SAZNAJ VIŠE\" />" +
        "</form>" +
    "</div>" +
