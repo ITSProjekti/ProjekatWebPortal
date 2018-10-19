@@ -215,6 +215,8 @@ namespace Projekat.Controllers
 
         public ActionResult PrikaziVest(string Naslov, string Datum)
         {
+            Naslov = HttpUtility.UrlDecode(Naslov);
+            Datum = HttpUtility.UrlDecode(Datum);
             string datum;
             try
             {

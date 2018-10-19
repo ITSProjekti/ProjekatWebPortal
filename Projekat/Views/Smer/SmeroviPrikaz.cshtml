@@ -34,7 +34,7 @@
                 <a href="#" class="kontrola-ikonica edit" data-toggle="modal" data-target="#editModal"><img src="~/Content/img/uredi.png" alt="uredi" /></a>
             }
                 <a class="predmet-kontrole opis" href="#" data-toggle="modal" data-target="#opisModal">OPIS</a>
-                <a href="@string.Format( Url.Action("PredmetiPrikaz","Predmet") + "?Smer=" + Url.Encode(smer.smerNaziv))" class="predmet-kontrole">PREDMETI</a>
+                <a href="/Predmet/PredmetiPrikaz/@Url.Encode( smer.smerNaziv)" class="predmet-kontrole">PREDMETI</a>
             </div>
             <div class="opisSmera" style="display:none"><p>@smer.smerOpis</p></div>
         </div>

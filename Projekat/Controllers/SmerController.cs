@@ -55,9 +55,9 @@ namespace Projekat.Controllers
         {
             if(this.User.IsInRole("Ucenik"))
             {
-                string smerID = await ApplicationUser.VratiSmer(User.Identity.Name);
-                if (smerID != null)
-                    return RedirectToAction("PredmetiPrikaz", "Predmet", new { smer = smerID});
+                string SmerNaziv = await ApplicationUser.VratiSmer(User.Identity.Name);
+                if (SmerNaziv != null)
+                    return Redirect("/Predmet/PredmetiPrikaz/" + Url.Encode(SmerNaziv));
                 else
                     return new HttpNotFoundResult("Smer nije nadjen");
             }
