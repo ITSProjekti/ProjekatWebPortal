@@ -34,7 +34,7 @@ namespace Projekat.ViewModels
         /// <value>
         /// The broj telefona.
         /// </value>
-        public string BrojTelefona { get; set; }
+        public string Uloga { get; set; }
         /// <summary>
         /// Gets or sets the smer.
         /// </summary>
