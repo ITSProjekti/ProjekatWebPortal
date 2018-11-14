@@ -3,10 +3,11 @@
     {
 <div id="CrveniFiksni"></div>
 <div id="Crveni">
-    <img id="slikakor" src="data:image;base64,@System.Convert.ToBase64String(Model.slika)" class="slika" style="height:160px !important; width:160px !important" />
+    <img id="slikakor" src="data:image;base64,@System.Convert.ToBase64String(Model.slika)" onerror="this.onerror=null;this.src=this.alt;" alt="~/Content/img/ikonica2.png" class="slika" style="height:160px !important; width:160px !important" />
 </div>
 <!-- Reseno -->
 <p id="Ime1"> @Model.Username</p>
 <p id="uloga1">
    @Model.Role
 </p>}
+   
