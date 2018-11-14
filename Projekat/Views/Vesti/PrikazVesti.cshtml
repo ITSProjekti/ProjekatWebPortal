@@ -35,7 +35,7 @@
 
 
             <div class="glavna" id="glavna">
-                <a href="@string.Format( Url.Action("PrikaziVest","Vesti") + "?Naslov=" + Url.Encode(Model.Naslov) + "&Datum=" + Url.Encode(Model.DatumPostavljanja.ToShortDateString()))">
+                <a href="@string.Format( Url.Action("PrikaziVest","Vesti") + "?Naslov=" + Url.Encode(Url.Encode(Model.Naslov)) + "&Datum=" + Url.Encode(Model.DatumPostavljanja.ToShortDateString()))">
                     <img style="height:350px; width: 820px; margin-left:11px;margin-right:8px; margin-top: 12px" class="card-img" src="@Model.Thumbnail" alt="Card image">
                     <div class="card-img-overlay glavnaVest">
                         <div class="naslovVesti">
@@ -101,7 +101,7 @@
     <script>
         var changeAllow;
 
-
+        var datum=@Html.Raw(Json.Encode(Model.DatumPostavljanja.ToShortDateString()));
     var thumbnail=@Html.Raw(Json.Encode(Model.Thumbnail));
     var naslov=@Html.Raw(Json.Encode(Model.Naslov));
     var kratakopis=@Html.Raw(Json.Encode(Model.KratakOpis));
@@ -112,7 +112,11 @@
             var glavnaukartici= "<div id=\"glavnaukartici\" class=\"card\">" +
            "<div class=\"slikaNaslov\"><img class=\"card-img-top\" src=\"" + thumbnail + "\" alt=\"Card image cap\"> <div class=\"naslovVesti\"><p class=\"card-text\">" + naslov + "</p></div></div>" +
            "<div class=\"card-body\"><div class=\"preveiw\"> <p class=\"prvText\">" + kratakopis + "</p></div> <hr/> <div class=\"prikazi\">" +
+                   "<form action=\"/Vesti/PrikaziVest\" method=\"get\">"+
                    "<input type=\"submit\" class=\"btnsVestiPrikaz\" value=\"SAZNAJ VIŠE\" />" +
+                    "<input type=\"hidden\" value =\"" + encodeURIComponent(naslov) + "\" name=\"Naslov\"/>" +
+                     "<input type=\"hidden\" value =\"" + encodeURIComponent(datum) + "\" name=\"Datum\"/>" +
+                    "</form>"+
                    "<form action=\"/Vesti/BrisanjeVesti\" method=\"post\">" +
                    "<input type=\"hidden\" value =\"" + id + "\" name=\"Id\"/>" +
                    "<input type=\"submit\" class=\"btnsVestiPrikaz\" value=\"OBRIŠI\" onclick=\"return confirm('Da li želite da obrišete vest?')\"/>" +

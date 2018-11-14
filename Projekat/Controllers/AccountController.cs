@@ -793,15 +793,15 @@ namespace Projekat.Controllers
         /// <param name="vm">Model u kome se nalaze detalji po kojima se vrsi pretraga. <seealso cref="ListaNaprednaPretragaViewModel"/></param>
         /// <returns></returns>
         [Authorize(Roles = "SuperAdministrator,Administrator")]
-        public ActionResult ListaKorisnika(ListaNaprednaPretragaViewModel vm)
+        public async Task<ActionResult> ListaKorisnika(ListaNaprednaPretragaViewModel vm)
         {
             MaterijalContext context = new MaterijalContext();
             ListaNaprednaPretragaViewModel ViewModel = new ListaNaprednaPretragaViewModel();
             List<SkolaModel> skole = context.Skole.ToList();
             List<SmerModel> smerovi = context.smerovi.ToList();
-            ViewModel.Skole = skole.ToList();
+           
             ViewModel.Smerovi = smerovi.ToList();
-            ViewModel.Uloge = context.Roles.ToList();
+           
             ViewModel.Korisnici = new List<ListaKorisnikaViewModel>();
             List<ListaKorisnikaViewModel> lista = new List<ListaKorisnikaViewModel>();
             List<ApplicationUser> useri;
@@ -811,11 +811,16 @@ namespace Projekat.Controllers
             if (User.IsInRole("SuperAdministrator"))
             {
                 useri = context.Users.ToList();
+                ViewModel.Uloge = context.Roles.ToList();
+                ViewModel.Skole = skole.ToList();
             }
             else
             {
                 skolaId = context.Users.FirstOrDefault(x => x.UserName == User.Identity.Name)?.SkolaId;
                 useri = context.Users.Where(x => x.SkolaId == skolaId && x.Uloga != "Administrator" && x.Uloga != "SuperAdministrator").ToList();
+                ViewModel.Uloge = context.Roles.Where(x => x.Name != "Administrator" && x.Name != "SuperAdministrator").ToList();
+                SkolaModel skola = await ApplicationUser.vratiSkoluModel(User.Identity.Name);
+                ViewModel.Skole = new List<SkolaModel> { skola };
 
             }
             if (vm.FilterSkolaID != 0)
@@ -861,7 +866,7 @@ namespace Projekat.Controllers
                 {
                     UserName = a.UserName,
                     Prezime = a.Prezime,
-                    BrojTelefona = a.PhoneNumber,
+                    Uloga = a.Uloga,
                     Skola = Skola,
                     Smer = Smer
 

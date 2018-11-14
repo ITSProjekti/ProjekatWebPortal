@@ -26,6 +26,11 @@
                 minlength: 4
 
             },
+            Fajl: {
+                required: true,
+                accept: "image/jpeg,image/png",
+                filesize: 30000
+            }
            
         },
         messages: {
@@ -45,6 +50,11 @@
             "Korisnik.GodinaUpisa": {
                 minlength: "Godina mora sadržati minimum 4 karaktera."
             },
+            Fajl: {
+
+                accept: "Ekstenzija slike mora biti .jpg ili .png",
+                required: "Molimo vas odaberite sliku."
+            }
           
         },
         errorPlacement: function (error, element) {
@@ -75,4 +85,13 @@
         // allow any non-whitespace characters as the host part
         return regexpr.test(value);
     }, 'Godina mora imati 4 cifre.');
+    $.validator.addMethod('filesize', function (value, element, arg) {
+
+        var minsize = 1000; // min 1kb
+        if ((element.files[0].size > minsize) && (element.files[0].size <= arg)) {
+            return true;
+        } else {
+            return false;
+        }
+    }, "Velicina slike ne sme biti veca od 30 KB");
 });

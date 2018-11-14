@@ -22,6 +22,11 @@
                 godinaRegex: /^(2[0-9]{3,3})?$/,
                 minlength: 4
 
+            },
+            Fajl: {
+                required: true,
+                accept: "image/jpeg,image/png",
+                filesize: 30000
             }
             
         },
@@ -41,9 +46,23 @@
             
             GodinaUpisa: {
                 minlength: "Godina mora sadržati minimum 4 karaktera i biti realna."
+            },
+            Fajl: {
+
+                accept: "Ekstenzija slike mora biti .jpg ili .png",
+                required: "Molimo vas odaberite sliku."
             }
            
+        },
+        errorPlacement: function (error, element) {
+        if (element.attr("name") == "Fajl") {
+            error.insertAfter(element.next());
         }
+        else {
+            error.insertAfter(element);
+        }
+
+    }
        
     });
     $.validator.addMethod("slovaRegex", function (value, element, regexpr) {
@@ -64,4 +83,13 @@
         // allow any non-whitespace characters as the host part
         return regexpr.test(value);
     }, 'Godina mora sadržati minimum 4 karaktera i biti realna.');
+    $.validator.addMethod('filesize', function (value, element, arg) {
+
+        var minsize = 1000; // min 1kb
+        if ((element.files[0].size > minsize) && (element.files[0].size <= arg)) {
+            return true;
+        } else {
+            return false;
+        }
+    }, "Velicina slike ne sme biti veca od 30 KB");
 });

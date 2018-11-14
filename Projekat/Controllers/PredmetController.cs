@@ -201,7 +201,7 @@ namespace Projekat.Controllers
         
         public ActionResult PredmetiPrikaz(string Smer)
         {
-
+            Smer = HttpUtility.UrlDecode(Smer);
             int id;
             context = new MaterijalContext();
             try

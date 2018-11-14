@@ -40,7 +40,7 @@
                 <th class="nestaje" style="padding-left: 25px; font-family: 'roboto-light'">Prezime</th>
                 <th class="nestaje" style="font-family: 'roboto-light'">Škola</th>
                 <th class="nestaje" style="font-family: 'roboto-light'">Smer</th>
-                <th class="nestaje" style="font-family: 'roboto-light'">Telefon</th>
+                <th class="nestaje" style="font-family: 'roboto-light'">Uloga</th>
                 <th style="font-family: 'roboto-light'">Detalji</th>
             </tr>
         </thead>
@@ -53,7 +53,7 @@
                     <td class="nestaje" style="padding-left: 25px">@item.Prezime</td>
                     <td class="nestaje">@item.Skola</td>
                     <td class="nestaje">@item.Smer</td>
-                    <td class="nestaje">@item.BrojTelefona</td>
+                    <td class="nestaje">@item.Uloga</td>
 
                     <td>
                         @using (Html.BeginForm("DetaljiKorisnika", "Account", new { Username = item.UserName }, FormMethod.Post))
