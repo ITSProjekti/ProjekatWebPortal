@@ -2123,3 +2123,6 @@ div#opisModal .modal-dialog {
     background-color: transparent;
     border: none !important;
 }
+.show{
+    background-color: rgba(0,0,0,0.5) !important;
+}

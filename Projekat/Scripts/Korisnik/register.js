@@ -24,7 +24,7 @@
 
             },
             Fajl: {
-                required: true,
+                required: false,
                 accept: "image/jpeg,image/png",
                 filesize: 30000
             }
