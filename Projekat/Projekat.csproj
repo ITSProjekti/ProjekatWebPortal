@@ -350,9 +350,8 @@
     <Content Include="Content\img\404.png" />
     <Content Include="Content\img\back-strelica.png" />
     <Content Include="Content\img\cikica.png" />
-    <Content Include="Content\img\Default.png" />
     <Content Include="Content\img\GIFicon.png" />
-    <Content Include="Content\img\ikonica2.png" />
+    <Content Include="Content\img\Default.png" />
     <Content Include="Content\img\jovan_ivkovic.jpg" />
     <Content Include="Content\img\JPGicon.png" />
     <Content Include="Content\img\kantaPotvrdaBrisanjaModal.png" />
