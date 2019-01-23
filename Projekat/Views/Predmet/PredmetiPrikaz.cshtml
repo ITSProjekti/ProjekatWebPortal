@@ -1,0 +1,107 @@
+﻿@model Projekat.ViewModels.PredmetPoSmeruViewModel
+
+@{
+    ViewBag.Title = "PredmetiPrikaz";
+}
+
+<div id="sredina">
+@if (this.User.IsInRole("SuperAdministrator") || this.User.IsInRole("Urednik"))
+{
+    <a id="novi-materijal" href="/Predmet/DodajPredmet">
+        <svg width="60" height="60" xmlns="http://www.w3.org/2000/svg">
+            <g>
+                <title>background</title>
+                <rect fill="none" id="canvas_background" height="62" width="62" y="-1" x="-1" />
+                <g display="none" overflow="visible" y="0" x="0" height="100%" width="100%" id="canvasGrid">
+                    <rect fill="url(#gridpattern)" stroke-width="0" y="0" x="0" height="100%" width="100%" />
+                </g>
+            </g>
+            <g>
+                <title>Layer 1</title>
+                <rect id="svg_4" height="26" width="3" y="17" x="28.5" fill-opacity="null" stroke-opacity="null" stroke-width="0" stroke="#000" fill="#fff" />
+                <rect transform="rotate(90, 29.898, 30)" id="svg_9" height="26" width="3" y="17" x="28.397959" fill-opacity="null" stroke-opacity="null" stroke-width="0" stroke="#000" fill="#fff" />
+            </g>
+        </svg>
+    </a>
+}
+    <span id="smerId" hidden>@Model.smerId</span>
+
+    @foreach (var predmet in Model.predmeti)
+    {
+        <div class="kartica-predmet clear-fix" id="@predmet.predmetId">
+            <a class="naziv-predmeta-na-kartici" href="#">@predmet.predmetNaziv</a>
+            <div class="kontrole clear-fix">
+                @if(this.User.IsInRole("SuperAdministrator") || this.User.IsInRole("Urednik"))
+                { 
+                <a href="#" class="kontrola-ikonica edit" data-toggle="modal" data-target="@("#editModal"+ predmet.predmetId)"><img src="~/Content/img/uredi.png" alt="uredi" /></a>
+                }
+                <a class="predmet-kontrole opis" href="#" data-toggle="modal" data-target="#opisModal">OPIS</a>
+                @Html.ActionLink("MATERIJALI", "MaterijaliPrikaz", "Materijal", new { id = predmet.predmetId }, new { @class = "predmet-kontrole getMaterijali", tabindex = predmet.predmetId })
+            </div>
+            <div class="opisPredmeta" style="display:none"><p>@predmet.predmetOpis</p></div>
+        </div>
+        if (this.User.IsInRole("SuperAdministrator") || this.User.IsInRole("Urednik"))
+        {
+        <div class="modal modal-edit fade editModalPredmeta" id="@("editModal"+ predmet.predmetId)" role="dialog">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">Uređivanje predmeta <span>   </span></h4>
+                    </div>
+                   
+                    
+                    <div class="modal-body">
+                        @using (Html.BeginForm("Edit", "Predmet", FormMethod.Post, new { @id = "editPredmeta" }))
+                        {
+
+                            @Html.DropDownListFor(p => p.smeroviId, new SelectList(Model.smerovi, "smerId", "smerNaziv"), new { @multiple = @"multiple", @class = "select2smerovi", @id = "smeroviedit" })
+
+                            @Html.HiddenFor(p => p.predmetId, new { @id = @"predmetId", @name = "predmetId" })
+                            @Html.HiddenFor(p => p.smerId, new { @id = @"smerId", @name = "smerId" })
+
+                            <label class="matDesignLabel">Naziv predmeta</label>
+                            @Html.TextBoxFor(p => p.predmetNaziv, new { @id = @"predmetNaziv", @name = "predmetNaziv" })
+
+                            <label class="matDesignLabel">Opis predmeta</label>
+                            @Html.TextAreaFor(p => p.predmetOpis, new { @id = @"predmetOpis", @name = "predmetOpis" })
+
+
+                            <button type="button" class="btn btn-default btn-sekundarni" data-dismiss="modal">Zatvori</button>
+
+                            <button class="btn btn-default" type="submit" id="submitEdit">
+                                Potvrdi izmene
+                            </button>
+                        }
+                    </div>
+                    
+                    <div class="modal-footer">
+                    </div>
+                </div>
+            </div>
+        </div>
+        }
+    }
+
+    <div class="modal fade" id="opisModal" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Opis predmeta <span>   </span></h4>
+                </div>
+                <div class="modal-body">
+                    <pre></pre>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Zatvori</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+</div>
+
+@Scripts.Render("~/bundles/predmet_prikaz")

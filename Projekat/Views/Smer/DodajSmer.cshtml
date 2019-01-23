@@ -1,0 +1,25 @@
+﻿@model Projekat.Models.SmerModel
+@{
+    ViewBag.Title = "DodajSmer";
+}
+
+<div id="sredina">
+    @using (Html.BeginForm("DodajSmer", "Smer", FormMethod.Post, new { @class = "smerForma", @id = "smerForma" }))
+    {
+        <h2>Novi smer</h2>
+        <label class="matDesignLabel" for="smerNaziv">Naziv smera</label>
+        @Html.TextBoxFor(m => m.smerNaziv, new { @name = "smerNaziv" });
+   
+        <label class="matDesignLabel" for="smerSkraceno">Skracenica</label>
+        @Html.TextBoxFor(m => m.smerSkraceno, new { @id = "korisnikTB" });
+
+        <label class="matDesignLabel" for="smerOpis">Opis</label>
+        @Html.TextAreaFor(m => m.smerOpis, new { @name = "smerOpis" });
+
+
+        <button type="submit" id="postavi">POSTAVI</button>
+    }
+    <div id="snackbar"><span>Smer uspešno dodat!</span></div>
+</div>
+
+@Scripts.Render("~/bundles/novi_smer")

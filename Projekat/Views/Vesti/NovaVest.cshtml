@@ -1,0 +1,68 @@
+﻿@model Projekat.ViewModels.DodajVestViewModel
+@{
+    ViewBag.Title = "NovaVest";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div id="sredina" name="sredina" class="sredina-upload-mat">
+
+
+    <script src="~/Summernote/summernote.js"></script>
+    <link href="~/Summernote/summernote.css" rel="stylesheet" />
+
+
+    <div class="col-md-10 col-md-offset-1">
+        <h1>Unos nove vesti</h1>
+
+        @using (Html.BeginForm("SnimiVest", "Vesti", FormMethod.Post, new { @id = "novaVest", @enctype = "multipart/form-data" }))
+        {<div class="vesti">
+                <div class="col-md-6">
+                    <div class="levo">
+                        @Html.LabelFor(m => m.Naslov, new { @class = "matDesignLabel naslovLB" })
+                        @Html.TextBoxFor(m => m.Naslov, new { @class = "vestiTB naslovTB" })
+                        <br />
+                        @Html.TextAreaFor(m => m.KratakOpis, new { @placeholder = "Kratak opis vesti", @class = "KratakOpis", @style = "height:100px; margin-top:50px;" })
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="ubaciSliku" style="height:350px; float: right; width:400px;">
+                        <input type="file" name="Fajl" id="file" class="inputfile" onchange="document.getElementById('blah').src = window.URL.createObjectURL(this.files[0])" />
+                        <label for="file" id="izaberi-materijal" style="padding: 0;height:50px; width:100%; margin: 0; background-color: #e21b22;"> <span id="filename"> <span> <img src="~/Content/img/upload2.png" alt="Izaberite Sliku"> Izaberite naslovnu sliku vesti</span></span> </label>
+                        <img id="blah" style="max-width:400px; max-height:300px; padding:   0px;" />
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="editor" style="clear:both">
+
+                <br />
+                <hr />
+
+                @Html.TextAreaFor(m => m.Vest, new { @id = "summernote", name = "editor" })
+
+
+                <script>
+
+                    $('#summernote').summernote({
+                        placeholder: 'Ovde unesite telo vesti...',
+                        tabsize: 2,
+                        height: 100
+                    });
+
+
+
+                </script>
+
+
+                <input type="submit" class="btnDodajVest" value="POSTAVI VEST" onclick="return confirm('Molimo potvrdite postavljanje')" />
+            </div>
+        }
+    </div>
+</div>
+@section Scripts{
+
+    <script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/additional-methods.min.js"></script>
+    @Scripts.Render("~/Scripts/Vesti/validacijaVesti.js")
+}

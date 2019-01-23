@@ -6,13 +6,27 @@ using System.Web.Mvc;
 
 namespace Projekat.Controllers
 {
+    /// <summary>
+    /// Home Kontroler
+    /// </summary>
+    /// <seealso cref="System.Web.Mvc.Controller" />
+    [Authorize]
     public class HomeController : Controller
     {
+        /// <summary>
+        /// Index Akcija.
+        /// </summary>
+        /// <returns></returns>
+        
         public ActionResult Index()
         {
             return View();
         }
 
+        /// <summary>
+        /// About akcija.
+        /// </summary>
+        /// <returns></returns>
         public ActionResult About()
         {
             ViewBag.Message = "Your application description page.";
@@ -20,6 +34,10 @@ namespace Projekat.Controllers
             return View();
         }
 
+        /// <summary>
+        /// Contact akcija.
+        /// </summary>
+        /// <returns></returns>
         public ActionResult Contact()
         {
             ViewBag.Message = "Your contact page.";

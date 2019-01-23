@@ -11,6 +11,9 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin;
 using Microsoft.Owin.Security;
 using Projekat.Models;
+using System.Net.Mail;
+
+using System.Net;
 
 namespace Projekat
 {
@@ -18,8 +21,16 @@ namespace Projekat
     {
         public Task SendAsync(IdentityMessage message)
         {
-            // Plug in your email service here to send an email.
-            return Task.FromResult(0);
+            SmtpClient client = new SmtpClient();
+            client.Port = 587;
+            client.Host = "smtp.mail.yahoo.com";
+            client.EnableSsl = true;
+            client.Timeout = 10000;
+            client.DeliveryMethod = SmtpDeliveryMethod.Network;
+            client.UseDefaultCredentials = false;
+            client.Credentials = new NetworkCredential("itsprojekat@yahoo.com", "Test123123");
+
+            return client.SendMailAsync("itsprojekat@yahoo.com", message.Destination, message.Subject, message.Body);
         }
     }
 
@@ -53,11 +64,11 @@ namespace Projekat
             // Configure validation logic for passwords
             manager.PasswordValidator = new PasswordValidator
             {
-                RequiredLength = 6,
-                RequireNonLetterOrDigit = true,
-                RequireDigit = true,
-                RequireLowercase = true,
-                RequireUppercase = true,
+                RequiredLength = 4,
+                RequireNonLetterOrDigit = false,
+                RequireDigit = false,
+                RequireLowercase = false,
+                RequireUppercase = false,
             };
 
             // Configure user lockout defaults

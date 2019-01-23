@@ -1,15 +1,24 @@
-﻿<!DOCTYPE html>
+﻿
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewBag.Title - My ASP.NET Application</title>
+    <title>@ViewBag.Title - Web Portal</title>
     @Styles.Render("~/Content/css")
-    @Scripts.Render("~/bundles/modernizr")
+    
+    @Styles.Render("~/Content/select2")
+    @Styles.Render("~/Content/select2izgled")
+    @Styles.Render("~/Content/css/simplebar.css")
 
+
+
+
+    <script src="https://unpkg.com/simplebar@latest/dist/simplebar.js"></script>@*CDN za simplebar*@
 </head>
 <body>
-    <div class="navbar navbar-inverse navbar-fixed-top">
+   
+    @*<div class="navbar navbar-inverse navbar-fixed-top">
         <div class="container">
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
@@ -17,28 +26,219 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                @Html.ActionLink("Application name", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+                @Html.ActionLink("Web portal", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Home", "Index", "Home")</li>
-                    <li>@Html.ActionLink("About", "About", "Home")</li>
-                    <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
-                </ul>
-                @Html.Partial("_LoginPartial")
+                    <li>@Html.ActionLink("Postavljanje materijala", "UploadMaterijal", "UploadMaterijal")</li>
+                    <li>@Html.ActionLink("Preuzimanje materijala", "MaterijaliPrikaz", "UploadMaterijal")</li>
+                    @*<li>@Html.ActionLink("Contact", "Contact", "Home")</li>
+                    </ul>
+                    @Html.Partial("_LoginPartial")
+                </div>
             </div>
-        </div>
-    </div>
-    <div class="container body-content">
-        @RenderBody()
-        <hr />
-        <footer>
-            <p>&copy; @DateTime.Now.Year - My ASP.NET Application Test</p>
-        </footer>
+        </div>*@
+
+@if (User.Identity.IsAuthenticated)
+{
+    <div id="hamburger-menu-toggle" class="hamburger-menu-toggle-otvoren">
+        <div class="bar bar-top"></div>
+        <div class="bar bar-middle"></div>
+        <div class="bar bar-bottom"></div>
     </div>
 
+    <div class="LeftBar">
+       
+        @{Html.RenderAction("LoggedUserData", "Account");}
+
+
+        <!-- Ovde su one levo sto stoje u listi ovo stoji ovde samo da bi mogo da nadjem de pocinje, zato je ovako dugacko -->
+        @if (this.User.IsInRole("SuperAdministrator")||User.IsInRole("Administrator"))
+        {
+
+        <ul class="ListaNav" id="n1">
+          
+            <li class="naslov">
+                <div id="Cikica" class="slikaOdNaslova">
+                    <img src="~/Content/img/cikica.png" alt="slika1" />
+                </div>
+                <p>Korisnici</p>
+            </li>
+            <li class="blok">
+                <a href="@Url.Action("Register", "Account")">
+                    <div class="slikaLi">
+                        <img src="~/Content/img/plusSivi.png" alt="slika1" style="width: 24px; height: 24px;" />
+                    </div>
+                    <p id="l1">Novi korisnik</p>
+                </a>
+            </li>
+            <li class="blok">
+                <a href="@Url.Action("ListaKorisnika", "Account")">
+                    <div class="slikaLi">
+                        <img src="~/Content/img/lupa.png" alt="slika1" />
+                    </div>
+                    <p id="l2">Pretraga korisnika</p>
+                </a>
+            </li>
+        </ul>
+        }
+        <ul class="ListaNav" id="n2">
+            <li class="naslov">
+                <div id="Materijali" class="slikaOdNaslova">
+                    <img src="~/Content/img/mat.png" alt="slika1" />
+                </div>
+                <p>Materijali</p>
+            </li>
+            @if (this.User.IsInRole("SuperAdministrator") || this.User.IsInRole("Urednik") || this.User.IsInRole("Profesor"))
+            {
+                if (!this.User.IsInRole("Profesor"))
+                {
+            <li class="blok">                
+                <a href="@Url.Action("UploadMaterijal", "Materijal")">
+                    <div class="slikaLi">
+                        <img src="~/Content/img/novimaterijal.png" height=28 width="27" alt="slika1" />
+                    </div>
+                    <p id="l9">Novi materijal</p>
+                </a>
+            </li>
+                }
+
+            <li class="blok">
+
+                <a href="@Url.RouteUrl("MaterijaliZaProf")">
+                    <div class="slikaLi">
+                        <img src="~/Content/img/profesor.png" alt="slika1" />
+                    </div>
+                    <p id="l3">Obuka profesora</p>
+                </a>
+            </li>
+            }
+
+            <li class="blok">
+                <a href="@Url.Action("SmeroviPrikaz", "Smer")">
+                    <div class="slikaLi">
+                        <img src="~/Content/img/ucenik.png" alt="slika1" />
+                    </div>
+                    <p id="l4">Nastavni materijal</p>
+                </a>
+            </li>
+        </ul>
+        <ul class="ListaNav" id="n3">
+            <li class="naslov">
+                <div id="Novine" class="slikaOdNaslova">
+                    <img src="~/Content/img/Novine.png" alt="slika1" />
+                </div>
+                <p id="vestiP">Vesti </p>
+            </li>
+            <li class="blok">
+                <a href="@Url.Action("PrikazVesti", "Vesti")">
+                <div class="slikaLi">
+                    <img src="~/Content/img/novine-svetlije.png" alt="slika1" />
+                </div>
+                <p id="l5">Pregled vesti</p>
+                </a>
+            </li>
+            @if (this.User.IsInRole("Urednik") || this.User.IsInRole("SuperAdministrator"))
+            {
+            <li class="blok">
+                <a href="@Url.Action("NovaVest", "Vesti")">
+                    <div class="slikaLi">
+                        <img id="nova-vest" src="~/Content/img/novavest.png" alt="slika1" />
+                    </div>
+                    <p id="l6">Nova vest</p>
+                </a>
+            </li>
+            }
+            
+        </ul>
+    </div>
+}
+else
+{
+    <style>
+        #gornjaNavigacija{
+            width:100% !important;
+            margin-left:0px !important;
+        }
+    </style>
+}
+    <div id="gornjaNavigacija">
+
+        @if (Request.UrlReferrer != null)
+        {
+            <a id="nazad" onclick="history.go(-1); return false;" href="#"><img src="~/Content/img/back-strelica.png" alt="nazad"></a><br />
+        }
+        else
+        {
+            <a id="nazad" href="#"> </a><br />
+        }
+
+
+        <div class="divMapiranje">
+
+            @Html.MvcSiteMap().SiteMapPath()
+        </div>
+        @if (User.Identity.IsAuthenticated)
+        {
+            <img id="gornjeOpcije" src="~/Content/img/tri-tacke.png" alt="opcije" onclick="drop()">
+
+        }
+
+            @*<img class="gornjiNavIkonice" id="lupaPretragaToggle" src="~/Content/img/lupaPretraga.png" alt="pretraga" />*@
+
+            <div id="zaPretragu">
+
+            </div>
+
+        </div>
+    @if (User.Identity.IsAuthenticated) { 
+    <div id="dropdaun" style="display:none;">
+        <ul class="dd-lista">
+            
+            <li class="dd">Moj Nalog</li>
+            <li class="dd">
+            @using (Html.BeginForm("LogOff", "Account", FormMethod.Post))
+            {
+                @Html.AntiForgeryToken()
+                <input class="ttDugme" type="submit" value="LOG OUT" />
+            }</li>
+
+        </ul>
+    </div>}
+    <script>
+        var x = document.getElementById("dropdaun");
+        function drop() {
+            if (x.style.display === "none")
+            {
+                x.style.display = "inline-block";
+            }
+                
+            else
+            {
+                x.style.display = "none";
+            }
+                
+        }
+    </script>
+  
+
+    <script src="~/Scripts/umdPopper.js"></script>
+   @Scripts.Render("~/bundles/modernizr")
     @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/Scripts/UI/select2.min.js")
     @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/bundles/shared")
+    @Scripts.Render("~/bundles/ui")
+    
+    @RenderBody()
+
+
+    @*<hr />
+        <footer>
+            <p>&copy; @DateTime.Now.Year - Web Portal</p>
+        </footer>*@
+
     @RenderSection("scripts", required: false)
 </body>
 </html>

@@ -1,5 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNet.Identity.EntityFramework;
+using Microsoft.AspNet.Identity.Owin;
+using Microsoft.Owin.Security;
+using Projekat.Models;
+
 
 namespace Projekat.Models
 {
@@ -48,10 +53,10 @@ namespace Projekat.Models
 
     public class LoginViewModel
     {
-        [Required]
-        [Display(Name = "Email")]
-        [EmailAddress]
-        public string Email { get; set; }
+        
+        [Display(Name = "Korisnicko ime")]
+        
+        public string Username { get; set; }
 
         [Required]
         [DataType(DataType.Password)]
@@ -64,38 +69,71 @@ namespace Projekat.Models
 
     public class RegisterViewModel
     {
-        [Required]
+        public IEnumerable<SmerModel> Smerovi { get; set; }
+        public IEnumerable<IdentityRole> Uloge { get; set; }
+        public IEnumerable<SkolaModel> Skole { get; set; }
+        public IEnumerable<StrucnaSpremaModel> StrucneSpreme { get; set; }
+        public int SelektovanaSkola { get; set; }
+        [DataType(DataType.PhoneNumber)]
+        public string phoneNumber { get; set; }
+
+        public int? GodinaUpisa { get; set; }
+        public string SelektovanaSS { get; set; }
+        public int selektovaniSmer { get; set; }
+        public string selektovanaUloga { get; set; }
+
+        [Required(ErrorMessage ="Morate uneti email!")]
         [EmailAddress]
         [Display(Name = "Email")]
         public string Email { get; set; }
+        [Required(ErrorMessage ="Morate uneti ime!")]
+        
+        public string Ime { get; set; }
+        [Required(ErrorMessage = "Morate uneti prezime!")]
+        public string Prezime { get; set; }
+        
 
-        [Required]
-        [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]
-        [DataType(DataType.Password)]
-        [Display(Name = "Password")]
-        public string Password { get; set; }
-
-        [DataType(DataType.Password)]
-        [Display(Name = "Confirm password")]
-        [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
-        public string ConfirmPassword { get; set; }
+        
+        
     }
+
+    public class IzmeniKorisnikaViewModel
+    {
+        public ApplicationUser Korisnik {get; set;}
+
+        public IEnumerable<SmerModel> Smerovi { get; set; }
+        public IEnumerable<IdentityRole> Uloge { get; set; }
+        public IEnumerable<SkolaModel> Skole { get; set; }
+        public IEnumerable<StrucnaSpremaModel> StrucneSpreme { get; set; }
+
+    }
+    public class DetaljiKorisnikaViewModel
+    {
+        public ApplicationUser Korisnik { get; set; }
+
+        public string SelektovaniSmer { get; set; }
+        
+        public string SelektovanaSkola { get; set; }
+        
+
+    }
+
 
     public class ResetPasswordViewModel
     {
         [Required]
         [EmailAddress]
-        [Display(Name = "Email")]
+        [Display(Name = "Vaš email")]
         public string Email { get; set; }
 
         [Required]
         [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]
         [DataType(DataType.Password)]
-        [Display(Name = "Password")]
+        [Display(Name = "Nova lozinka")]
         public string Password { get; set; }
 
         [DataType(DataType.Password)]
-        [Display(Name = "Confirm password")]
+        [Display(Name = "Potvrda nove lozinke")]
         [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
 

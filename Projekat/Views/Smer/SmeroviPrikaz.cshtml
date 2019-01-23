@@ -1,0 +1,97 @@
+﻿@model Projekat.Models.SmerModel
+
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div id="sredina">
+@if (this.User.IsInRole("SuperAdministrator") || this.User.IsInRole("Urednik"))
+{
+    <a id="novi-materijal" href="../Smer/DodajSmer">
+        <svg width="60" height="60" xmlns="http://www.w3.org/2000/svg">
+            <g>
+                <title>background</title>
+                <rect fill="none" id="canvas_background" height="62" width="62" y="-1" x="-1" />
+                <g display="none" overflow="visible" y="0" x="0" height="100%" width="100%" id="canvasGrid">
+                    <rect fill="url(#gridpattern)" stroke-width="0" y="0" x="0" height="100%" width="100%" />
+                </g>
+            </g>
+            <g>
+                <title>Layer 1</title>
+                <rect id="svg_4" height="26" width="3" y="17" x="28.5" fill-opacity="null" stroke-opacity="null" stroke-width="0" stroke="#000" fill="#fff" />
+                <rect transform="rotate(90, 29.898, 30)" id="svg_9" height="26" width="3" y="17" x="28.397959" fill-opacity="null" stroke-opacity="null" stroke-width="0" stroke="#000" fill="#fff" />
+            </g>
+        </svg>
+    </a>
+}
+    @foreach (var smer in Model.smerovi)
+    {
+        <div class="kartica-smer clear-fix"  id=@smer.smerId>
+            <a class="naziv-smera-na-kartici" href="#">@smer.smerNaziv</a>
+            <div class="kontrole clear-fix">
+            @if (this.User.IsInRole("SuperAdministrator") || this.User.IsInRole("Urednik"))
+            {
+                <a href="#" class="kontrola-ikonica edit" data-toggle="modal" data-target="#editModal"><img src="~/Content/img/uredi.png" alt="uredi" /></a>
+            }
+                <a class="predmet-kontrole opis" href="#" data-toggle="modal" data-target="#opisModal">OPIS</a>
+                <a href="/Predmet/PredmetiPrikaz/@Url.Encode( smer.smerNaziv)" class="predmet-kontrole">PREDMETI</a>
+            </div>
+            <div class="opisSmera" style="display:none"><p>@smer.smerOpis</p></div>
+        </div>
+    }
+
+    <div class="modal modal-opis fade" id="opisModal" role="dialog">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Opis smera <span>   </span></h4>
+                </div>
+                <div class="modal-body">
+                    <pre></pre>
+                </div>
+                <div class="modal-footer">
+                    <button value="Potvrdi" class="btn btn-default" data-dismiss="modal">Zatvori</button>
+                    @*<button type="button" class="btn btn-default btn-sekundarni" data-dismiss="modal">Zatvori</button>*@
+                </div>
+            </div>
+        </div>
+    </div>
+@if (this.User.IsInRole("SuperAdministrator") || this.User.IsInRole("Urednik"))
+{
+    <div class="modal modal-edit fade" id="editModal" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Uređivanje smera <span>   </span></h4>
+                </div>
+                <div class="modal-body">
+                    @using (Html.BeginForm("DodajSmer", "Smer", FormMethod.Post, new { @id = "editSmera" }))
+                    {
+                        @Html.HiddenFor(s => s.smerId, new { @id = @"smerId", @name = "smerId" })
+                        <label class= "matDesignLabel">Naziv smera</label>
+                        @Html.TextBoxFor(s => s.smerNaziv, new { @id = @"smerNazivEdit", @name = "smerNaziv" })
+
+                        <label class="matDesignLabel">Opis smera</label>
+                        @Html.TextAreaFor(s => s.smerOpis, new { @id = @"smerOpisEdit", @name = "smerOpis" })
+
+                        <button type="button" class="btn btn-default btn-sekundarni" data-dismiss="modal">Zatvori</button>
+
+                        <button  class="btn btn-default" type="submit" id="submitEdit">
+                            Potvrdi izmene
+                        </button>
+                    }
+                </div>
+                <div class="modal-footer">
+                   
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+}
+    <div id="snackbar"><span>Smer uspešno izmenjen!</span> <button type="button">UNDO</button></div>
+</div>
+@Scripts.Render("~/bundles/smer_prikaz")

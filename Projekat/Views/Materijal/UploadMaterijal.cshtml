@@ -1,0 +1,47 @@
+﻿@model Projekat.ViewModels.MaterijalUploadViewModel
+@{
+    ViewBag.Title = "UploadMaterijal";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    .file {
+        visibility: hidden;
+        position: absolute;
+    }
+</style>
+
+<div id="sredina" class="sredina-upload-mat">
+    @using (Html.BeginForm("UploadMaterijal", "Materijal", FormMethod.Post, new { @enctype = "multipart/form-data", @id = "postavkaMat" }))
+    {
+        <input type="file" name="file" id="file" class="inputfile" />
+        <label for="file" id="izaberi-materijal"> <span id="filename"> <span> <img src="~/Content/img/upload2.png" alt="Izaberite Dokument"> Izaberite dokument...</span></span> </label>
+
+        <label class="matDesignLabel" for="materijalNaslov">Naslov</label>
+        @Html.TextBoxFor(m => m.Materijal.materijalNaslov, new { @name = "materijalNaslov" })
+
+        <label for="opis" class="matDesignLabel">Opis</label>
+
+        @Html.TextAreaFor(model => model.Materijal.materijalOpis, 2, 20, new { @id = @"materijalOpis", @name = "materijalOpis" })
+        <div id="dropDownovi">
+            <div id="_predmetiNaSmeru"> 
+                @*@Html.EditorFor(m => m.PredmetPoSmeru, "_PredmetiNaSmeru", Model)*@
+                @{Html.RenderPartial("_PredmetiNaSmeru", Model);}
+            </div>
+           
+            @Html.DropDownListFor(m => m.Materijal.tipMaterijalId, new SelectList(Model.tipoviMaterijala, "tipMaterijalId", "nazivTipMaterijal"), new { @class = "customDropdown" })
+            @Html.DropDownListFor(m => m.Materijal.namenaMaterijalaId, new SelectList(Model.nameneMaterijala, "namenaMaterijalaId", "namenaMaterijalaNaziv"), new { @class = "customDropdown", @selected = "selected" })
+           </div>
+
+        <button type="submit" id="postavi">
+            POSTAVI
+        </button>
+
+    }
+
+    <div id="snackbar"><span>Materijal uspešno postavljen!</span></div>
+</div>
+
+@Scripts.Render("~/bundles/upload_materijal")
+@*@Scripts.Render("~/Scripts/jquery.validate.file.js")*@
+<script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/additional-methods.min.js"></script>

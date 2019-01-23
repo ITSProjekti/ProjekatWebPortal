@@ -1,5 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.Default.props" Condition="Exists('$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.Default.props')" />
   <Import Project="..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props" Condition="Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" />
   <Import Project="..\packages\Microsoft.Net.Compilers.1.0.0\build\Microsoft.Net.Compilers.props" Condition="Exists('..\packages\Microsoft.Net.Compilers.1.0.0\build\Microsoft.Net.Compilers.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
@@ -25,6 +26,8 @@
     <UseGlobalApplicationHostFile />
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
+    <Use64BitIISExpress />
+    <TypeScriptToolsVersion>3.0</TypeScriptToolsVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -44,6 +47,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="FubuCore, Version=1.2.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\FubuCore.1.2.0.272\lib\FubuCore.dll</HintPath>
+    </Reference>
+    <Reference Include="HtmlTags, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\HtmlTags.2.0.0.174\lib\4.0\HtmlTags.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.AI.Agent.Intercept, Version=2.0.6.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.ApplicationInsights.Agent.Intercept.2.0.6\lib\net45\Microsoft.AI.Agent.Intercept.dll</HintPath>
       <Private>True</Private>
@@ -77,6 +86,14 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="MvcSiteMapProvider, Version=4.6.26.0, Culture=neutral, PublicKeyToken=1923abe4657913cc, processorArchitecture=MSIL">
+      <HintPath>..\packages\MvcSiteMapProvider.MVC5.Core.4.6.26\lib\net45\MvcSiteMapProvider.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="MvcSiteMapProvider.WebActivator, Version=4.6.26.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MvcSiteMapProvider.MVC5.4.6.26\lib\net45\MvcSiteMapProvider.WebActivator.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
@@ -129,6 +146,10 @@
     <Reference Include="System.Web.WebPages.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <Private>True</Private>
       <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="WebActivatorEx, Version=2.0.0.0, Culture=neutral, PublicKeyToken=7b26dc2a43f6a0d4, processorArchitecture=MSIL">
+      <HintPath>..\packages\WebActivatorEx.2.0.1\lib\net40\WebActivatorEx.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="WebGrease">
       <Private>True</Private>
@@ -196,24 +217,234 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\MaterijalController.cs" />
+    <Compile Include="Controllers\PredmetController.cs" />
+    <Compile Include="Controllers\SmerController.cs" />
+    <Compile Include="Controllers\VestiController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\DropDownList_Optgroup.cs" />
+    <Compile Include="Migrations\ApplicationDbContext\DefaultConfiguration.cs" />
+    <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Migrations\MaterijalContext\201805081242537_init.cs" />
+    <Compile Include="Migrations\MaterijalContext\201805081242537_init.Designer.cs">
+      <DependentUpon>201805081242537_init.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\MaterijalContext\201805101144240_IDpredmetaNULL.cs" />
+    <Compile Include="Migrations\MaterijalContext\201805101144240_IDpredmetaNULL.Designer.cs">
+      <DependentUpon>201805101144240_IDpredmetaNULL.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\MaterijalContext\201805160923559_Rename Tabele PredmetPoSmeru.cs" />
+    <Compile Include="Migrations\MaterijalContext\201805160923559_Rename Tabele PredmetPoSmeru.Designer.cs">
+      <DependentUpon>201805160923559_Rename Tabele PredmetPoSmeru.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\MaterijalContext\201805220852305_DodavanjeImenaPredmetaISlike.cs" />
+    <Compile Include="Migrations\MaterijalContext\201805220852305_DodavanjeImenaPredmetaISlike.Designer.cs">
+      <DependentUpon>201805220852305_DodavanjeImenaPredmetaISlike.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\MaterijalContext\201805241136490_promene.cs" />
+    <Compile Include="Migrations\MaterijalContext\201805241136490_promene.Designer.cs">
+      <DependentUpon>201805241136490_promene.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\MaterijalContext\201805241218127_Dodavanje Godine upisa, skole i strucne spreme.cs" />
+    <Compile Include="Migrations\MaterijalContext\201805241218127_Dodavanje Godine upisa, skole i strucne spreme.Designer.cs">
+      <DependentUpon>201805241218127_Dodavanje Godine upisa, skole i strucne spreme.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\MaterijalContext\201805241256011_aaaaa.cs" />
+    <Compile Include="Migrations\MaterijalContext\201805241256011_aaaaa.Designer.cs">
+      <DependentUpon>201805241256011_aaaaa.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\MaterijalContext\201805241343001_Brisanje srucne spreme.cs" />
+    <Compile Include="Migrations\MaterijalContext\201805241343001_Brisanje srucne spreme.Designer.cs">
+      <DependentUpon>201805241343001_Brisanje srucne spreme.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\MaterijalContext\201805241346338_Dodavanje smera i uloge u korisnike.cs" />
+    <Compile Include="Migrations\MaterijalContext\201805241346338_Dodavanje smera i uloge u korisnike.Designer.cs">
+      <DependentUpon>201805241346338_Dodavanje smera i uloge u korisnike.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\MaterijalContext\201805250932435_JosNekaSredjivanja.cs" />
+    <Compile Include="Migrations\MaterijalContext\201805250932435_JosNekaSredjivanja.Designer.cs">
+      <DependentUpon>201805250932435_JosNekaSredjivanja.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\MaterijalContext\MaterijalConfiguration.cs" />
+    <Compile Include="Migrations\VestiContext\201808170921538_Dodavanje_Vesti_U_Bazu.cs" />
+    <Compile Include="Migrations\VestiContext\201808170921538_Dodavanje_Vesti_U_Bazu.Designer.cs">
+      <DependentUpon>201808170921538_Dodavanje_Vesti_U_Bazu.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\VestiContext\201808220807445_DodavanjeDatumaICuvaSePutDoSlike.cs" />
+    <Compile Include="Migrations\VestiContext\201808220807445_DodavanjeDatumaICuvaSePutDoSlike.Designer.cs">
+      <DependentUpon>201808220807445_DodavanjeDatumaICuvaSePutDoSlike.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\VestiContext\201808221110015_DodavanjeKratkogOpisa.cs" />
+    <Compile Include="Migrations\VestiContext\201808221110015_DodavanjeKratkogOpisa.Designer.cs">
+      <DependentUpon>201808221110015_DodavanjeKratkogOpisa.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\VestiContext\201809031124163_TeloVestiZasebnaTabela.cs" />
+    <Compile Include="Migrations\VestiContext\201809031124163_TeloVestiZasebnaTabela.Designer.cs">
+      <DependentUpon>201809031124163_TeloVestiZasebnaTabela.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\VestiContext\VestiConfiguration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
+    <Compile Include="Models\IMaterijalContext.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Models\MaterijalContext.cs" />
+    <Compile Include="Models\MaterijalModel.cs" />
+    <Compile Include="Models\MaterijalPoPredmetu.cs" />
+    <Compile Include="Models\MaterijalPoTipu.cs" />
+    <Compile Include="Models\MaterijalSharingInitializer.cs" />
+    <Compile Include="Models\NamenaMaterijalaModel.cs" />
+    <Compile Include="Models\PredmetModel.cs" />
+    <Compile Include="Models\PredmetPoSmeru.cs" />
+    <Compile Include="Models\SkolaModel.cs" />
+    <Compile Include="Models\SmerModel.cs" />
+    <Compile Include="Models\StrucnaSpremaModel.cs" />
+    <Compile Include="Models\TeloVestiModel.cs" />
+    <Compile Include="Models\TipMaterijalModel.cs" />
+    <Compile Include="Models\VestiContext.cs" />
+    <Compile Include="Models\VestModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
+    <Compile Include="ViewModels\DodajPremetViewModel.cs" />
+    <Compile Include="ViewModels\DodajVestViewModel.cs" />
+    <Compile Include="ViewModels\ListaKorisnikaViewModel.cs" />
+    <Compile Include="ViewModels\ListaNaprednaPretragaViewModel.cs" />
+    <Compile Include="ViewModels\LoggedUserViewModel.cs" />
+    <Compile Include="ViewModels\MaterijaliNaprednaPretragaViewModel.cs" />
+    <Compile Include="ViewModels\MaterijalUploadViewModel.cs" />
+    <Compile Include="ViewModels\MaterijalViewModel.cs" />
+    <Compile Include="ViewModels\OsiromaseniMaterijali.cs" />
+    <Compile Include="ViewModels\PredmetPoSmeruViewModel.cs" />
+    <Compile Include="ViewModels\PrikazVestiViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="App_Data\UserData.txt" />
+    <Content Include="Content\bootstrap-grid.css" />
+    <Content Include="Content\bootstrap-grid.min.css" />
+    <Content Include="Content\bootstrap-reboot.css" />
+    <Content Include="Content\bootstrap-reboot.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\css\bootstrap-flatly.css" />
+    <Content Include="Content\css\bootstrap.css" />
+    <Content Include="Content\css\bootstrap.min.css" />
+    <Content Include="Content\css\datatables.min.css" />
+    <Content Include="Content\css\detaljiKorisnika.css" />
+    <Content Include="Content\css\forma-novikorisnik.css" />
+    <Content Include="Content\css\izgled.css" />
+    <Content Include="Content\css\izmeniKorisnika.css" />
+    <Content Include="Content\css\listaKorisnikaStil.css" />
+    <Content Include="Content\css\ModalnaSredjivanje.css" />
+    <Content Include="Content\css\naprednaPretraga.css" />
+    <Content Include="Content\css\reset.css" />
+    <Content Include="Content\css\select2.min.css" />
+    <Content Include="Content\css\select2izgled.css" />
+    <Content Include="Content\css\simplebar.css" />
+    <Content Include="Content\css\stil.css" />
+    <Content Include="Content\css\TabelaListaKorisnika.css" />
+    <Content Include="Content\fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="Content\img\404.png" />
+    <Content Include="Content\img\back-strelica.png" />
+    <Content Include="Content\img\cikica.png" />
+    <Content Include="Content\img\GIFicon.png" />
+    <Content Include="Content\img\Default.png" />
+    <Content Include="Content\img\jovan_ivkovic.jpg" />
+    <Content Include="Content\img\JPGicon.png" />
+    <Content Include="Content\img\kantaPotvrdaBrisanjaModal.png" />
+    <Content Include="Content\img\komentarisi.png" />
+    <Content Include="Content\img\lupa.png" />
+    <Content Include="Content\img\lupaPretraga.png" />
+    <Content Include="Content\img\mat.png" />
+    <Content Include="Content\img\MP4icon.png" />
+    <Content Include="Content\img\novavest.png" />
+    <Content Include="Content\img\novimaterijal.png" />
+    <Content Include="Content\img\novine-svetlije.png" />
+    <Content Include="Content\img\Novine.png" />
+    <Content Include="Content\img\obrisi.png" />
+    <Content Include="Content\img\PDFicon.png" />
+    <Content Include="Content\img\pinPrivremeno.jpg" />
+    <Content Include="Content\img\plus.png" />
+    <Content Include="Content\img\plusSivi.png" />
+    <Content Include="Content\img\PNGicon.png" />
+    <Content Include="Content\img\potvrdaBrisanjaGIFGOTOV.gif" />
+    <Content Include="Content\img\pozadina.JPG" />
+    <Content Include="Content\img\PRIMER.png" />
+    <Content Include="Content\img\prof-slika.png" />
+    <Content Include="Content\img\profesor.png" />
+    <Content Include="Content\img\RARicon.png" />
+    <Content Include="Content\img\RTFicon.png" />
+    <Content Include="Content\img\sort.png" />
+    <Content Include="Content\img\tri-tacke.png" />
+    <Content Include="Content\img\trougao-breadcrumbs.png" />
+    <Content Include="Content\img\TXTicon.png" />
+    <Content Include="Content\img\ucenik.png" />
+    <Content Include="Content\img\upload.png" />
+    <Content Include="Content\img\upload2.png" />
+    <Content Include="Content\img\uredi.png" />
+    <Content Include="Content\img\ZIPicon.png" />
+    <Content Include="Content\img\zvono-plus.png" />
+    <Content Include="Content\img\zvono.png" />
+    <Content Include="Content\uploads\Thumbnails\1dd1c9fa95994e2f856a12bdd6c9540f.jpg" />
+    <Content Include="Content\uploads\Thumbnails\29270ce92866499fa979357988dacfac.jpg" />
+    <Content Include="Content\uploads\Thumbnails\2ea80a312ac34c2695dc0a2b2f7fd013.png" />
+    <Content Include="Content\uploads\Thumbnails\3a2e5bc3026f4d1b907a91327508e6b3.jpg" />
+    <Content Include="Content\uploads\Thumbnails\3c2e1c0963be44628665a681d3fc5cd9.jpg" />
+    <Content Include="Content\uploads\Thumbnails\4d36b201040c4705a6b391b919b9114c.jpg" />
+    <Content Include="Content\uploads\Thumbnails\624508c8dc64428d86a65a984490f1ee.jpg" />
+    <Content Include="Content\uploads\Thumbnails\8f616ac7814c493dae0768030320bc70.jpg" />
+    <Content Include="Content\uploads\Thumbnails\a.png" />
+    <Content Include="Content\uploads\Thumbnails\db1f1594df4e464c8bc6083e7bb63c00.jpg" />
     <Content Include="favicon.ico" />
-    <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
-    <Content Include="Content\Site.css" />
+    <Content Include="Content\css\Site.css" />
+    <Content Include="Scripts\bootstrap.bundle.js" />
+    <Content Include="Scripts\bootstrap.bundle.min.js" />
+    <Content Include="Scripts\bootstrap.min.js.map" />
+    <Content Include="Scripts\bootstrap.js.map" />
+    <Content Include="Scripts\bootstrap.bundle.min.js.map" />
+    <Content Include="Scripts\bootstrap.bundle.js.map" />
+    <Content Include="Content\bootstrap.min.css.map" />
+    <Content Include="Content\bootstrap.css.map" />
+    <Content Include="Content\bootstrap-reboot.min.css.map" />
+    <Content Include="Content\bootstrap-reboot.css.map" />
+    <Content Include="Content\bootstrap-grid.min.css.map" />
+    <Content Include="Content\bootstrap-grid.css.map" />
+    <Content Include="Scripts\esm\popper-utils.js" />
+    <Content Include="Scripts\esm\popper-utils.min.js" />
+    <Content Include="Scripts\esm\popper.js" />
+    <Content Include="Scripts\esm\popper.min.js" />
+    <Content Include="Scripts\esm\popper.min.js.map" />
+    <Content Include="Scripts\esm\popper.js.map" />
+    <Content Include="Scripts\esm\popper-utils.min.js.map" />
+    <Content Include="Scripts\esm\popper-utils.js.map" />
+    <Content Include="Content\uploads\Thumbnails\250a6408d31f46a889155fcb70e68b75" />
+    <Content Include="Mvc.sitemap">
+      <SubType>Designer</SubType>
+    </Content>
+    <None Include="MvcSiteMapSchema.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Scripts\jquery-3.0.0-vsdoc.js" />
+    <Content Include="Scripts\jquery-3.0.0.js" />
+    <Content Include="Scripts\jquery-3.0.0.min.js" />
+    <Content Include="Scripts\jquery-3.0.0.slim.js" />
+    <Content Include="Scripts\jquery-3.0.0.slim.min.js" />
+    <Content Include="Scripts\Korisnik\izmeniKorisnika.js" />
+    <Content Include="Scripts\Korisnik\listaKorisnika.js" />
+    <Content Include="Scripts\datatables.min.js" />
+    <Content Include="Scripts\Korisnik\register.js" />
+    <Content Include="Scripts\Korisnik\SakrijGodine.js" />
+    <Content Include="Scripts\popper-utils.js" />
+    <Content Include="Scripts\popper-utils.min.js" />
+    <Content Include="Scripts\popper.js" />
+    <Content Include="Scripts\popper.min.js" />
+    <Content Include="Scripts\prikaziLupicuPretraga.js" />
+    <Content Include="Scripts\UI\asc-desc-strelica.js" />
+    <Content Include="Scripts\UI\AutoHeightTextarea.js" />
     <Content Include="Scripts\bootbox.js" />
     <Content Include="Scripts\bootbox.min.js" />
     <Content Include="Scripts\bootstrap.js" />
@@ -221,18 +452,123 @@
     <Content Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Content\fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="Content\fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="Content\fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="Content\fonts\NotoSans-Bold.ttf" />
+    <Content Include="Content\fonts\NotoSans-Regular.ttf" />
+    <Content Include="Content\fonts\OpenSans-Bold.ttf" />
+    <Content Include="Content\fonts\OpenSans-ExtraBold.ttf" />
+    <Content Include="Content\fonts\OpenSans-Light.ttf" />
+    <Content Include="Content\fonts\OpenSans-Regular.ttf" />
+    <Content Include="Content\fonts\OpenSans-SemiBold.ttf" />
+    <Content Include="Content\fonts\Roboto-Black.ttf" />
+    <Content Include="Content\fonts\Roboto-Bold.ttf" />
+    <Content Include="Content\fonts\Roboto-Light.ttf" />
+    <Content Include="Content\fonts\Roboto-Medium.ttf" />
+    <Content Include="Content\fonts\Roboto-Regular.ttf" />
+    <Content Include="Content\fonts\Roboto-Thin.ttf" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
-    <Content Include="Scripts\jquery-1.10.2.js" />
-    <Content Include="Scripts\jquery-1.10.2.min.js" />
+    <Content Include="Scripts\UI\breadCrumbsHardCode.js" />
+    <Content Include="Scripts\Materijal\brisanjeMaterijala.js" />
+    <Content Include="Scripts\customDropdown.js" />
+    <Content Include="Scripts\Predmet\editPredmeta.js" />
+    <Content Include="Scripts\Smer\editSmera.js" />
+    <Content Include="Scripts\Materijal\filterMaterijal.js" />
+    <Content Include="Scripts\jquery-3.0.0.slim.min.map" />
+    <Content Include="Scripts\jquery-3.0.0.min.map" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\jquery-ui.min.js" />
+    <Content Include="Scripts\jquery.validate.file.js" />
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Scripts\UI\hamburger.js" />
+    <Content Include="Scripts\UI\kontroleRespMaterijaliPrikaz.js" />
+    <Content Include="Scripts\UI\labeli.js" />
+    <Content Include="Scripts\UI\labeliEditPredmeta.js" />
+    <Content Include="Scripts\UI\lupauX.js" />
+    <Content Include="Scripts\Predmet\modalOpisPredmet.js" />
+    <Content Include="Scripts\Smer\modalOpisSmer.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
+    <Content Include="Scripts\UI\select2.min.js" />
+    <Content Include="Scripts\Materijal\smerPredmetDropdown.js" />
+    <Content Include="Scripts\Materijal\uploadNaziv.js" />
+    <Content Include="Scripts\Materijal\uploadMaterijal.js" />
+    <Content Include="Scripts\Predmet\validacijaEditPredmeta.js" />
+    <Content Include="Scripts\Smer\validacijaEditSmera.js" />
+    <Content Include="Scripts\Predmet\validacijaNovogPredmeta.js" />
+    <Content Include="Scripts\Smer\validacijaNovogSmera.js" />
+    <Content Include="Scripts\UI\sideBarSections.js" />
+    <Content Include="Scripts\UI\VracanjeID.js" />
+    <Content Include="Scripts\umdPopper.js" />
+    <Content Include="Scripts\umd\popper-utils.js" />
+    <Content Include="Scripts\umd\popper-utils.min.js" />
+    <Content Include="Scripts\umd\popper.js" />
+    <Content Include="Scripts\umd\popper.min.js" />
+    <Content Include="Scripts\Vesti\prikazVesti.js" />
+    <Content Include="Scripts\Vesti\validacijaVesti.js" />
     <Content Include="Scripts\_references.js" />
+    <Content Include="Summernote\font\summernote.eot" />
+    <Content Include="Summernote\font\summernote.ttf" />
+    <Content Include="Summernote\font\summernote.woff" />
+    <Content Include="Summernote\lang\summernote-ar-AR.js" />
+    <Content Include="Summernote\lang\summernote-bg-BG.js" />
+    <Content Include="Summernote\lang\summernote-ca-ES.js" />
+    <Content Include="Summernote\lang\summernote-cs-CZ.js" />
+    <Content Include="Summernote\lang\summernote-da-DK.js" />
+    <Content Include="Summernote\lang\summernote-de-DE.js" />
+    <Content Include="Summernote\lang\summernote-el-GR.js" />
+    <Content Include="Summernote\lang\summernote-es-ES.js" />
+    <Content Include="Summernote\lang\summernote-es-EU.js" />
+    <Content Include="Summernote\lang\summernote-fa-IR.js" />
+    <Content Include="Summernote\lang\summernote-fi-FI.js" />
+    <Content Include="Summernote\lang\summernote-fr-FR.js" />
+    <Content Include="Summernote\lang\summernote-gl-ES.js" />
+    <Content Include="Summernote\lang\summernote-he-IL.js" />
+    <Content Include="Summernote\lang\summernote-hr-HR.js" />
+    <Content Include="Summernote\lang\summernote-hu-HU.js" />
+    <Content Include="Summernote\lang\summernote-id-ID.js" />
+    <Content Include="Summernote\lang\summernote-it-IT.js" />
+    <Content Include="Summernote\lang\summernote-ja-JP.js" />
+    <Content Include="Summernote\lang\summernote-ko-KR.js" />
+    <Content Include="Summernote\lang\summernote-lt-LT.js" />
+    <Content Include="Summernote\lang\summernote-lt-LV.js" />
+    <Content Include="Summernote\lang\summernote-mn-MN.js" />
+    <Content Include="Summernote\lang\summernote-nb-NO.js" />
+    <Content Include="Summernote\lang\summernote-nl-NL.js" />
+    <Content Include="Summernote\lang\summernote-pl-PL.js" />
+    <Content Include="Summernote\lang\summernote-pt-BR.js" />
+    <Content Include="Summernote\lang\summernote-pt-PT.js" />
+    <Content Include="Summernote\lang\summernote-ro-RO.js" />
+    <Content Include="Summernote\lang\summernote-ru-RU.js" />
+    <Content Include="Summernote\lang\summernote-sk-SK.js" />
+    <Content Include="Summernote\lang\summernote-sl-SI.js" />
+    <Content Include="Summernote\lang\summernote-sr-RS-Latin.js" />
+    <Content Include="Summernote\lang\summernote-sr-RS.js" />
+    <Content Include="Summernote\lang\summernote-sv-SE.js" />
+    <Content Include="Summernote\lang\summernote-ta-IN.js" />
+    <Content Include="Summernote\lang\summernote-th-TH.js" />
+    <Content Include="Summernote\lang\summernote-tr-TR.js" />
+    <Content Include="Summernote\lang\summernote-uk-UA.js" />
+    <Content Include="Summernote\lang\summernote-vi-VN.js" />
+    <Content Include="Summernote\lang\summernote-zh-CN.js" />
+    <Content Include="Summernote\lang\summernote-zh-TW.js" />
+    <Content Include="Summernote\plugin\databasic\summernote-ext-databasic.css" />
+    <Content Include="Summernote\plugin\databasic\summernote-ext-databasic.js" />
+    <Content Include="Summernote\plugin\hello\summernote-ext-hello.js" />
+    <Content Include="Summernote\plugin\specialchars\summernote-ext-specialchars.js" />
+    <Content Include="Summernote\summernote-bs4.css" />
+    <Content Include="Summernote\summernote-bs4.js" />
+    <Content Include="Summernote\summernote-bs4.min.js" />
+    <Content Include="Summernote\summernote-lite.css" />
+    <Content Include="Summernote\summernote-lite.js" />
+    <Content Include="Summernote\summernote.css" />
+    <Content Include="Summernote\summernote.js" />
+    <Content Include="Summernote\summernote.min.js" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -269,25 +605,108 @@
     <Content Include="Views\Manage\VerifyPhoneNumber.cshtml" />
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
+    <Content Include="Views\Materijal\MaterijaliPrikaz.cshtml" />
+    <Content Include="Views\Materijal\UploadMaterijal.cshtml" />
+    <Content Include="Views\Smer\SmeroviPrikaz.cshtml" />
+    <Content Include="Views\Smer\DodajSmer.cshtml" />
+    <Content Include="Views\Predmet\DodajPredmet.cshtml" />
+    <Content Include="Views\Predmet\PredmetiPrikaz.cshtml" />
+    <Content Include="Views\Materijal\_Kartice.cshtml" />
+    <Content Include="Views\Account\ListaKorisnika.cshtml" />
+    <Content Include="Views\Materijal\_PredmetiNaSmeru.cshtml" />
+    <Content Include="Views\Account\IzmeniKorisnika.cshtml" />
+    <Content Include="Views\Account\DetaljiKorisnika.cshtml" />
+    <Content Include="Views\Vesti\NovaVest.cshtml" />
+    <Content Include="Views\Vesti\PrikazVesti.cshtml" />
+    <Content Include="Scripts\umd\popper.min.js.map" />
+    <Content Include="Scripts\umd\popper.js.map" />
+    <Content Include="Scripts\umd\popper-utils.min.js.map" />
+    <Content Include="Scripts\umd\popper-utils.js.map" />
+    <Content Include="Scripts\README.md" />
+    <Content Include="Scripts\popper.min.js.map" />
+    <Content Include="Scripts\popper.js.map" />
+    <Content Include="Scripts\popper-utils.min.js.map" />
+    <Content Include="Scripts\popper-utils.js.map" />
+    <Content Include="Views\Vesti\PrikaziVest.cshtml" />
+    <Content Include="Views\Shared\DisplayTemplates\SiteMapTitleHelperModel.cshtml" />
+    <Content Include="Views\Shared\DisplayTemplates\SiteMapPathHelperModel.cshtml" />
+    <Content Include="Views\Shared\DisplayTemplates\SiteMapNodeModelList.cshtml" />
+    <Content Include="Views\Shared\DisplayTemplates\SiteMapNodeModel.cshtml" />
+    <Content Include="Views\Shared\DisplayTemplates\SiteMapHelperModel.cshtml" />
+    <Content Include="Views\Shared\DisplayTemplates\MetaRobotsHelperModel.cshtml" />
+    <Content Include="Views\Shared\DisplayTemplates\MenuHelperModel.cshtml" />
+    <Content Include="Views\Shared\DisplayTemplates\CanonicalHelperModel.cshtml" />
+    <Content Include="Views\Shared\FileNotFound2.cshtml" />
+    <Content Include="Views\Account\LoggedUserData.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="App_Data\" />
+    <Folder Include="Content\Konfiguracija\" />
+    <Folder Include="Scripts\Shared\" />
+    <Folder Include="Views\Error\" />
+    <Folder Include="Views\Shared\Editor templates\" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="fonts\glyphicons-halflings-regular.woff" />
-    <Content Include="fonts\glyphicons-halflings-regular.ttf" />
-    <Content Include="fonts\glyphicons-halflings-regular.eot" />
     <Content Include="packages.config">
       <SubType>Designer</SubType>
     </Content>
     <None Include="Project_Readme.html" />
-    <Content Include="Scripts\jquery-1.10.2.min.map" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\MaterijalContext\201805081242537_init.resx">
+      <DependentUpon>201805081242537_init.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\MaterijalContext\201805101144240_IDpredmetaNULL.resx">
+      <DependentUpon>201805101144240_IDpredmetaNULL.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\MaterijalContext\201805160923559_Rename Tabele PredmetPoSmeru.resx">
+      <DependentUpon>201805160923559_Rename Tabele PredmetPoSmeru.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\MaterijalContext\201805220852305_DodavanjeImenaPredmetaISlike.resx">
+      <DependentUpon>201805220852305_DodavanjeImenaPredmetaISlike.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\MaterijalContext\201805241136490_promene.resx">
+      <DependentUpon>201805241136490_promene.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\MaterijalContext\201805241218127_Dodavanje Godine upisa, skole i strucne spreme.resx">
+      <DependentUpon>201805241218127_Dodavanje Godine upisa, skole i strucne spreme.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\MaterijalContext\201805241256011_aaaaa.resx">
+      <DependentUpon>201805241256011_aaaaa.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\MaterijalContext\201805241343001_Brisanje srucne spreme.resx">
+      <DependentUpon>201805241343001_Brisanje srucne spreme.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\MaterijalContext\201805241346338_Dodavanje smera i uloge u korisnike.resx">
+      <DependentUpon>201805241346338_Dodavanje smera i uloge u korisnike.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\MaterijalContext\201805250932435_JosNekaSredjivanja.resx">
+      <DependentUpon>201805250932435_JosNekaSredjivanja.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\VestiContext\201808170921538_Dodavanje_Vesti_U_Bazu.resx">
+      <DependentUpon>201808170921538_Dodavanje_Vesti_U_Bazu.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\VestiContext\201808220807445_DodavanjeDatumaICuvaSePutDoSlike.resx">
+      <DependentUpon>201808220807445_DodavanjeDatumaICuvaSePutDoSlike.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\VestiContext\201808221110015_DodavanjeKratkogOpisa.resx">
+      <DependentUpon>201808221110015_DodavanjeKratkogOpisa.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\VestiContext\201809031124163_TeloVestiZasebnaTabela.resx">
+      <DependentUpon>201809031124163_TeloVestiZasebnaTabela.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
+  </ItemGroup>
+  <ItemGroup>
+    <TypeScriptCompile Include="Scripts\index.d.ts" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
   </PropertyGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets" Condition="Exists('$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets')" />
   <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
   <Target Name="MvcBuildViews" AfterTargets="AfterBuild" Condition="'$(MvcBuildViews)'=='true'">

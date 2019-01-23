@@ -1,0 +1,4 @@
+﻿@model Projekat.ViewModels.MaterijalUploadViewModel
+
+@Html.DropDownListFor(m => m.predmetId, new SelectList(Model.PredmetPoSmeru, "predmetId", "predmetNaziv"), new { @class = "customDropdown" })
+@Html.DropDownListFor(m => m.smerId, new SelectList(Model.Smerovi, "smerId", "smerNaziv"), new { @class = "customDropdown smerovi", @id ="'" +@Model.smerId + "'" })

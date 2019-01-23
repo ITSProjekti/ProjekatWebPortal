@@ -1,0 +1,130 @@
+﻿@model Projekat.ViewModels.ListaNaprednaPretragaViewModel
+<style>
+    @@media screen and (max-width: 820px) {
+        .modalnamala{
+            width:100%;
+        }
+        .mali{
+            display:block;
+            float:left;
+            clear:both;
+        }
+        .dugmence{
+           width:auto;
+           padding:0;
+        }
+        .nestaje{
+            display:none;
+        }
+
+        
+    }
+</style>
+@{
+    ViewBag.Title = "ListaKorisnika";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    
+}
+
+<div id="sredina" name="sredina">
+    <h2>Lista Korisnika</h2>
+    
+    <link rel="stylesheet" type="text/css" href="~/Content/css/TabelaListaKorisnika.css">
+
+    <link href="~/Content/css/ModalnaSredjivanje.css" rel="stylesheet" />
+   
+    <table id="listaKorisnika" >
+        <thead>
+            <tr>
+                <th style="border-right: 1px solid lightgray; font-family: 'roboto-light'">Korisničko ime</th>
+                <th class="nestaje" style="padding-left: 25px; font-family: 'roboto-light'">Prezime</th>
+                <th class="nestaje" style="font-family: 'roboto-light'">Škola</th>
+                <th class="nestaje" style="font-family: 'roboto-light'">Smer</th>
+                <th class="nestaje" style="font-family: 'roboto-light'">Uloga</th>
+                <th style="font-family: 'roboto-light'">Detalji</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Korisnici)
+            {
+
+                <tr>
+                    <td  style="border-right: 1px solid lightgray">@item.UserName</td>
+                    <td class="nestaje" style="padding-left: 25px">@item.Prezime</td>
+                    <td class="nestaje">@item.Skola</td>
+                    <td class="nestaje">@item.Smer</td>
+                    <td class="nestaje">@item.Uloga</td>
+
+                    <td>
+                        @using (Html.BeginForm("DetaljiKorisnika", "Account", new { Username = item.UserName }, FormMethod.Post))
+                        {
+
+                            <input type="submit" name="button" class="btnDetalji" value="DETALJI" />
+                        }
+                    </td>
+                </tr>
+
+            }
+        </tbody>
+    </table>
+    
+    <div id="myModal" class="modal" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content modalnamala">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Napredna pretraga</h4>
+                </div>
+                <div class="modal-body">
+                    @using (Html.BeginForm("ListaKorisnika", "Account", Model, FormMethod.Post))
+                    {
+                        <div>
+                            <label for="customDropdown" class="labela"> Odaberite smer: </label>
+                            @Html.DropDownListFor(m => m.FilterSmerID, new SelectList(Model.Smerovi, "smerId", "smerNaziv"), "Ništa", new { @class = "customDropdown" })
+                        </div>
+                        <div>
+                            <label for="customDropdown" class="labela"> Odaberite ulogu: </label>
+                            @Html.DropDownListFor(m => m.FilterUloga, new SelectList(Model.Uloge, "Name", "Name"), "Ništa", new { @class = "customDropdown", @selected = "selected" })
+                        </div>
+                        <div>
+                            <label for="customDropdown" class="labela"> Odaberite školu: </label>
+                            @Html.DropDownListFor(m => m.FilterSkolaID, new SelectList(Model.Skole, "IdSkole", "NazivSkole"), "Ništa", new { @class = "customDropdown", @selected = "selected" })
+                        </div>
+                        <input type="submit" name="button" class="btnPretrazi dugmence" value="Pretraži" />
+                    }
+                </div>
+                <div class="modal-footer">
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <a id="novi-korisnik" href="/Account/Register">
+        <svg width="60" height="60" xmlns="http://www.w3.org/2000/svg">
+            <g>
+                <title>background</title>
+                <rect fill="none" id="canvas_background" height="62" width="62" y="-1" x="-1" />
+                <g display="none" overflow="visible" y="0" x="0" height="100%" width="100%" id="canvasGrid">
+                    <rect fill="url(#gridpattern)" stroke-width="0" y="0" x="0" height="100%" width="100%" />
+                </g>
+            </g>
+            <g>
+                <title>Layer 1</title>
+                <rect id="svg_4" height="26" width="3" y="17" x="28.5" fill-opacity="null" stroke-opacity="null" stroke-width="0" stroke="#000" fill="#fff" />
+                <rect transform="rotate(90, 29.898, 30)" id="svg_9" height="26" width="3" y="17" x="28.397959" fill-opacity="null" stroke-opacity="null" stroke-width="0" stroke="#000" fill="#fff" />
+            </g>
+        </svg>
+    </a>
+
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/Scripts/UI/labeli.js")
+    @Scripts.Render("~/bundles/lista_korisnika")
+    @Scripts.Render("~/bundles/Content/css") 
+
+}   
