@@ -134,7 +134,7 @@ namespace Projekat.Models
 
         [DataType(DataType.Password)]
         [Display(Name = "Potvrda nove lozinke")]
-        [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
+        [Compare("Password", ErrorMessage = "Ponudjene sifre se ne podudaraju.")]
         public string ConfirmPassword { get; set; }
 
         public string Code { get; set; }
