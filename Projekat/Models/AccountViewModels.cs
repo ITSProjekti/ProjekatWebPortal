@@ -55,10 +55,10 @@ namespace Projekat.Models
     {
         
         [Display(Name = "Korisnicko ime")]
-        
+        [Required(ErrorMessage ="Morate uneti korisnicko ime!")]
         public string Username { get; set; }
 
-        [Required]
+        [Required(ErrorMessage ="Morate uneti sifru!")]
         [DataType(DataType.Password)]
         [Display(Name = "Password")]
         public string Password { get; set; }

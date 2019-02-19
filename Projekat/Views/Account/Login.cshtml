@@ -7,14 +7,20 @@
 
 
     <h2 style="margin-left: 33.1%; margin-bottom: 4%;" >@ViewBag.Title</h2>
-    <div class="row">
+    <div class="row">        
         <div class="col-md-4 col-md-offset-4">
             <section id="loginForm">
-                @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal",@id="noviKorisnik", role = "form" }))
-            {
+                
+
+                @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", @id = "noviKorisnik", role = "form" }))
+                {
                     @Html.AntiForgeryToken()
                     <h4>Ulogujte se na Vas nalog</h4>
                     <hr />
+                  //  <!--Iskljuceno mozda bude implementirano kasnije-->
+                  //     <!-- <p class="text-danger">@Html.ValidationMessage("LoginError")</p> -->
+                    <span class="bg-danger" style="margin-left:15%;"><font color="white">@Html.ValidationMessage("LoginError")</font></span>
+                    
                     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                     <div class="form-group">
                         @Html.LabelFor(m => m.Username, new { @class = "matDesignLabel" })
@@ -35,7 +41,7 @@
                     <div class="form-group">
                         <div class="col-md-10 col-md-offset-2">
                             <div class="checkbox" style="float:left">
-                              
+
                                 @Html.CheckBoxFor(m => m.RememberMe, new { @class = "rememberMeCb" })
                                 @Html.LabelFor(m => m.RememberMe, new { @class = "rememberMe" })
                             </div>
@@ -47,16 +53,16 @@
                         </div>
                     </div>
                     <br />
-                    
-                   
-                        <p id="lozinka">
-                            @Html.ActionLink("Zaboravili ste lozinku?", "ForgotPassword") 
-                        </p>
+
+
+                    <p id="lozinka">
+                        @Html.ActionLink("Zaboravili ste lozinku?", "ForgotPassword")
+                    </p>
                 }
             </section>
-            
+
         </div>
-       
+
     </div>
 </div>
 <script>
