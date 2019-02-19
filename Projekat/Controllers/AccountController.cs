@@ -94,7 +94,7 @@ namespace Projekat.Controllers
                     return RedirectToAction("SendCode", new { ReturnUrl = returnUrl, RememberMe = model.RememberMe });
                 case SignInStatus.Failure:
                 default:
-                    ModelState.AddModelError("", "Neuspesan pokusaj.");
+                    ModelState.AddModelError("LoginError", "Neuspesan pokusaj. Pogresna kombinacija, pokusajte ponovo!");
                     return View(model);
             }
         }
