@@ -149,12 +149,22 @@ namespace Projekat.Controllers
 
             if (smerId == null)
             {
-                smerId = viewModel.Smerovi.ToList()[0].smerId;
+                //Uradjen try-catch blog za problem kada ne postoje smerovi u bazi podataka
+                    //u buducnosti treba unaprediti da umesti http greske ide na error layout gresku
+                try
+                {
+                    smerId = viewModel.Smerovi.ToList()[0].smerId;
 
-                var predmetiposmeru = context.predmetiPoSmeru.Where(x => x.smerId == smerId).Select(c => c.predmetId).ToList();
-                viewModel.PredmetPoSmeru = (viewModel.Predmeti.Where(x => predmetiposmeru.Contains(x.predmetId)));
+                    var predmetiposmeru = context.predmetiPoSmeru.Where(x => x.smerId == smerId).Select(c => c.predmetId).ToList();
+                    viewModel.PredmetPoSmeru = (viewModel.Predmeti.Where(x => predmetiposmeru.Contains(x.predmetId)));
 
-                return View("UploadMaterijal", viewModel);
+                    return View("UploadMaterijal", viewModel);
+                }
+                catch (ArgumentOutOfRangeException) {
+                    return new HttpNotFoundResult("Nema unetih smerova");
+                    
+                }
+                
             }
 
             else
