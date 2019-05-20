@@ -141,7 +141,7 @@
 
 
                 <li class="blok">
-                    <a href="@Url.Action("Register", "Account")">
+                    <a href="@Url.Action("planNastave", "Organizacija")">
                         <div class="slikaLi">
                             <img src="~/Content/img/plan-nastave.png" alt="slika1" style="width: 24px; height: 24px;" />
                         </div>
@@ -161,7 +161,7 @@
 
 
             <li class="blok">
-                <a href="@Url.Action("Register", "Account")">
+                <a href="@Url.Action("rasporedCasova", "Organizacija")">
                     <div class="slikaLi">
                         <img src="~/Content/img/raspored-casova.png" alt="slika1" style="width: 24px; height: 24px;" />
                     </div>
@@ -169,6 +169,39 @@
                 </a>
             </li>
         </ul>
+
+        
+            <!--VIDEO REPOZITORIJUM-->
+        <ul class="ListaNav">
+            <!-- SVE OSTALE su id="1,2,3" PREFORMULISI
+    <ul class="ListaNav" > <!-- SVE OSTALE su id="1,2,3" PREFORMULISI -->
+            <li class="naslov">
+
+                <div id="Novine" class="slikaOdNaslova">
+                    <img src="~/Content/img/Organizacija.png" alt="slika1" style="width: 24px; height: 24px;" />
+                </div>
+                <p id="1">Video repozitorijum</p> <!-- POGLEDAJ ID!-->
+            </li>
+
+
+            @if (this.User.IsInRole("Urednik") || this.User.IsInRole("SuperAdministrator") || this.User.IsInRole("Profesor") || this.User.IsInRole("Administrator"))
+            { 
+
+
+                <li class="blok">
+                    <a href="@Url.Action("VideoArhiva", "video")">
+                        <div class="slikaLi">
+                            <img src="~/Content/img/plan-nastave.png" alt="slika1" style="width: 24px; height: 24px;" />
+                        </div>
+                        <p id="l1">Plan nastave</p>
+                    </a>
+                </li>
+            }
+
+        </ul>
+
+
+
         @if (this.User.IsInRole("Ucenik"))
         {
             <ul class="ListaNav" id="n3">
@@ -180,7 +213,7 @@
                     </div>
                     <p id="vestiP">Chat Forum</p>
                 </li>
-                
+
             </ul>
         }
 
