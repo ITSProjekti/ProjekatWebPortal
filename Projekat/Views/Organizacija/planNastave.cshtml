@@ -1,9 +1,49 @@
-﻿
+
+﻿@model Projekat.Models.AspNetOrganizacijaModels
+
 @{
-    ViewBag.Title = "planNastave";
+    ViewBag.Title = "View";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<div id="sredina" name="sredina" class="sredina-upload-mat">
-    <h2>planNastave</h2>
+
+<br />
+<br />
+<br />
+
+<div align="center">
+
+    <div style="display:inline-block">
+
+        <div style="background-color:white;padding:15px" align="center">
+
+            <img src="@Html.DisplayFor(modelItem => Model.Adresa)">
+
+
+
+            @if (this.User.IsInRole("Administrator") || this.User.IsInRole("SuperAdministrator"))
+            {
+                using (Html.BeginForm("uploadOrganizacijaMaterijal", "Organizacija", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                {
+
+                    <input type="hidden" name="tip" value="@ViewBag.Tip" />
+                    <input type="file" name="file" accept=".jpg,.png,.svg" />
+
+                    <input type="submit" name="Ubaci_plan" value="Ubaci plan nastave" />
+
+
+                }
+            }
+
+
+            @using (Html.BeginForm("downloadOrganizacijaMaterijal", "Organizacija", FormMethod.Post, new { enctype = "multipart/form-data" }))
+            {
+                <input type="hidden" name="tip" value="@ViewBag.Tip" />
+                <input type="submit" name="Skini_plan" value="Skinii plan nastave" />
+
+            }
+        </div>
+
+    </div>
+
 </div>
 
