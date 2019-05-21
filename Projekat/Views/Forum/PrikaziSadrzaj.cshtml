@@ -1,0 +1,18 @@
+﻿@model Projekat.ViewModels.ForumViewModel
+@{
+    ViewBag.Title = "Sadrzaj";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@Styles.Render("~/Content/css/ForumStyles.css")
+<div id="sredina" name="sredina" class="sredina-upload-mat">
+    <div class="row">
+        @foreach (var i in Model.postsModel)
+        {
+            <div class="leftcolumn">
+                <div class="card">
+                    <h5>@i.postmessage</h5>
+                </div>
+            </div>
+        }
+    </div>
+</div>

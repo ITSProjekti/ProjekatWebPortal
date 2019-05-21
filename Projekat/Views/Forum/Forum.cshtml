@@ -1,0 +1,36 @@
+﻿@model Projekat.ViewModels.ForumViewModel
+@{
+    ViewBag.Title = "Forum";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@Styles.Render("~/Content/css/ForumStyles.css")
+
+<div id="sredina" name="sredina" class="sredina-upload-mat">
+    <div class="header" style="text-align:center;">
+        <h2 class="title">Teme predlozene od strane ucenika</h2>
+    </div>
+    
+    <div class="row">
+        @foreach (var i in Model.postsModel)
+        {
+            if (i.approved == "true") {
+            <div class="leftcolumn">
+                <div class="card">
+                    <h2 class="naslov-objave">@Html.ActionLink(i.posttitle, "PrikaziSadrzaj", "Forum", new { idPost = i.Id_Post }, null)</h2>
+                    <h5><span class="naslov">datum objave:</span> @i.posteddate</h5>
+                    <p><span class="naslov">objavio:</span> @i.AspNetUser.UserName</p>
+                    <p class="sadrzaj">@i.postmessage.</p>
+                </div>
+            </div>
+                }
+            }
+        <div class="rightcolumn">
+            <div class="card">
+                @Html.ActionLink("Dodaj novi", "DodajNovi", "ForumController", null, null)
+            </div>
+        </div>
+    </div>
+
+</div>
+
