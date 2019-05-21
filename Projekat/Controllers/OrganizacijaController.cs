@@ -8,6 +8,7 @@ using Projekat.Models;
 
 namespace Projekat.Controllers
 {
+
 	public class OrganizacijaController : Controller
 	{
 		private AspNetOrganizacijaContext KONTEKST;
@@ -109,4 +110,5 @@ namespace Projekat.Controllers
 			
 		}
 	}
+
 }

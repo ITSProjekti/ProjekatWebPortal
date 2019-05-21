@@ -170,6 +170,7 @@
             </li>
         </ul>
 
+
         
             <!--VIDEO REPOZITORIJUM-->
         <ul class="ListaNav">
@@ -203,16 +204,26 @@
 
 
         @if (this.User.IsInRole("Ucenik"))
+
+
         {
             <ul class="ListaNav" id="n3">
                 <li class="naslov">
                     <div id="Novine" class="slikaOdNaslova">
-                        <a href="@Url.Action("PrikazVesti", "Vesti")">
-                            <img src="~/Content/img/Novine.png" alt="slika1" />
-                        </a>
+                            <img src="#" alt="slika1" />
                     </div>
                     <p id="vestiP">Chat Forum</p>
                 </li>
+
+                <li class="blok">
+                    <a href="@Url.Action("forum", "Forum")">
+                        <div class="slikaLi">
+                            <img src="#" alt="slika1" style="width: 24px; height: 24px;" />
+                        </div>
+                        <p id="l1">Forum prikaz</p>
+                    </a>
+                </li>
+                
 
             </ul>
         }
