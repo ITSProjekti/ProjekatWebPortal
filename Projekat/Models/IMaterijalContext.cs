@@ -112,9 +112,6 @@ namespace Projekat.Models
         /// </returns>
         IQueryable<OsiromaseniMaterijali> poPredmetu(int? predmetId);
         IQueryable<OsiromaseniMaterijali> poNameni(int namenaID, IQueryable<OsiromaseniMaterijali> materijali);
-
-
-
-
+        IQueryable<OsiromaseniMaterijali> nacekanju();
     }
 }

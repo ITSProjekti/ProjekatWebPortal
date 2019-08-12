@@ -10,29 +10,37 @@ namespace Projekat.Controllers
 {
     public class ForumController : Controller
     {
-        
         // GET: Forum
-        [Authorize(Roles ="Profesor,Ucenik")]
-        public ViewResult forum()
+        MaterijalContext materijal;
+
+        public ForumController()
+        {
+            materijal = new MaterijalContext();
+        }
+
+        [Authorize(Roles = "Profesor,Ucenik")]
+        public ActionResult forum()
         {
             //Beleznik: potrebna inicijalizacija da bi se ucitali podaci na view modele
             //
-            ForumContext fx = new ForumContext();
-
-            var model = fx.Forum_Post.ToList();
-
-            var myviewmodel = new ForumViewModel();
-
-            //Pune se modelview modeli tipa IENUMERABLE sa podacima iz contekst modela
-            //
-            myviewmodel.postsModel=model;
-
-            return View(myviewmodel); 
+            List<Forum_Post> model = materijal.Forum.Where(n => n.approved.Equals("yes")).ToList();
+            if (model.Count() > 0)
+            {
+                var myviewmodel = new ForumViewModel();
+                myviewmodel.postsModel = model;
+                int i = model.Count();
+                ViewBag.BrojRezultat = i;
+                return View(myviewmodel);
+            }
+            else
+            {
+                ViewBag.Poruka = "Trenutno nema nikakvih objava!";
+                return View();
+            }
         }
         public ActionResult PrikaziSadrzaj(int idPost)
         {
-            ForumContext fx = new ForumContext();
-            var model = fx.Forum_Post.Where(x => x.Id_Post.Equals(idPost)).ToList();
+            var model = materijal.Forum.Where(x => x.Id_post.Equals(idPost)).ToList();
             var myviewmodel = new ForumViewModel();
 
             myviewmodel.postsModel = model;

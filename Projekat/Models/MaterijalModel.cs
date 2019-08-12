@@ -140,7 +140,8 @@ namespace Projekat.Models
         /// </value>
         public TipMaterijalModel TipMaterijalModel { get; set; }
 
-
+        public string odobreno { get; set; }
+        public string obrazlozenje { get; set; }
         /// <summary>
         /// Gets or sets the tip materijal identifier.
         /// </summary>

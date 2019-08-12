@@ -92,6 +92,6 @@ namespace Projekat.ViewModels
         /// The predmet identifier.
         /// </value>
         public int? predmetId { get; set; }
-
+        public string odobreno { get; set; }
     }
 }

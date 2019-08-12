@@ -11,6 +11,5 @@ namespace Projekat.ViewModels
     {
         public IEnumerable<Forum_Post> postsModel { get; set; }
         public IEnumerable<AspNetUser> UsersDetails { get; set; }
-
     }
 }

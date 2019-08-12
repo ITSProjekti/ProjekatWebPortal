@@ -1,0 +1,31 @@
+﻿@model  Projekat.ViewModels.MaterijaliNaprednaPretragaViewModel
+@using Projekat.Helpers;
+@{
+    ViewBag.Title = "MaterijaliCekanje";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div id="sredina" class="nestaje">
+    <img id="banana" src="~/Content/img/potvrdaBrisanjaGIFGOTOV.gif" />
+
+    @Html.Partial("_Kartice2", Model)
+
+    <div class="modal fade" id="myModal2" role="dialog" style="opacity:1; background-color:rgba(0,0,0,0.5);">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Odobravanje materijala</h4>
+                </div>
+                <div class="modal-body">
+                    
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Potvrdi</button>
+                    <button type="button" class="btn btn-default btn-sekundarni" data-dismiss="modal">Odustani</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="~/Scripts/prikaziLupicuPretraga.js"></script>

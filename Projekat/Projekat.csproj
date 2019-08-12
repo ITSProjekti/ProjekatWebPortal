@@ -268,6 +268,26 @@
     <Compile Include="Migrations\MaterijalContext\201805250932435_JosNekaSredjivanja.Designer.cs">
       <DependentUpon>201805250932435_JosNekaSredjivanja.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\MaterijalContext\201907081425002_ForumPokusaj2.cs" />
+    <Compile Include="Migrations\MaterijalContext\201907081425002_ForumPokusaj2.Designer.cs">
+      <DependentUpon>201907081425002_ForumPokusaj2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\MaterijalContext\201907231454340_MaterijalModelProfesor.cs" />
+    <Compile Include="Migrations\MaterijalContext\201907231454340_MaterijalModelProfesor.Designer.cs">
+      <DependentUpon>201907231454340_MaterijalModelProfesor.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\MaterijalContext\201907231533348_PopravkaMaterijalModelProfesor.cs" />
+    <Compile Include="Migrations\MaterijalContext\201907231533348_PopravkaMaterijalModelProfesor.Designer.cs">
+      <DependentUpon>201907231533348_PopravkaMaterijalModelProfesor.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\MaterijalContext\201907231703477_ispravke2.cs" />
+    <Compile Include="Migrations\MaterijalContext\201907231703477_ispravke2.Designer.cs">
+      <DependentUpon>201907231703477_ispravke2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\MaterijalContext\201908051311119_popravka3.cs" />
+    <Compile Include="Migrations\MaterijalContext\201908051311119_popravka3.Designer.cs">
+      <DependentUpon>201908051311119_popravka3.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\MaterijalContext\MaterijalConfiguration.cs" />
     <Compile Include="Migrations\VestiContext\201808170921538_Dodavanje_Vesti_U_Bazu.cs" />
     <Compile Include="Migrations\VestiContext\201808170921538_Dodavanje_Vesti_U_Bazu.Designer.cs">
@@ -288,7 +308,6 @@
     <Compile Include="Migrations\VestiContext\VestiConfiguration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\AspNetUser.cs" />
-    <Compile Include="Models\ForumContext.cs" />
     <Compile Include="Models\Forum_Post.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\IMaterijalContext.cs" />
@@ -297,6 +316,7 @@
     <Compile Include="Models\MaterijalModel.cs" />
     <Compile Include="Models\MaterijalPoPredmetu.cs" />
     <Compile Include="Models\MaterijalPoTipu.cs" />
+    <Compile Include="Models\MaterijalProfesorModel.cs" />
     <Compile Include="Models\MaterijalSharingInitializer.cs" />
     <Compile Include="Models\NamenaMaterijalaModel.cs" />
     <Compile Include="Models\Organizacija.cs" />
@@ -640,6 +660,10 @@
     <Content Include="Views\Forum\Forum.cshtml" />
     <Content Include="Views\Forum\PrikaziSadrzaj.cshtml" />
     <Content Include="Views\Forum\Sadrzaj.cshtml" />
+    <Content Include="Views\Materijal\_UploadMaterijalOstali.cshtml" />
+    <Content Include="Views\Materijal\_UploadMaterijalProfesor.cshtml" />
+    <Content Include="Views\Materijal\MaterijaliCekanje.cshtml" />
+    <Content Include="Views\Materijal\_Kartice2.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Content\Konfiguracija\" />
@@ -683,6 +707,21 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\MaterijalContext\201805250932435_JosNekaSredjivanja.resx">
       <DependentUpon>201805250932435_JosNekaSredjivanja.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\MaterijalContext\201907081425002_ForumPokusaj2.resx">
+      <DependentUpon>201907081425002_ForumPokusaj2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\MaterijalContext\201907231454340_MaterijalModelProfesor.resx">
+      <DependentUpon>201907231454340_MaterijalModelProfesor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\MaterijalContext\201907231533348_PopravkaMaterijalModelProfesor.resx">
+      <DependentUpon>201907231533348_PopravkaMaterijalModelProfesor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\MaterijalContext\201907231703477_ispravke2.resx">
+      <DependentUpon>201907231703477_ispravke2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\MaterijalContext\201908051311119_popravka3.resx">
+      <DependentUpon>201908051311119_popravka3.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\VestiContext\201808170921538_Dodavanje_Vesti_U_Bazu.resx">
       <DependentUpon>201808170921538_Dodavanje_Vesti_U_Bazu.cs</DependentUpon>

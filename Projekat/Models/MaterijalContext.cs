@@ -57,22 +57,14 @@ namespace Projekat.Models
         /// </value>
         public DbSet<TipMaterijalModel> tipMaterijala { get; set; }
         public DbSet<SkolaModel> Skole { get; set; }
-       
-
-
-        IQueryable<MaterijalModel> IMaterijalContext.materijali
-        {
-            get { return materijali; }
-
-        }
+        public DbSet<Forum_Post> Forum { get; set; }
+        //public DbSet<MaterijalProfesorModel> Profesormaterijali { get; set; }
 
         IQueryable<TipMaterijalModel> IMaterijalContext.tipMaterijala
         {
             get { return tipMaterijala; }
 
         }
-
-
         IQueryable<PredmetModel> IMaterijalContext.predmeti
         {
             get { return predmeti; }
@@ -92,6 +84,8 @@ namespace Projekat.Models
         {
             get { return nameneMaterijala; }
         }
+
+        IQueryable<MaterijalModel> IMaterijalContext.materijali => throw new NotImplementedException();
 
         T IMaterijalContext.Add<T>(T entity)
         {
@@ -126,7 +120,7 @@ namespace Projekat.Models
         IQueryable<OsiromaseniMaterijali> IMaterijalContext.poPredmetu(int? predmetId)
         {
             IQueryable<OsiromaseniMaterijali> materijali;
-            materijali = this.materijali.Where(m => m.predmetId == predmetId).Select(m => new OsiromaseniMaterijali
+            materijali = this.materijali.Where(m => m.predmetId == predmetId&&m.odobreno!=null).Select(m => new OsiromaseniMaterijali
             {
                 namenaID = m.namenaMaterijalaId,
                 materijalId = m.materijalId,
@@ -139,7 +133,21 @@ namespace Projekat.Models
 
             return materijali;
         }
-
+        IQueryable<OsiromaseniMaterijali> IMaterijalContext.nacekanju()
+        {
+            IQueryable<OsiromaseniMaterijali> materijali;
+            materijali =this.materijali.Where(m => m.odobreno == null).Select(m => new OsiromaseniMaterijali
+            {
+                namenaID = m.namenaMaterijalaId,
+                materijalId = m.materijalId,
+                ekstenzija = m.materijalEkstenzija,
+                materijalNaslov = m.materijalNaslov,
+                materijalOpis = m.materijalOpis,
+                tipMaterijalaId = m.tipMaterijalId,
+                predmetId = m.predmetId
+            });
+            return materijali;
+        }
 
 
         IQueryable<OsiromaseniMaterijali> IMaterijalContext.naprednaPretraga(List<string> ekstenzije, List<int> tipoviMaterijalaIds, int? predmetId,int namenaID)//Dodati parametre 

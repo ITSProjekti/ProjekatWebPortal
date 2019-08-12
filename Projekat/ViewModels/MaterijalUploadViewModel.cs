@@ -19,6 +19,7 @@ namespace Projekat.ViewModels
         /// The materijal.
         /// </value>
         public MaterijalModel  Materijal { get; set; }
+        public MaterijalProfesorModel MaterijalProfesor { get; set; }
         /// <summary>
         /// Gets or sets the predmeti.
         /// </summary>

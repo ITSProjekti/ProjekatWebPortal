@@ -1,15 +1,16 @@
+using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Data.Entity.Spatial;
+
 namespace Projekat.Models
 {
-    using System;
-    using System.Collections.Generic;
-    using System.ComponentModel.DataAnnotations;
-    using System.ComponentModel.DataAnnotations.Schema;
-    using System.Data.Entity.Spatial;
-
-    public partial class Forum_Post
+    [Table("Forum_Posts")]
+    public class Forum_Post
     {
         [Key]
-        public int Id_Post { get; set; }
+        public int Id_post { get; set; }
 
         [Required]
         [StringLength(50)]
@@ -24,10 +25,12 @@ namespace Projekat.Models
         [StringLength(10)]
         public string approved { get; set; }
 
+        public AspNetUser aspNetUser { get; set; }
+
         [Required]
         [StringLength(128)]
-        public string UserId_Fk { get; set; }
+        [ForeignKey("aspNetUser")]
+        public string Id { get; set; }
 
-        public virtual AspNetUser AspNetUser { get; set; }
     }
 }

@@ -9,11 +9,8 @@ namespace Projekat.Models
     public partial class AspNetUser
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public AspNetUser()
-        {
-            Forum_Post = new HashSet<Forum_Post>();
-        }
-
+ 
+        [Key,ForeignKey("Forum_Post")]
         public string Id { get; set; }
 
         [StringLength(256)]
