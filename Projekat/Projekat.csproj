@@ -222,6 +222,7 @@
     <Compile Include="Controllers\PredmetController.cs" />
     <Compile Include="Controllers\SmerController.cs" />
     <Compile Include="Controllers\VestiController.cs" />
+    <Compile Include="Controllers\videoController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -311,8 +312,12 @@
     </Compile>
     <Compile Include="Migrations\VestiContext\VestiConfiguration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
+
+    <Compile Include="Models\AspNetOrganizacijaModels.cs" />
+
     <Compile Include="Models\AspNetUser.cs" />
     <Compile Include="Models\Forum_Post.cs" />
+
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\IMaterijalContext.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
@@ -323,7 +328,7 @@
     <Compile Include="Models\MaterijalProfesorModel.cs" />
     <Compile Include="Models\MaterijalSharingInitializer.cs" />
     <Compile Include="Models\NamenaMaterijalaModel.cs" />
-    <Compile Include="Models\Organizacija.cs" />
+    <Compile Include="Models\AspNetOrganizacijaContext.cs" />
     <Compile Include="Models\PredmetModel.cs" />
     <Compile Include="Models\PredmetPoSmeru.cs" />
     <Compile Include="Models\SkolaModel.cs" />
@@ -333,6 +338,8 @@
     <Compile Include="Models\TipMaterijalModel.cs" />
     <Compile Include="Models\VestiContext.cs" />
     <Compile Include="Models\VestModel.cs" />
+    <Compile Include="Models\VideoContext.cs" />
+    <Compile Include="Models\videoModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="ViewModels\DodajPremetViewModel.cs" />
@@ -661,16 +668,21 @@
     <Content Include="Scripts\jquery-3.3.1.slim.min.map" />
     <Content Include="Scripts\jquery-3.3.1.min.map" />
     <Content Include="Views\Organizacija\kalendarNastave.cshtml" />
+
+    <Content Include="Views\video\VideoArhiva.cshtml" />
+
     <Content Include="Views\Organizacija\rasporedCasova.cshtml" />
     <Content Include="Views\Organizacija\planNastave.cshtml" />
     <Content Include="Views\Forum\Forum.cshtml" />
     <Content Include="Views\Forum\PrikaziSadrzaj.cshtml" />
     <Content Include="Views\Forum\Sadrzaj.cshtml" />
+
     <Content Include="Views\Materijal\_UploadMaterijalOstali.cshtml" />
     <Content Include="Views\Materijal\_UploadMaterijalProfesor.cshtml" />
     <Content Include="Views\Materijal\MaterijaliCekanje.cshtml" />
     <Content Include="Views\Materijal\_Kartice2.cshtml" />
     <Content Include="Views\Materijal\UrednikOdgovor.cshtml" />
+
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Content\Konfiguracija\" />
@@ -786,7 +798,7 @@
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
     </PropertyGroup>
     <Error Condition="!Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props'))" />
-    <Error Condition="!Exists('..\packages\Microsoft.Net.Compilers.2.10.0\build\Microsoft.Net.Compilers.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.Net.Compilers.2.10.0\build\Microsoft.Net.Compilers.props'))" />
+
     <Error Condition="!Exists('..\packages\Microsoft.ApplicationInsights.DependencyCollector.2.9.1\build\Microsoft.ApplicationInsights.DependencyCollector.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.ApplicationInsights.DependencyCollector.2.9.1\build\Microsoft.ApplicationInsights.DependencyCollector.targets'))" />
     <Error Condition="!Exists('..\packages\Microsoft.ApplicationInsights.PerfCounterCollector.2.9.1\build\Microsoft.ApplicationInsights.PerfCounterCollector.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.ApplicationInsights.PerfCounterCollector.2.9.1\build\Microsoft.ApplicationInsights.PerfCounterCollector.targets'))" />
     <Error Condition="!Exists('..\packages\Microsoft.ApplicationInsights.WindowsServer.TelemetryChannel.2.9.1\build\Microsoft.ApplicationInsights.WindowsServer.TelemetryChannel.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.ApplicationInsights.WindowsServer.TelemetryChannel.2.9.1\build\Microsoft.ApplicationInsights.WindowsServer.TelemetryChannel.targets'))" />

@@ -1,8 +1,47 @@
-﻿
+
+﻿@model Projekat.Models.AspNetOrganizacijaModels
 @{
-    ViewBag.Title = "rasporedCasova";
+    ViewBag.Title = "Raspored časova";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<div id="sredina" name="sredina" class="sredina-upload-mat">
-    <h2>rasporedCasova</h2>
-</div>
+
+<br/>
+<br/>
+<br/>
+
+<div align ="center">
+
+    <div style="display:inline-block">
+
+        <div style="background-color:white;padding:15px" align="center">
+
+            <img src="@Html.DisplayFor(modelItem => Model.Adresa)">
+
+
+
+            @if (this.User.IsInRole("Administrator") || this.User.IsInRole("SuperAdministrator"))
+            {
+                using (Html.BeginForm("uploadOrganizacijaMaterijal", "Organizacija", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                {
+
+                    <input type="hidden" name="tip" value="@ViewBag.Tip" />
+                    <input type="file" name="file" accept=".jpg,.png,.svg" />
+
+                    <input type="submit" name="Ubaci_raspored" value="Ubaci raspored" />
+
+
+                }
+            }
+
+
+            @using (Html.BeginForm("downloadOrganizacijaMaterijal", "Organizacija", FormMethod.Post, new { enctype = "multipart/form-data" }))
+            {
+                <input type="hidden" name="tip" value="@ViewBag.Tip" />
+                <input type="submit" name="Skini_raspored" value="Skini raspored" />
+
+            }
+        </div>
+
+    </div>        
+
+ </div>

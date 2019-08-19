@@ -1,0 +1,74 @@
+﻿@model IEnumerable<Projekat.Models.videoModels>
+
+@{
+    ViewBag.Title = "VideoArhiva";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+    
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Ime)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Adresa)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.datumPostavljanja)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Godina)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Smer)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Ime)
+            </td>
+            <td>
+                <iframe width="420" height="315"
+                        src="@item.Adresa"></iframe>
+
+                <a href="@item.Adresa">@item.Ime</a>
+            </td>
+
+
+
+
+            <td>
+                @Html.DisplayFor(modelItem => item.datumPostavljanja)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Godina)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Smer)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                @Html.ActionLink("Details", "Details", new { id = item.Id }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+            </td>
+
+
+
+
+
+
+        </tr>
+       
+    }
+
+</table>
