@@ -84,16 +84,14 @@
         }
 
 
-        <ul class="ListaNav" id="n2">
-            <li class="naslov">
-                <div id="Materijali" class="slikaOdNaslova">
-                    <img src="~/Content/img/mat.png" alt="slika1" />
-                </div>
-                <p>Materijali</p>
-            </li>
-            @if (this.User.IsInRole("SuperAdministrator") || this.User.IsInRole("Urednik") || this.User.IsInRole("Profesor"))
-            {
-                if (!this.User.IsInRole("Profesor"))
+            <ul class="ListaNav" id="n2">
+                <li class="naslov">
+                    <div id="Materijali" class="slikaOdNaslova">
+                        <img src="~/Content/img/mat.png" alt="slika1" />
+                    </div>
+                    <p>Materijali</p>
+                </li>
+                @if (this.User.IsInRole("SuperAdministrator") || this.User.IsInRole("Urednik") || this.User.IsInRole("Profesor"))
                 {
                     <li class="blok">
                         <a href="@Url.Action("UploadMaterijal", "Materijal")">
@@ -103,28 +101,49 @@
                             <p id="l9">Novi materijal</p>
                         </a>
                     </li>
+                    if (!this.User.IsInRole("Profesor"))
+                    {
+                        <li class="blok">
+                            <a href="@Url.Action("MaterijaliCekanje", "Materijal")">
+                                <div class="slikaLi">
+                                    <img src="~/Content/img/" height=28 width="27" alt="slika1" />
+                                </div>
+                                <p id="l9">Materijali na cekanju</p>
+                            </a>
+                        </li>
+                    }
+                    if (!this.User.IsInRole("Urednik"))
+                    {
+                        <li class="blok">
+                            <a href="@Url.Action("UrednikOdgovor", "Materijal")">
+                                <div class="slikaLi">
+                                    <img src="~/Content/img/" height=28 width="27" alt="slika1" />
+                                </div>
+                                <p id="l9">Urednik-odgovor</p>
+                            </a>
+                        </li>
+                    }
+
+                    <li class="blok">
+
+                        <a href="@Url.RouteUrl("MaterijaliZaProf")">
+                            <div class="slikaLi">
+                                <img src="~/Content/img/profesor.png" alt="slika1" />
+                            </div>
+                            <p id="l3">Obuka profesora</p>
+                        </a>
+                    </li>
                 }
 
                 <li class="blok">
-
-                    <a href="@Url.RouteUrl("MaterijaliZaProf")">
+                    <a href="@Url.Action("SmeroviPrikaz", "Smer")">
                         <div class="slikaLi">
-                            <img src="~/Content/img/profesor.png" alt="slika1" />
+                            <img src="~/Content/img/ucenik.png" alt="slika1" />
                         </div>
-                        <p id="l3">Obuka profesora</p>
+                        <p id="l4">Nastavni materijal</p>
                     </a>
                 </li>
-            }
-
-            <li class="blok">
-                <a href="@Url.Action("SmeroviPrikaz", "Smer")">
-                    <div class="slikaLi">
-                        <img src="~/Content/img/ucenik.png" alt="slika1" />
-                    </div>
-                    <p id="l4">Nastavni materijal</p>
-                </a>
-            </li>
-        </ul>
+            </ul>
 
         <ul class="ListaNav">
             <!-- SVE OSTALE su id="1,2,3" PREFORMULISI
@@ -212,7 +231,7 @@
                     <div id="Novine" class="slikaOdNaslova">
                             <img src="#" alt="slika1" />
                     </div>
-                    <p id="vestiP">Chat Forum</p>
+                    <p id="vestiP">Forum</p>
                 </li>
 
                 <li class="blok">

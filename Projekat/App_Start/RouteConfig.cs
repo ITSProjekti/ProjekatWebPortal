@@ -37,7 +37,11 @@ namespace Projekat
               url: "Materijali/ZaProfesore",
               defaults: new { controller = "Materijal", action = "MaterijaliPrikaz" }
           );
-          
+            routes.MapRoute(
+                name:"PrikaziSadrzaj",
+                url:"Forum/PrikaziSadrzaj/{idPost}",
+                defaults: new {controller="Forum",action="PrikaziSadrzaj"}
+                );
 
             routes.MapRoute(
                 name: "Default",

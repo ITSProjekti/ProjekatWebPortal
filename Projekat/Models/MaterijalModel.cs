@@ -81,7 +81,7 @@ namespace Projekat.Models
         /// The materijal heading.
         /// </value>
         public string materijalNaslov { get; set; }
-
+        public string idUser { get; set; }
         /// <summary>
         /// Gets the image path.
         /// </summary>
@@ -122,7 +122,6 @@ namespace Projekat.Models
         /// The predmet model.
         /// </value>
         public PredmetModel PredmetModel { get; set; }
-
         /// <summary>
         /// Gets or sets the predmet identifier.
         /// </summary>
@@ -140,7 +139,8 @@ namespace Projekat.Models
         /// </value>
         public TipMaterijalModel TipMaterijalModel { get; set; }
 
-
+        public string odobreno { get; set; }
+        public string obrazlozenje { get; set; }
         /// <summary>
         /// Gets or sets the tip materijal identifier.
         /// </summary>
