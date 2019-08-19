@@ -2,6 +2,8 @@
 
 @using (Html.BeginForm("UploadMaterijal", "Materijal", FormMethod.Post, new { @enctype = "multipart/form-data", @id = "postavkaMat" }))
 {
+    <div class="text-center text-success hideAfter"><h4 class="moje4">@ViewBag.SuccMsg</h4></div>
+
     <input type="file" name="file" id="file" class="inputfile" />
     <label for="file" id="izaberi-materijal"> <span id="filename"> <span> <img src="~/Content/img/upload2.png" alt="Izaberite Dokument"> Izaberite dokument...</span></span> </label>
 

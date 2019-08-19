@@ -7,8 +7,16 @@
 
 <div id="sredina" class="nestaje">
     <img id="banana" src="~/Content/img/potvrdaBrisanjaGIFGOTOV.gif" />
+    @if (Model.osiromaseniMaterijali.Count() > 0)
+    {
 
     @Html.Partial("_Kartice2", Model)
+    }
+    else
+    {
+            <h4 class="text-center text-lg-center" style="color:red; font-size:50px;">Nema materijala na čekanju</h4>
+
+    }
 
     <div class="modal fade" id="myModal2" role="dialog" style="opacity:1; background-color:rgba(0,0,0,0.5);">
         <div class="modal-dialog">
@@ -18,14 +26,60 @@
                     <h4 class="modal-title">Odobravanje materijala</h4>
                 </div>
                 <div class="modal-body">
-                    
+                    @using (Html.BeginForm("ObrazlozenjeMaterijal", "Materijal", FormMethod.Post, new { @id = "forma1" }))
+                    {
+                        <input id="sakrivenoId" name="id" type="hidden" />
+                        <textarea name="obrazlozenje" style="margin-bottom:5px;" rows="4" cols="50" wrap="hard" id="Obrazlozenje" placeholder="Unesite tekst odobrenja.."></textarea>
+                    }
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Potvrdi</button>
-                    <button type="button" class="btn btn-default btn-sekundarni" data-dismiss="modal">Odustani</button>
+                    <button id="dugme1" type="button" class="btn btn-default" data-dismiss="modal">Potvrdi</button>
+                    <button type="button" class="btn btn-default btn-sekundarni" data-dismiss="modal" onclick="$('#Obrazlozenje').val('')">Odustani</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="myModal3" role="dialog" style="opacity:1; background-color:rgba(0,0,0,0.5);">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Odobravanje materijala</h4>
+                </div>
+                <div class="modal-body">
+                    <h4 class="text-success">@ViewBag.SuccMsg</h4>
+                </div>
+                <div class="modal-footer">
+                    <button id="dugmeOtkaz" type="button" class="btn btn-default btn-sekundarni" data-dismiss="modal">Odustani</button>
                 </div>
             </div>
         </div>
     </div>
 </div>
 <script src="~/Scripts/prikaziLupicuPretraga.js"></script>
+@if (ViewBag.SuccMsg != null)
+{
+    <script>
+        $(window).on('load', function () {
+            $("#myModal3").modal('show');
+        });
+    </script>
+}
+<script>
+    $('#myModal2').on('show.bs.modal', function (event) {
+        var el = $(event.relatedTarget);
+        var id = el.data('materijalid');
+
+        $('#sakrivenoId').val(id);
+
+    });
+        $("#dugme1").click(function () {
+            if ($("#Obrazlozenje").val() != '') {
+                $('#forma1').submit();
+            }
+            else {
+                $("#Obrazlozenje").append("<small class='form-text text-muted' style='color:red;'>polje je prazno</small>");
+            }
+        });
+</script>

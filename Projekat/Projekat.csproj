@@ -288,6 +288,10 @@
     <Compile Include="Migrations\MaterijalContext\201908051311119_popravka3.Designer.cs">
       <DependentUpon>201908051311119_popravka3.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\MaterijalContext\201908191449182_popravke4.cs" />
+    <Compile Include="Migrations\MaterijalContext\201908191449182_popravke4.Designer.cs">
+      <DependentUpon>201908191449182_popravke4.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\MaterijalContext\MaterijalConfiguration.cs" />
     <Compile Include="Migrations\VestiContext\201808170921538_Dodavanje_Vesti_U_Bazu.cs" />
     <Compile Include="Migrations\VestiContext\201808170921538_Dodavanje_Vesti_U_Bazu.Designer.cs">
@@ -343,6 +347,7 @@
     <Compile Include="ViewModels\OsiromaseniMaterijali.cs" />
     <Compile Include="ViewModels\PredmetPoSmeruViewModel.cs" />
     <Compile Include="ViewModels\PrikazVestiViewModel.cs" />
+    <Compile Include="ViewModels\UrednikOdgovorViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_Data\UserData.txt" />
@@ -370,6 +375,7 @@
     <Content Include="Content\css\simplebar.css" />
     <Content Include="Content\css\stil.css" />
     <Content Include="Content\css\TabelaListaKorisnika.css" />
+    <Content Include="Content\css\UrednikOdgovor.css" />
     <Content Include="Content\fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Content\img\404.png" />
     <Content Include="Content\img\back-strelica.png" />
@@ -664,6 +670,7 @@
     <Content Include="Views\Materijal\_UploadMaterijalProfesor.cshtml" />
     <Content Include="Views\Materijal\MaterijaliCekanje.cshtml" />
     <Content Include="Views\Materijal\_Kartice2.cshtml" />
+    <Content Include="Views\Materijal\UrednikOdgovor.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Content\Konfiguracija\" />
@@ -722,6 +729,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\MaterijalContext\201908051311119_popravka3.resx">
       <DependentUpon>201908051311119_popravka3.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\MaterijalContext\201908191449182_popravke4.resx">
+      <DependentUpon>201908191449182_popravke4.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\VestiContext\201808170921538_Dodavanje_Vesti_U_Bazu.resx">
       <DependentUpon>201808170921538_Dodavanje_Vesti_U_Bazu.cs</DependentUpon>

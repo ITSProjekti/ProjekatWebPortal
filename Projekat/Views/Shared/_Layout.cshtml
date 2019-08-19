@@ -93,14 +93,14 @@
                 </li>
                 @if (this.User.IsInRole("SuperAdministrator") || this.User.IsInRole("Urednik") || this.User.IsInRole("Profesor"))
                 {
-                        <li class="blok">
-                            <a href="@Url.Action("UploadMaterijal", "Materijal")">
-                                <div class="slikaLi">
-                                    <img src="~/Content/img/novimaterijal.png" height=28 width="27" alt="slika1" />
-                                </div>
-                                <p id="l9">Novi materijal</p>
-                            </a>
-                        </li>
+                    <li class="blok">
+                        <a href="@Url.Action("UploadMaterijal", "Materijal")">
+                            <div class="slikaLi">
+                                <img src="~/Content/img/novimaterijal.png" height=28 width="27" alt="slika1" />
+                            </div>
+                            <p id="l9">Novi materijal</p>
+                        </a>
+                    </li>
                     if (!this.User.IsInRole("Profesor"))
                     {
                         <li class="blok">
@@ -109,6 +109,17 @@
                                     <img src="~/Content/img/" height=28 width="27" alt="slika1" />
                                 </div>
                                 <p id="l9">Materijali na cekanju</p>
+                            </a>
+                        </li>
+                    }
+                    if (!this.User.IsInRole("Urednik"))
+                    {
+                        <li class="blok">
+                            <a href="@Url.Action("UrednikOdgovor", "Materijal")">
+                                <div class="slikaLi">
+                                    <img src="~/Content/img/" height=28 width="27" alt="slika1" />
+                                </div>
+                                <p id="l9">Urednik-odgovor</p>
                             </a>
                         </li>
                     }

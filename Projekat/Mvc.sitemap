@@ -4,10 +4,18 @@
             xsi:schemaLocation="http://mvcsitemap.codeplex.com/schemas/MvcSiteMap-File-4.0 MvcSiteMapSchema.xsd">
   
   <mvcSiteMapNode title="Početna" controller="Home" action="Index">
+    <mvcSiteMapNode title="Organizacija" controller="Organizacija" action="kalendarNastave"></mvcSiteMapNode>
+    <mvcSiteMapNode title="Organizacija" controller="Organizacija" action="planNastave"></mvcSiteMapNode>
+    <mvcSiteMapNode title="Organizacija" controller="Organizacija" action="rasporedCasova"></mvcSiteMapNode>
+    <mvcSiteMapNode title="Forum" controller="Forum" action="forum">
+      <mvcSiteMapNode title="PrikaziSadrzaj" controller="Forum" action="PrikaziSadrzaj" preservedRouteParameters="idPost"/>
+    </mvcSiteMapNode>
     <mvcSiteMapNode title="Vesti" controller="Vesti" action="PrikazVesti">
       <mvcSiteMapNode title="Vest" controller="Vesti" action="PrikaziVest"/>
       <mvcSiteMapNode title="Nova Vest" controller="Vesti" action="NovaVest"/>
     </mvcSiteMapNode>
+    <mvcSiteMapNode title="MaterijalNaCekanju" controller="Materijal" action="MaterijaliCekanje"/>
+    <mvcSiteMapNode title="Urednik-Odgovor" controller="Materijal" action="UrednikOdgovor"/>
     <mvcSiteMapNode title="Materijal" controller="Materijal" action="" clickable="false">
        <mvcSiteMapNode title="Novi Materijal" controller="Materijal" action="UploadMaterijal"/>
       <mvcSiteMapNode title="Materijal Za Profesore" controller="Materijal" action="MaterijaliPrikaz" id=""/>
