@@ -1,9 +1,6 @@
-﻿using System;
+﻿using Projekat.ViewModels;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Projekat.ViewModels;
 
 namespace Projekat.Models
 {
@@ -19,6 +16,15 @@ namespace Projekat.Models
         /// Queryable selection of MaterijalModel Classes.
         /// </value>
         IQueryable<MaterijalModel> materijali { get; }
+
+        /// <summary>
+        /// Gets the queryable data source for moduli.
+        /// </summary>
+        /// <value>
+        /// Queryable selection of ModulModel Classes.
+        /// </value>
+        IQueryable<ModulModel> moduli { get; }
+
         /// <summary>
         /// Gets the queryable data source for predmeti.
         /// </summary>
@@ -26,6 +32,7 @@ namespace Projekat.Models
         /// The queryable selection of PredmetModelClasses.
         /// </value>
         IQueryable<PredmetModel> predmeti { get; }
+
         /// <summary>
         /// Gets the queryable data source for smerovi.
         /// </summary>
@@ -33,6 +40,7 @@ namespace Projekat.Models
         /// The queryable selection of SmerModel Classes.
         /// </value>
         IQueryable<SmerModel> smerovi { get; }
+
         /// <summary>
         /// Gets the queryable data source for NamenaMaterijala.
         /// </summary>
@@ -40,6 +48,7 @@ namespace Projekat.Models
         /// The queryable selection of NamenaMaterijalaModel Classes.
         /// </value>
         IQueryable<NamenaMaterijalaModel> nameneMaterijala { get; }
+
         /// <summary>
         /// Gets the queryable data source for PredmetiPoSmeru.
         /// </summary>
@@ -47,6 +56,7 @@ namespace Projekat.Models
         /// The queryable selection of PredmetPoSmeru Classes.
         /// </value>
         IQueryable<PredmetPoSmeru> predmetiPoSmeru { get; }
+
         /// <summary>
         /// Gets the queryable data source for TipMaterijala.
         /// </summary>
@@ -60,7 +70,6 @@ namespace Projekat.Models
         /// </summary>
         /// <returns></returns>
         int SaveChanges();
-
 
         /// <summary>
         /// Adds the specified entity.
@@ -97,21 +106,23 @@ namespace Projekat.Models
         /// </summary>
         /// <param name="ekstenzije">Extension.</param>
         /// <param name="tipoviMaterijalaIds">Id of material type.</param>
-        /// <param name="predmetId">Id of subject.</param>
+        /// <param name="modelId">Id of module.</param>
         /// <returns>
         /// Queryable selection of OsirommaseniMaterijaliModel Classes.
         /// </returns>
-        IQueryable<OsiromaseniMaterijali> naprednaPretraga(List<string> ekstenzije, List<int> tipoviMaterijalaIds, int? predmetId,int namena);
+        IQueryable<OsiromaseniMaterijali> naprednaPretraga(List<string> ekstenzije, List<int> tipoviMaterijalaIds, int? modelId, int namena);
 
         /// <summary>
-        /// Gets the queryable data source for PoPredmetu.
+        /// Gets the queryable data source for PoModulu.
         /// </summary>
-        /// <param name="predmetId">The predmet identifier.</param>
+        /// <param name="modulId">The modul identifier.</param>
         /// <returns>
         /// Queryable selection of OsirommaseniMaterijaliModel Classes.
         /// </returns>
-        IQueryable<OsiromaseniMaterijali> poPredmetu(int? predmetId);
+        IQueryable<OsiromaseniMaterijali> poModulu(int? modulId);
+
         IQueryable<OsiromaseniMaterijali> poNameni(int namenaID, IQueryable<OsiromaseniMaterijali> materijali);
+
         IQueryable<OsiromaseniMaterijali> nacekanju();
     }
 }

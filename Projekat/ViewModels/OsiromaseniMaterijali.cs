@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-
-namespace Projekat.ViewModels
+﻿namespace Projekat.ViewModels
 {
     /// <summary>
     /// osiromaseni materijali
@@ -17,6 +12,7 @@ namespace Projekat.ViewModels
         /// The namena identifier.
         /// </value>
         public int namenaID { get; set; }
+
         /// <summary>
         /// Gets or sets the materijal identifier.
         /// </summary>
@@ -24,6 +20,7 @@ namespace Projekat.ViewModels
         /// The materijal identifier.
         /// </value>
         public int materijalId { get; set; }
+
         /// <summary>
         /// Gets or sets the materijal naslov.
         /// </summary>
@@ -31,13 +28,15 @@ namespace Projekat.ViewModels
         /// The materijal naslov.
         /// </value>
         public string materijalNaslov { get; set; }
+
         /// <summary>
         /// Gets or sets the materijal opis.
         /// </summary>
         /// <value>
         /// The materijal opis.
         /// </value>
-        public string materijalOpis{ get; set; }
+        public string materijalOpis { get; set; }
+
         /// <summary>
         /// Gets the img path.
         /// </summary>
@@ -66,10 +65,10 @@ namespace Projekat.ViewModels
                     return "~/Content/img/RTFicon.png";
                 else if (this.ekstenzija == ".mp4")
                     return "~/Content/img/MP4icon.png";
-
                 else return "Err";
             }
         }
+
         /// <summary>
         /// Gets or sets the ekstenzija.
         /// </summary>
@@ -77,6 +76,7 @@ namespace Projekat.ViewModels
         /// The ekstenzija.
         /// </value>
         public string ekstenzija { get; set; }
+
         /// <summary>
         /// Gets or sets the tip materijala identifier.
         /// </summary>
@@ -92,6 +92,15 @@ namespace Projekat.ViewModels
         /// The predmet identifier.
         /// </value>
         public int? predmetId { get; set; }
+
+        /// <summary>
+        /// Gets or sets the modul identifier.
+        /// </summary>
+        /// <value>
+        /// The modul identifier.
+        /// </value>
+        public int? modulId { get; set; }
+
         public string odobreno { get; set; }
     }
 }

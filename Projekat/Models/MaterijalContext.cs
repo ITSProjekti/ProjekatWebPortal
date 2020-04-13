@@ -74,6 +74,11 @@ namespace Projekat.Models
             get { return tipMaterijala; }
         }
 
+        IQueryable<ModulModel> IMaterijalContext.moduli
+        {
+            get { return moduli; }
+        }
+
         IQueryable<PredmetModel> IMaterijalContext.predmeti
         {
             get { return predmeti; }
@@ -124,10 +129,10 @@ namespace Projekat.Models
             return SaveChanges();
         }
 
-        IQueryable<OsiromaseniMaterijali> IMaterijalContext.poPredmetu(int? predmetId)
+        IQueryable<OsiromaseniMaterijali> IMaterijalContext.poModulu(int? modulId)
         {
             IQueryable<OsiromaseniMaterijali> materijali;
-            materijali = this.materijali.Where(m => m.predmetId == predmetId && m.odobreno != null).Select(m => new OsiromaseniMaterijali
+            materijali = this.materijali.Where(m => m.modulId == modulId && m.odobreno != null).Select(m => new OsiromaseniMaterijali
             {
                 namenaID = m.namenaMaterijalaId,
                 materijalId = m.materijalId,
@@ -135,7 +140,7 @@ namespace Projekat.Models
                 materijalNaslov = m.materijalNaslov,
                 materijalOpis = m.materijalOpis,
                 tipMaterijalaId = m.tipMaterijalId,
-                predmetId = m.predmetId
+                modulId = m.modulId
             });
 
             return materijali;
@@ -152,17 +157,17 @@ namespace Projekat.Models
                 materijalNaslov = m.materijalNaslov,
                 materijalOpis = m.materijalOpis,
                 tipMaterijalaId = m.tipMaterijalId,
-                predmetId = m.predmetId
+                modulId = m.modulId
             });
             return materijali;
         }
 
-        IQueryable<OsiromaseniMaterijali> IMaterijalContext.naprednaPretraga(List<string> ekstenzije, List<int> tipoviMaterijalaIds, int? predmetId, int namenaID)//Dodati parametre
+        IQueryable<OsiromaseniMaterijali> IMaterijalContext.naprednaPretraga(List<string> ekstenzije, List<int> tipoviMaterijalaIds, int? modulId, int namenaID)//Dodati parametre
         {
             // && (a => tipoviMaterijalaIds.Any(s => a.tipMaterijalaId)
 
             IMaterijalContext context = new MaterijalContext();
-            var queriable = context.poPredmetu(predmetId);
+            var queriable = context.poModulu(modulId);
             queriable = poNameni(namenaID, queriable);
 
             if (ekstenzije != null && tipoviMaterijalaIds != null)
@@ -203,7 +208,7 @@ namespace Projekat.Models
                 materijalNaslov = m.materijalNaslov,
                 materijalOpis = m.materijalOpis,
                 tipMaterijalaId = m.tipMaterijalaId,
-                predmetId = m.predmetId
+                modulId = m.modulId
             });
 
             return materijali;

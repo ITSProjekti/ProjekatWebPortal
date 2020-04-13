@@ -1,8 +1,8 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using System;
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Web.Mvc;
-using System;
 
 namespace Projekat.Models
 {
@@ -47,6 +47,7 @@ namespace Projekat.Models
         /// The materijal description.
         /// </value>
         public string materijalOpis { get; set; }
+
         public DateTime datumMaterijali { get; set; }
 
         //[DataType(DataType.DateTime)]
@@ -54,12 +55,10 @@ namespace Projekat.Models
         //[DisplayFormat(DataFormatString = "{0:dd/MM/yy}", ApplyFormatInEditMode = true)]
         //public DateTime CreatedDate { get; set; }
 
-
         //public string UserName { get; set; }
         //   public PredmetModel Predmet { get; set; }
 
         //  public int predmetId { get; set; }
-
 
         /// <summary>
         /// Gets or sets the materijal extension.
@@ -76,6 +75,7 @@ namespace Projekat.Models
         /// The materijal name.
         /// </value>
         public string materijalNaziv { get; set; }
+
         /// <summary>
         /// Gets or sets the materijal heading.
         /// </summary>
@@ -83,7 +83,9 @@ namespace Projekat.Models
         /// The materijal heading.
         /// </value>
         public string materijalNaslov { get; set; }
+
         public string idUser { get; set; }
+
         /// <summary>
         /// Gets the image path.
         /// </summary>
@@ -112,10 +114,26 @@ namespace Projekat.Models
                     return "~/Content/img/RTFicon.png";
                 else if (this.materijalEkstenzija == ".mp4")
                     return "~/Content/img/MP4icon.png";
-
                 else return "Err";
             }
         }
+
+        /// <summary>
+        /// Gets or sets the modul model.
+        /// </summary>
+        /// <value>
+        /// The modul model.
+        /// </value>
+        public ModulModel ModulModel { get; set; }
+
+        /// <summary>
+        /// Gets or sets the modul identifier.
+        /// </summary>
+        /// <value>
+        /// The modul identifier.
+        /// </value>
+        [ForeignKey("ModulModel")]
+        public int? modulId { get; set; }
 
         /// <summary>
         /// Gets or sets the predmet model.
@@ -124,6 +142,7 @@ namespace Projekat.Models
         /// The predmet model.
         /// </value>
         public PredmetModel PredmetModel { get; set; }
+
         /// <summary>
         /// Gets or sets the predmet identifier.
         /// </summary>
@@ -143,6 +162,7 @@ namespace Projekat.Models
 
         public string odobreno { get; set; }
         public string obrazlozenje { get; set; }
+
         /// <summary>
         /// Gets or sets the tip materijal identifier.
         /// </summary>
