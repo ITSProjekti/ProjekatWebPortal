@@ -361,6 +361,7 @@
     <Compile Include="Models\MaterijalPoTipu.cs" />
     <Compile Include="Models\MaterijalProfesorModel.cs" />
     <Compile Include="Models\MaterijalSharingInitializer.cs" />
+    <Compile Include="Models\ModulModel.cs" />
     <Compile Include="Models\NamenaMaterijalaModel.cs" />
     <Compile Include="Models\Organizacija.cs" />
     <Compile Include="Models\PredmetModel.cs" />
