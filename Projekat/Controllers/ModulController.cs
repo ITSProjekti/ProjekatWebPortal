@@ -9,16 +9,21 @@ namespace Projekat.Controllers
     {
         private IMaterijalContext context;
 
-        // GET: Modul
         public ActionResult Index()
         {
             return View();
         }
 
+        //GET: /Modul/ModulPrikaz
+        /// <summary>
+        /// Prikazuje module na odredjenom predmetu
+        /// </summary>
+        /// <param name="id">ID predmeta za koji zelimo da prikazemo module.</param>
+        /// <returns></returns>
         public ActionResult ModulPrikaz(int id)
         {
             context = new MaterijalContext();
-            int pID;
+            int pID = 0;
             List<ModulModel> modeli;
 
             try

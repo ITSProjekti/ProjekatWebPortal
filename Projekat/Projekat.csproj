@@ -335,6 +335,10 @@
     <Compile Include="Migrations\MaterijalContext\202004130926040_DodavanjeModula.Designer.cs">
       <DependentUpon>202004130926040_DodavanjeModula.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\MaterijalContext\202004141601328_IspravkaMaterijala.cs" />
+    <Compile Include="Migrations\MaterijalContext\202004141601328_IspravkaMaterijala.Designer.cs">
+      <DependentUpon>202004141601328_IspravkaMaterijala.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\MaterijalContext\MaterijalConfiguration.cs" />
     <Compile Include="Migrations\VestiContext\201808170921538_Dodavanje_Vesti_U_Bazu.cs" />
     <Compile Include="Migrations\VestiContext\201808170921538_Dodavanje_Vesti_U_Bazu.Designer.cs">
@@ -822,6 +826,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\MaterijalContext\202004130926040_DodavanjeModula.resx">
       <DependentUpon>202004130926040_DodavanjeModula.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\MaterijalContext\202004141601328_IspravkaMaterijala.resx">
+      <DependentUpon>202004141601328_IspravkaMaterijala.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\VestiContext\201808170921538_Dodavanje_Vesti_U_Bazu.resx">
       <DependentUpon>201808170921538_Dodavanje_Vesti_U_Bazu.cs</DependentUpon>
