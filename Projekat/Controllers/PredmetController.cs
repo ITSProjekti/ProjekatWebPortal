@@ -1,11 +1,10 @@
-﻿using System;
+﻿using Projekat.Models;
+using Projekat.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using Projekat.Models;
-using Projekat.ViewModels;
-using MvcSiteMapProvider.Web.Mvc.Filters;
 
 namespace Projekat.Controllers
 {
@@ -17,6 +16,7 @@ namespace Projekat.Controllers
     public class PredmetController : Controller
     {
         private IMaterijalContext context;
+
         // GET: Predmet
         /// <summary>
         /// Index akcija
@@ -27,7 +27,6 @@ namespace Projekat.Controllers
             return View();
         }
 
-
         /// <summary>
         /// Vraca stranicu sa formom za dodavanje predmeta
         /// </summary>
@@ -36,12 +35,9 @@ namespace Projekat.Controllers
         [Authorize(Roles = "SuperAdministrator,Urednik")]
         public ActionResult DodajPredmet()
         {
-
             context = new MaterijalContext();
             DodajPremetViewModel viewModel = new DodajPremetViewModel();
             viewModel.smerovi = context.smerovi.ToList();
-
-
 
             return View("DodajPredmet", viewModel);
         }
@@ -55,10 +51,7 @@ namespace Projekat.Controllers
         [Authorize(Roles = "SuperAdministrator,Urednik")]
         public ActionResult DodajPredmet(DodajPremetViewModel viewModel)
         {
-
             context = new MaterijalContext();
-
-
 
             try
             {
@@ -66,7 +59,6 @@ namespace Projekat.Controllers
 
                 foreach (int n in viewModel.smerIds)
                 {
-
                     context.Add<PredmetPoSmeru>(new PredmetPoSmeru
                     {
                         predmetId = viewModel.predmet.predmetId,
@@ -76,11 +68,9 @@ namespace Projekat.Controllers
                 }
 
                 context.SaveChanges();
-
             }
             catch (Exception)
             {
-
                 throw;
             }
 
@@ -111,19 +101,16 @@ namespace Projekat.Controllers
             }
             predmetPromenjenji.predmetNaziv = predmetNaziv;
             predmetPromenjenji.predmetOpis = predmetOpis;
-			predmetPromenjenji.Razred = Razred;
+            predmetPromenjenji.Razred = Razred;
 
-
-			/*foreach (int smerID in smeroviId)
+            /*foreach (int smerID in smeroviId)
 						{
 							if (!smeroviIdIzBaze.Contains(smerID))
 							{
 								context.Add<PredmetPoSmeru>(new PredmetPoSmeru
 								{
-
 									predmetId = predmetId,
 									smerId = smerID
-
 								});
 							}
 						}
@@ -131,62 +118,50 @@ namespace Projekat.Controllers
 						{
 							if (!smeroviId.Contains(smerID))
 							{
-
-
 								List<PredmetPoSmeru> lista = context.predmetiPoSmeru.Where(m => m.predmetId == predmetId).ToList();
 								foreach (PredmetPoSmeru predmet in lista)
 								{
 									context.Delete(predmet);
 								}
 							}
-
-
-
 						}
 
 						foreach (int smerID in smeroviIdIzBaze)
 						{
 							if (!smeroviId.Contains(smerID))
 							{
-								List<PredmetPoSmeru> lista = context.predmetiPoSmeru.Where(m => m.predmetId == predmetId).ToList(); 
+								List<PredmetPoSmeru> lista = context.predmetiPoSmeru.Where(m => m.predmetId == predmetId).ToList();
 								foreach (PredmetPoSmeru predmetPoSmeru in lista)
 								{
 									context.Delete(predmetPoSmeru);
 								}
 							}
-
 						}*/
 
-			var predmetiPoSmeruZaBrisanje = context.predmetiPoSmeru.Where(pps => pps.predmetId == predmetId);
-			foreach (PredmetPoSmeru pps in predmetiPoSmeruZaBrisanje)
-			{
-				context.Delete(pps);
+            var predmetiPoSmeruZaBrisanje = context.predmetiPoSmeru.Where(pps => pps.predmetId == predmetId);
+            foreach (PredmetPoSmeru pps in predmetiPoSmeruZaBrisanje)
+            {
+                context.Delete(pps);
+            }
 
-			}
+            context.SaveChanges();
 
+            foreach (int smerZaUbacivanje in smeroviId)
+            {
+                PredmetPoSmeru ZAUBACIVANJE = new PredmetPoSmeru();
 
-			context.SaveChanges();
+                ZAUBACIVANJE.predmetId = predmetId;
+                ZAUBACIVANJE.smerId = smerZaUbacivanje;
 
-			foreach (int smerZaUbacivanje in smeroviId)
-			{
-				PredmetPoSmeru ZAUBACIVANJE = new PredmetPoSmeru();
+                context.Add(ZAUBACIVANJE);
+            }
 
-				ZAUBACIVANJE.predmetId = predmetId;
-				ZAUBACIVANJE.smerId = smerZaUbacivanje;
+            context.SaveChanges();
 
-				context.Add(ZAUBACIVANJE);
+            string smernaziv = context.smerovi.FirstOrDefault(x => x.smerId == smerId).smerNaziv;
 
-			}
-
-			context.SaveChanges();
-
-			string smernaziv = context.smerovi.FirstOrDefault(x => x.smerId == smerId).smerNaziv;
-
-
-
-			return RedirectToAction("PredmetiPrikaz", new { smer = smernaziv, razred = Razred });
-
-		}
+            return RedirectToAction("PredmetiPrikaz", new { smer = smernaziv, razred = Razred });
+        }
 
         /// <summary>
         /// Vratis the smerove.
@@ -198,20 +173,18 @@ namespace Projekat.Controllers
         {
             context = new MaterijalContext();
 
-            List<int> smeroviId= context.predmetiPoSmeru.Where(m => m.predmetId == id).Select(m => m.smerId).ToList();
+            List<int> smeroviId = context.predmetiPoSmeru.Where(m => m.predmetId == id).Select(m => m.smerId).ToList();
 
             List<int> smeroviModel = new List<int>();
 
             foreach (int smerId in smeroviId)
             {
-                int smer = context.smerovi.Where(m => m.smerId == smerId).Select(m=>m.smerId).Single();
+                int smer = context.smerovi.Where(m => m.smerId == smerId).Select(m => m.smerId).Single();
                 smeroviModel.Add(smer);
             }
 
             return Json(smeroviModel, JsonRequestBehavior.AllowGet);
-
         }
-
 
         //GET: /Predmet/PredmetiPrikaz
         /// <summary>
@@ -220,24 +193,22 @@ namespace Projekat.Controllers
         /// <param name="Smer">Naziv smera za koji zelimo da prikazemo predmete.</param>
         /// <returns></returns>
         [HttpGet]
-        
-        public ActionResult PredmetiPrikaz(string Smer, int razred )
+        public ActionResult PredmetiPrikaz(string Smer, int razred)
         {
             Smer = HttpUtility.UrlDecode(Smer);
             int id;
             context = new MaterijalContext();
 
-			int razredPOM = razred;
-			try
+            int razredPOM = razred;
+            try
             {
                 id = context.smerovi.FirstOrDefault(x => x.smerNaziv == Smer).smerId;
             }
             catch
             {
-
-                return View("FileNotFound"); 
+                return View("FileNotFound");
             }
-            
+
             List<PredmetPoSmeru> poSmeru = context.predmetiPoSmeru.Where(m => m.smerId == id && m.PredmetModel.Razred.Value == razredPOM).ToList();
             List<PredmetModel> model = new List<PredmetModel>();
             List<PredmetModel> tempPredmet = context.predmeti.ToList();
@@ -248,30 +219,22 @@ namespace Projekat.Controllers
                 model.Add(tempPredmet.Where(m => m.predmetId == ps.predmetId).Single());
             }
 
-
-
             PredmetPoSmeruViewModel predmetiPoSmeru = new PredmetPoSmeruViewModel
             {
                 predmeti = model,
                 smerovi = smerovi,
                 smerId = id
-
             };
 
             //try
             //{
-
             //}
             //catch (Exception)
             //{
-
             //    throw;
             //}
 
             return View("PredmetiPrikaz", predmetiPoSmeru);
         }
-
-
-
     }
 }

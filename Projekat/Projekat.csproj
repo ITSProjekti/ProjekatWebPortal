@@ -231,6 +231,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\MaterijalController.cs" />
+    <Compile Include="Controllers\ModulController.cs" />
     <Compile Include="Controllers\OrganizacijaController.cs" />
     <Compile Include="Controllers\PredmetController.cs" />
     <Compile Include="Controllers\RazredController.cs" />
@@ -738,6 +739,7 @@
     <Content Include="Views\Forum\_DodavanjeTeme.cshtml" />
     <Content Include="Views\Organizacija\dodavanjeNastave.cshtml" />
     <Content Include="Views\Razred\RazrediPrikaz.cshtml" />
+    <Content Include="Views\Modul\ModulPrikaz.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Content\Konfiguracija\" />
