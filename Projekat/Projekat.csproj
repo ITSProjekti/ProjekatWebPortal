@@ -231,6 +231,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\MaterijalController.cs" />
+    <Compile Include="Controllers\ModulController.cs" />
     <Compile Include="Controllers\OrganizacijaController.cs" />
     <Compile Include="Controllers\PredmetController.cs" />
     <Compile Include="Controllers\RazredController.cs" />
@@ -379,6 +380,7 @@
     <Compile Include="Models\VestModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
+    <Compile Include="ViewModels\DodajModulViewModel.cs" />
     <Compile Include="ViewModels\DodajPremetViewModel.cs" />
     <Compile Include="ViewModels\DodajVestViewModel.cs" />
     <Compile Include="ViewModels\ForumViewModel.cs" />
@@ -533,6 +535,7 @@
     <Content Include="Scripts\Korisnik\register.js" />
     <Content Include="Scripts\Korisnik\SakrijGodine.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
+    <Content Include="Scripts\Modul\DodajModul.js" />
     <Content Include="Scripts\popper-utils.js" />
     <Content Include="Scripts\popper-utils.min.js" />
     <Content Include="Scripts\popper.js" />
@@ -738,6 +741,9 @@
     <Content Include="Views\Forum\_DodavanjeTeme.cshtml" />
     <Content Include="Views\Organizacija\dodavanjeNastave.cshtml" />
     <Content Include="Views\Razred\RazrediPrikaz.cshtml" />
+    <Content Include="Views\Modul\DodajModul.cshtml" />
+    <Content Include="Views\Modul\_DodajModulPartial.cshtml" />
+    <Content Include="Views\Modul\_PredmetiNaSmeruModul.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Content\Konfiguracija\" />

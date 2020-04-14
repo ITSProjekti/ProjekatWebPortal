@@ -1,0 +1,25 @@
+﻿@model Projekat.ViewModels.DodajModulViewModel
+
+@using (Html.BeginForm("DodajModul", "Modul", new { odobreno = "true" }, FormMethod.Post, new { @id = "postavkaMod" }))
+{
+    <div class="text-center text-success hideAfter"><h4 class="moje4">@ViewBag.SuccMsg</h4></div>
+
+    <label class="matDesignLabel" for="materijalNaslov">Naziv</label>
+    @Html.TextBoxFor(m => m.modul.modulNaziv, new { @name = "materijalNaslov" })
+
+    <label for="opis" class="matDesignLabel">Opis</label>
+
+    @Html.TextAreaFor(model => model.modul.modulOpis, 2, 20, new { @id = @"materijalOpis", @name = "materijalOpis" })
+
+    <div id="dropDownovi">
+        <div id="_predmetiNaSmeru">
+            @*@Html.EditorFor(m => m.PredmetPoSmeru, "_PredmetiNaSmeru", Model)*@
+            @{Html.RenderPartial("_PredmetiNaSmeruModul", Model);
+            }
+        </div>
+    </div>
+
+    <button type="submit" id="postavi">
+        POSTAVI
+    </button>
+}

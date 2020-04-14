@@ -11,7 +11,6 @@ namespace Projekat
             bundles.Add(new ScriptBundle("~/bundles/jquery").Include(
                         "~/Scripts/jquery-{version}.js"));
 
-
             // "~/Scripts/jquery.validate*"
             bundles.Add(new ScriptBundle("~/bundles/jqueryval").Include(
                 "~/Scripts/jquery.validate.min.js"));
@@ -46,7 +45,6 @@ namespace Projekat
                       //"~/Scripts/bootbox.js",
                       "~/Scripts/respond.js"));
 
-
             /* OVO SU NOVO DODATI BUNDLOVI */
 
             bundles.Add(new ScriptBundle("~/bundles/materijal_prikaz").Include(
@@ -57,6 +55,11 @@ namespace Projekat
 
             bundles.Add(new ScriptBundle("~/bundles/upload_materijal").Include(
             "~/Scripts/Materijal/uploadMaterijal.js",
+            //"~/Scripts/Materijal/uploadMaterijal.js",
+            "~/Scripts/customDropdown.js"
+            ));
+            bundles.Add(new ScriptBundle("~/bundles/DodajModul").Include(
+            "~/Scripts/Modul/DodajModul.js",
             //"~/Scripts/Materijal/uploadMaterijal.js",
             "~/Scripts/customDropdown.js"
             ));
@@ -92,11 +95,11 @@ namespace Projekat
            "~/Scripts/Korisnik/izmeniKorisnika.js",
            "~/Scripts/Korisnik/SakrijGodine.js"
            ));
-            
+
             bundles.Add(new ScriptBundle("~/bundles/lista_korisnika").Include(
-             
+
              "~/Scripts/datatables.min.js",
-             
+
              "~/Scripts/Korisnik/listaKorisnika.js",
              "~/Scripts/UI/select2.min.js",
              "~/Scripts/customDropdown.js",
@@ -113,10 +116,9 @@ namespace Projekat
                       );*/
             /* KRAJ NOVIH CISTIH */
 
-
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/css/reset.css",
-                     /* "~/Content/bootstrap.css",*/
+                      /* "~/Content/bootstrap.css",*/
                       "~/Content/css/bootstrap-flatly.css",
                       "~/Content/css/site.css",
                      "~/Content/css/datatables.min.css",
