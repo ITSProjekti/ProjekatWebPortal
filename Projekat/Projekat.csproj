@@ -746,7 +746,6 @@
     <Content Include="Views\Razred\RazrediPrikaz.cshtml" />
     <Content Include="Views\Modul\ModulPrikaz.cshtml" />
     <Content Include="Views\Modul\DodajModul.cshtml" />
-    <Content Include="Views\Modul\_DodajModulPartial.cshtml" />
     <Content Include="Views\Modul\_PredmetiNaSmeruModul.cshtml" />
     <Content Include="Views\Modul\DodajModulasdf.cshtml" />
     <Content Include="Views\Modul\Index.cshtml" />
