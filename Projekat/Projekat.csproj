@@ -384,6 +384,7 @@
     <Compile Include="Models\VestModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
+    <Compile Include="ViewModels\DodajModulViewModel.cs" />
     <Compile Include="ViewModels\DodajPremetViewModel.cs" />
     <Compile Include="ViewModels\DodajVestViewModel.cs" />
     <Compile Include="ViewModels\ForumViewModel.cs" />
@@ -744,6 +745,11 @@
     <Content Include="Views\Organizacija\dodavanjeNastave.cshtml" />
     <Content Include="Views\Razred\RazrediPrikaz.cshtml" />
     <Content Include="Views\Modul\ModulPrikaz.cshtml" />
+    <Content Include="Views\Modul\DodajModul.cshtml" />
+    <Content Include="Views\Modul\_DodajModulPartial.cshtml" />
+    <Content Include="Views\Modul\_PredmetiNaSmeruModul.cshtml" />
+    <Content Include="Views\Modul\DodajModulasdf.cshtml" />
+    <Content Include="Views\Modul\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Content\Konfiguracija\" />
