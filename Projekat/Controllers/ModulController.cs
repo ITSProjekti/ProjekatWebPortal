@@ -56,10 +56,11 @@ namespace Projekat.Controllers
         [Authorize(Roles = "SuperAdministrator,Urednik")]
         public ActionResult DodajModul(int? id)
         {
-            if (id == null)
+            /*if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
+            */
 
             ViewModels.DodajModulViewModel mm = new DodajModulViewModel();
             ModulModel m = new ModulModel();

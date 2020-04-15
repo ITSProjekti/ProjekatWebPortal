@@ -729,7 +729,7 @@ span#filename span {
     /*width: 305px;*/
 }
 
-form#postavkaMat, form#smerForma, #predmetForma, #noviKorisnik {
+form#postavkaMat, form#smerForma, form#modulForma, form#modulForma, #predmetForma, #noviKorisnik {
     background-color: #fff;
     width: 600px;
     height: auto;
@@ -746,12 +746,16 @@ form#postavkaMat, form#smerForma, #predmetForma, #noviKorisnik {
         text-align: center;
     }
 
+    form#modulForma h2 {
+        text-align: center;
+    }
+
     #predmetForma h2 {
         text-align: center;
         padding: 20px 0;
     }
 
-input#Materijal_materijalNaslov, input#smerNaziv, input#predmet_predmetNaziv, input#korisnikTB {
+input#Materijal_materijalNaslov, input#smerNaziv, input#modul_modulNaziv, input#predmet_predmetNaziv, input#korisnikTB {
     display: block;
     margin: 0 70px;
     /*min-width: 253px;*/
@@ -817,13 +821,13 @@ label.error {
     font-weight: normal;
 }
 
-input#materijalNaslov:focus, textarea#materijalOpis:focus, input#smerNaziv:focus, textarea#smerOpis {
+input#materijalNaslov:focus, textarea#materijalOpis:focus, input#smerNaziv:focus, textarea#smerOpis, textarea#modul_modulOpis {
     background-color: #fff;
     /*border-bottom: 2px solid #e45459;*/
     border-radius: 3px;
 }
 
-textarea#materijalOpis, textarea#smerOpis, textarea#predmet_predmetOpis {
+textarea#materijalOpis, textarea#smerOpis, textarea#predmet_predmetOpis, textarea#modul_modulOpis {
     display: block;
     margin: 35px 70px 70px 70px;
     min-width: 460px;
@@ -1356,6 +1360,7 @@ div.kartica-smer .kontrola-ikonica {
 }
 
 #postavkaMat #dropDownovi,
+#modulForma #dropDownovi,
 #noviKorisnik #dropDownovi {
     text-align: center;
     margin: 0 auto;
@@ -1363,6 +1368,7 @@ div.kartica-smer .kontrola-ikonica {
 }
 
     #postavkaMat #dropDownovi .customSelect,
+    #modulForma #dropDownovi .customSelect,
     #noviKorisnik #noviKorisnik .customSelect {
         margin-right: 20px;
     }
@@ -1500,7 +1506,7 @@ pre {
 }
 
 @media screen and (max-width:740px) {
-    form#smerForma, #predmetForma, form#postavkaMat, #noviKorisnik {
+    form#smerForma, form#modulForma, #predmetForma, form#postavkaMat, #noviKorisnik {
         width: 100%;
         margin: 0 0 70px 0;
         box-shadow: none;
@@ -1808,7 +1814,7 @@ div#opisModal .modal-dialog {
         margin: 0 12px 12px 0;
     }
 
-    form#smerForma h2, #predmetForma {
+    form#smerForma h2, form#modulForma h2, #predmetForma {
         margin-top: 15vh;
     }
 }
