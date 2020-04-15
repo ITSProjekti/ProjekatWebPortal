@@ -51,6 +51,6 @@ namespace Projekat.ViewModels
         /// <value>
         /// The predmet identifier.
         /// </value>
-        public int predmetId { get; set; }
+        public int? predmetId { get; set; }
     }
 }

@@ -39,6 +39,7 @@ namespace Projekat.Controllers
             }
 
             ModulModel m = new ModulModel();
+            ViewModels.DodajModulViewModel mm = new DodajModulViewModel();
 
             m.predmetId = id;
 
@@ -68,14 +69,33 @@ namespace Projekat.Controllers
 
         [HttpPost]
         [Authorize(Roles = "SuperAdministrator,Urednik")]
-        public ActionResult DodajModul(ModulModel m)
+        public ActionResult DodajModul(ViewModels.DodajModulViewModel m)
         {
             context = new MaterijalContext();
-
+            m.modul.predmetId = m.predmetId;
             try
             {
-                context.Add<ModulModel>(m);
+                context.Add<ModulModel>(m.modul);
 
+                context.SaveChanges();
+            }
+            catch
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.Forbidden);
+            }
+
+            return RedirectToAction("DodajModul");
+        }
+
+        [HttpPost]
+        [Authorize(Roles = "SuperAdministrator,Urednik")]
+        public ActionResult Delete(int id)
+        {
+            context = new MaterijalContext();
+            var modul = context.moduli.Single(x => x.modulId == id);
+            try
+            {
+                context.Delete(modul);
                 context.SaveChanges();
             }
             catch

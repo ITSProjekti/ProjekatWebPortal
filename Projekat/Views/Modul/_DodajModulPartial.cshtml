@@ -1,25 +1,87 @@
-﻿@model Projekat.ViewModels.DodajModulViewModel
+﻿@*@model Projekat.ViewModels.DodajModulViewModel
 
-@using (Html.BeginForm("DodajModul", "Modul", new { odobreno = "true" }, FormMethod.Post, new { @id = "postavkaMod" }))
+    @using (Html.BeginForm("DodajModul", "Modul", FormMethod.Post))
+    {
+
+        <label class="matDesignLabel" for="materijalNaslov">Naziv</label>
+        @Html.TextBoxFor(m => m.modul.modulNaziv, new { @id = "materijalNaslov" })
+
+        <label for="opis" class="matDesignLabel">Opis</label>
+
+        @Html.TextAreaFor(model => model.modul.modulOpis, 2, 20, new { @id = "materijalOpis" })
+
+        <div id="dropDownovi">
+            <div id="_predmetiNaSmeru">
+                @*Html.EditorFor(m => m.PredmetPoSmeru, "_PredmetiNaSmeru", Model)*@
+@*@{Html.RenderPartial("_PredmetiNaSmeruModul", Model);
+                }
+            </div>
+        </div>
+
+        <button type="submit" id="postavi">
+            POSTAVI
+        </button>
+    }*@
+
+@model Projekat.ViewModels.DodajModulViewModel
+
+@{
+    ViewBag.Title = "DodajModulasdf";
+}
+
+<h2>Dodaj modul</h2>
+
+@using (Html.BeginForm())
 {
-    <div class="text-center text-success hideAfter"><h4 class="moje4">@ViewBag.SuccMsg</h4></div>
+    @Html.AntiForgeryToken()
 
-    <label class="matDesignLabel" for="materijalNaslov">Naziv</label>
-    @Html.TextBoxFor(m => m.modul.modulNaziv, new { @name = "materijalNaslov" })
+    <div class="form-horizontal">
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <label>Naziv modula</label>
+        <div class="form-group">
 
-    <label for="opis" class="matDesignLabel">Opis</label>
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.modul.modulNaziv, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.modul.modulNaziv, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <label>Opis modula</label>
+        <div class="form-group">
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.modul.modulOpis, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.modul.modulOpis, "", new { @class = "text-danger" })
+            </div>
+        </div>
 
-    @Html.TextAreaFor(model => model.modul.modulOpis, 2, 20, new { @id = @"materijalOpis", @name = "materijalOpis" })
+        <label>Predmet</label>
+        @*<div class="form-group">
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.modul.predmetId, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.modul.predmetId, "", new { @class = "text-danger" })
+                </div>
+            </div>*@
 
-    <div id="dropDownovi">
-        <div id="_predmetiNaSmeru">
-            @*@Html.EditorFor(m => m.PredmetPoSmeru, "_PredmetiNaSmeru", Model)*@
-            @{Html.RenderPartial("_PredmetiNaSmeruModul", Model);
-            }
+        <div id="dropDownovi">
+            <div id="_predmetiNaSmeru">
+                @Html.EditorFor(model => model.PredmetPoSmeru, "_PredmetiNaSmeru", Model)
+                @{Html.RenderPartial("_PredmetiNaSmeruModul", Model);
+                }
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Create" class="btn btn-default" />
+            </div>
         </div>
     </div>
+}
 
-    <button type="submit" id="postavi">
-        POSTAVI
-    </button>
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
 }

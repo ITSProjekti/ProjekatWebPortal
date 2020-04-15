@@ -1,0 +1,13 @@
+﻿@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+@using (Html.BeginForm("Delete", "Modul", FormMethod.Post))
+{
+    <p>
+        Title: @Html.TextBox("id") <br />
+        <input type="submit" value="Filter" />
+    </p>
+}

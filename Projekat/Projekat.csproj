@@ -535,7 +535,6 @@
     <Content Include="Scripts\Korisnik\register.js" />
     <Content Include="Scripts\Korisnik\SakrijGodine.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
-    <Content Include="Scripts\Modul\DodajModul.js" />
     <Content Include="Scripts\popper-utils.js" />
     <Content Include="Scripts\popper-utils.min.js" />
     <Content Include="Scripts\popper.js" />
@@ -744,6 +743,8 @@
     <Content Include="Views\Modul\DodajModul.cshtml" />
     <Content Include="Views\Modul\_DodajModulPartial.cshtml" />
     <Content Include="Views\Modul\_PredmetiNaSmeruModul.cshtml" />
+    <Content Include="Views\Modul\DodajModulasdf.cshtml" />
+    <Content Include="Views\Modul\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Content\Konfiguracija\" />
