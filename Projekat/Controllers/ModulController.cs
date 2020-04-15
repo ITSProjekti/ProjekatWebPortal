@@ -1,19 +1,21 @@
-﻿using System.IO;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
-using Projekat.Models;
+﻿using Projekat.Models;
 using Projekat.ViewModels;
-using System.Data.Entity;
-using System.Web.Helpers;
-using System.Threading.Tasks;
-using System.Net;
 using System;
-using Microsoft.AspNet.Identity;
 using System.Collections.Generic;
+using System.Linq;
+using System.Net;
+using System.Web.Mvc;
+
+namespace Projekat.Controllers
+{
     public class ModulController : Controller
-        private IMaterijalContext context;
     {
+        private IMaterijalContext context;
+
+        public ModulController()
+        {
+            context = new MaterijalContext();
+        }
 
         public ActionResult Index()
         {
@@ -26,8 +28,8 @@ using System.Collections.Generic;
         /// </summary>
         /// Prikazuje module na odredjenom predmetu
         /// <param name="id">ID predmeta za koji zelimo da prikazemo module.</param>
-        {
         public ActionResult ModulPrikaz(int id)
+        {
             context = new MaterijalContext();
             int pID = 0;
 
@@ -46,13 +48,8 @@ using System.Collections.Generic;
                 }
                 catch { return new HttpStatusCodeResult(403); }
                 return View(modeli);
-
             }
             return View("FileNotFound");
-        }
-        public ModulController()
-        {
-            context = new MaterijalContext();
         }
 
         [HttpGet]
@@ -64,7 +61,6 @@ using System.Collections.Generic;
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-
             ViewModels.DodajModulViewModel mm = new DodajModulViewModel();
             ModulModel m = new ModulModel();
             m.predmetId = id;
@@ -75,7 +71,6 @@ using System.Collections.Generic;
                 Smerovi = context.smerovi.ToList()
             };
             try
-
             {
                 var smerId = viewModel.Smerovi.ToList()[0].smerId;
 
@@ -87,10 +82,10 @@ using System.Collections.Generic;
 
                 return View("DodajModul", viewModel);
             }
-            }
             catch (ArgumentOutOfRangeException)
             {
                 return new HttpNotFoundResult("Nema unetih smerova");
+            }
         }
 
         [HttpPost]
@@ -103,12 +98,10 @@ using System.Collections.Generic;
             {
                 context.Add<ModulModel>(m.modul);
                 context.SaveChanges();
-
             }
             catch
             {
                 return new HttpStatusCodeResult(HttpStatusCode.Forbidden);
-
             }
             return RedirectToAction("DodajModul");
         }
@@ -120,16 +113,18 @@ using System.Collections.Generic;
             context = new MaterijalContext();
             var modul = context.moduli.Single(x => x.modulId == id);
             {
-            try
-                context.Delete(modul);
-            }
-                context.SaveChanges();
-            catch
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.Forbidden);
-            }
+                try
+                {
+                    context.Delete(modul);
+                    context.SaveChanges();
+                }
+                catch
+                {
+                    return new HttpStatusCodeResult(HttpStatusCode.Forbidden);
+                }
 
-            return RedirectToAction("ModulPrikaz");
+                return RedirectToAction("ModulPrikaz");
+            }
         }
     }
 }
