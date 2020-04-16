@@ -748,6 +748,7 @@
     <Content Include="Views\Modul\DodajModul.cshtml" />
     <Content Include="Views\Modul\_PredmetiNaSmeruModul.cshtml" />
     <Content Include="Views\Modul\Index.cshtml" />
+    <Content Include="Views\Modul\EditModul.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Content\Konfiguracija\" />

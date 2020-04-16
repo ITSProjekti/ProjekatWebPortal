@@ -127,5 +127,56 @@ namespace Projekat.Controllers
                 return RedirectToAction("ModulPrikaz");
             }
         }
+
+        [HttpGet]
+        [Authorize(Roles = "SuberPadministrator,Urednik")]
+        public ActionResult EditModul(int id)
+        {
+            ModulModel modul = context.moduli.Where(x => x.modulId == id).Single();
+            DodajModulViewModel viewModel = new DodajModulViewModel()
+            {
+                Predmeti = context.predmeti.ToList(),
+                Smerovi = context.smerovi.ToList()
+            };
+            viewModel.modul = modul;
+            try
+            {
+                var smerId = viewModel.Smerovi.ToList()[0].smerId;
+
+                var predmetiposmeru = context.predmetiPoSmeru.Where(x => x.smerId == smerId).Select(c => c.predmetId).ToList();
+                viewModel.PredmetPoSmeru = (viewModel.Predmeti.Where(x => predmetiposmeru.Contains(x.predmetId)));
+
+                if (TempData["SuccMsg"] != null) { ViewBag.SuccMsg = TempData["SuccMsg"]; }
+                //else if (TempData["ErrorMsg"] != null) { ViewBag.ErrorMsg = TempData["ErrorMsg"]; }
+
+                return View("EditModul", viewModel);
+            }
+            catch (ArgumentOutOfRangeException)
+            {
+                return new HttpNotFoundResult("Nema unetih smerova");
+            }
+        }
+
+        [HttpPost]
+        [Authorize(Roles = "SuperAdministrator,Urednik")]
+        public ActionResult EditModul(DodajModulViewModel m)
+        {
+            m.modul.predmetId = m.predmetId;
+            ModulModel editovan = m.modul;
+            ModulModel modul = context.moduli.Where(x => x.modulId == editovan.modulId).Single();
+
+            modul.modulNaziv = editovan.modulNaziv;
+            modul.modulOpis = editovan.modulOpis;
+            modul.predmetId = editovan.predmetId;
+            try
+            {
+                context.SaveChanges();
+            }
+            catch
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.Forbidden);
+            }
+            return RedirectToAction("ModulPrikaz", new { id = modul.predmetId });
+        }
     }
 }
