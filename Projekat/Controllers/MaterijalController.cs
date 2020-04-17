@@ -197,10 +197,12 @@ namespace Projekat.Controllers
         /// <returns></returns>
         [HttpPost]
         [Authorize(Roles = "SuperAdministrator,Urednik,Profesor")]
-        public ActionResult UploadMaterijal(MaterijalModel materijal, HttpPostedFileBase file, PredmetPoSmeru predmet/*, string hiddenPredmet*/, string idUser, string odobreno)
+        public ActionResult UploadMaterijal(MaterijalModel materijal, HttpPostedFileBase file, int modulId, PredmetPoSmeru predmet/*, string hiddenPredmet*/, string idUser, string odobreno)
         {
             // PredmetModel predmet = new PredmetModel();
             materijal.predmetId = predmet.predmetId;
+            materijal.modulId = modulId;
+
             context = new MaterijalContext();
 
             if (materijal.namenaMaterijalaId == 2)
