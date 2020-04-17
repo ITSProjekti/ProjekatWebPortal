@@ -33,7 +33,8 @@
             <div class="kontrole clear-fix">
                 @if (this.User.IsInRole("SuperAdministrator") || this.User.IsInRole("Urednik"))
                 {
-                    <a href="#" class="kontrola-ikonica edit" data-toggle="modal" data-target="@("#editModal"+ modul.modulId)"><img src="~/Content/img/uredi.png" alt="uredi" /></a>
+                    <a href=@("/Modul/EditModul/"+modul.modulId) class="kontrola-ikonica edit"><img src="~/Content/img/uredi.png" alt="uredi" /></a>
+                    <a href="#" class="kontrola-ikonica delete"><img style="height:14.2px;" src="~/Content/img/obrisi.png" /></a>
                 }
                 <a class="predmet-kontrole opis" href="#" data-toggle="modal" data-target="#opisModal">OPIS</a>
                 @Html.ActionLink("MATERIJALI", "MaterijaliPrikaz", "Materijal", new { id = modul.modulId }, new { @class = "predmet-kontrole getMaterijali", tabindex = modul.modulId })
@@ -101,3 +102,5 @@
         </div>
     </div>
 </div>
+
+@Scripts.Render("~/Scripts/Modul/ModulDelete.js")

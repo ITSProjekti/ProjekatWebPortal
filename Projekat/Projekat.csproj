@@ -440,6 +440,7 @@
     <Content Include="Content\img\chat.jpg" />
     <Content Include="Content\img\chat_speech_bubble_communication_interaction_-_36-512.png" />
     <Content Include="Content\img\cikica.png" />
+    <Content Include="Content\img\DeleteIco.png" />
     <Content Include="Content\img\download.jpg" />
     <Content Include="Content\img\download.png" />
     <Content Include="Content\img\folder-add-storage-file-organize-512-removebg-preview.png" />
@@ -539,6 +540,7 @@
     <Content Include="Scripts\Korisnik\register.js" />
     <Content Include="Scripts\Korisnik\SakrijGodine.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
+    <Content Include="Scripts\Modul\ModulDelete.js" />
     <Content Include="Scripts\popper-utils.js" />
     <Content Include="Scripts\popper-utils.min.js" />
     <Content Include="Scripts\popper.js" />

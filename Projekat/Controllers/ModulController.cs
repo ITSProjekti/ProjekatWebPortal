@@ -94,7 +94,17 @@ namespace Projekat.Controllers
         public ActionResult DodajModul(ViewModels.DodajModulViewModel m)
         {
             context = new MaterijalContext();
-            m.modul.predmetId = m.predmetId;
+
+            //vrednost ponekad zaluta
+            if (m.modul.predmetId != null)
+            {
+                m.predmetId = m.modul.predmetId;
+            }
+            else if(m.predmetId!=null)
+            {
+                m.modul.predmetId = m.predmetId;
+            }
+            
             try
             {
                 context.Add<ModulModel>(m.modul);
