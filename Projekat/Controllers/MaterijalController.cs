@@ -1,15 +1,13 @@
-﻿using System;
+﻿using Microsoft.AspNet.Identity;
+using Projekat.Models;
+using Projekat.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
-using Projekat.Models;
-using Projekat.ViewModels;
-using System.Data.Entity;
-using System.Web.Helpers;
-using System.Threading.Tasks;
-using Microsoft.AspNet.Identity;
 
 namespace Projekat.Controllers
 {
@@ -56,7 +54,6 @@ namespace Projekat.Controllers
         /// <param name="id">Id predmeta za koji su materijali, ako je id = null, predpostavlja se da je dati materijal za profesore</param>
         /// <returns>Parcijalni pregled karticw</returns>
         [HttpGet]
-
         public async Task<ActionResult> MaterijaliPrikaz(string sort, List<string> formati, List<int> tipovi, int number = 0, int? id = null)
         {
             List<OsiromaseniMaterijali> materijali;
@@ -71,13 +68,13 @@ namespace Projekat.Controllers
                 }
                 namenaID = 2;
             }
-            if(this.User.IsInRole("Ucenik"))
+            if (this.User.IsInRole("Ucenik"))
             {
-               int? smer =  await ApplicationUser.VratiSmerId(this.User.Identity.Name);
-                if(smer != null)
+                int? smer = await ApplicationUser.VratiSmerId(this.User.Identity.Name);
+                if (smer != null)
                 {
                     PredmetPoSmeru pos = context.predmetiPoSmeru.FirstOrDefault(x => x.predmetId == id && x.smerId == smer);
-                    if(pos == null)
+                    if (pos == null)
                     {
                         return new HttpStatusCodeResult(403);
                     }
@@ -95,12 +92,9 @@ namespace Projekat.Controllers
                     osiromaseniMaterijali = materijali,
                     naprednaPretragaSelektovani = "",
                     tipoviMaterijala = context.tipMaterijala.ToList()
-
-
                 };
 
                 return PartialView("_Kartice", vm);
-
             }
             else if (sort == "rastuce")
             {
@@ -111,12 +105,9 @@ namespace Projekat.Controllers
                     osiromaseniMaterijali = materijali,
                     naprednaPretragaSelektovani = "",
                     tipoviMaterijala = context.tipMaterijala.ToList()
-
-
                 };
                 return PartialView("_Kartice", vm);
             }
-
 
             vm = new MaterijaliNaprednaPretragaViewModel
             {
@@ -125,9 +116,9 @@ namespace Projekat.Controllers
                 tipoviMaterijala = context.tipMaterijala.ToList()
             };
 
-
             return View("MaterijaliPrikaz", vm);
         }
+
         //kod ove akcije treba dodati punjenje tabele namena materijala
         /// <summary>
         /// Vraca view na kome je forma za dodavanje predmeta
@@ -136,7 +127,7 @@ namespace Projekat.Controllers
         /// <returns></returns>
         [HttpGet]
         [Authorize(Roles = "SuperAdministrator,Urednik,Profesor")]
-        public ActionResult UploadMaterijal(int? smerId)
+        public ActionResult UploadMaterijal(int? smerId, int? predmetId)
         {
             context = new MaterijalContext();
 
@@ -145,42 +136,56 @@ namespace Projekat.Controllers
                 Predmeti = context.predmeti.ToList(),
                 tipoviMaterijala = context.tipMaterijala.ToList(),
                 nameneMaterijala = context.nameneMaterijala.ToList(),
-                Smerovi = context.smerovi.ToList()
+                Smerovi = context.smerovi.ToList(),
+                Moduli = context.moduli.ToList()
             };
 
-            if (smerId == null)
+            if (smerId == null && predmetId == null)
             {
                 //Uradjen try-catch blog za problem kada ne postoje smerovi u bazi podataka
-                    //u buducnosti treba unaprediti da umesti http greske ide na error layout gresku
+                //u buducnosti treba unaprediti da umesti http greske ide na error layout gresku
                 try
                 {
                     smerId = viewModel.Smerovi.ToList()[0].smerId;
 
                     var predmetiposmeru = context.predmetiPoSmeru.Where(x => x.smerId == smerId).Select(c => c.predmetId).ToList();
-                    viewModel.PredmetPoSmeru = (viewModel.Predmeti.Where(x => predmetiposmeru.Contains(x.predmetId)));
-                        
+                    viewModel.PredmetPoSmeru = viewModel.Predmeti.Where(x => predmetiposmeru.Contains(x.predmetId));
+                    viewModel.ModulPoPredmetu = viewModel.Moduli.Where(x => x.predmetId == viewModel.PredmetPoSmeru.First().predmetId);
+
                     if (TempData["SuccMsg"] != null) { ViewBag.SuccMsg = TempData["SuccMsg"]; }
                     //else if (TempData["ErrorMsg"] != null) { ViewBag.ErrorMsg = TempData["ErrorMsg"]; }
-                    
+
                     return View("UploadMaterijal", viewModel);
                 }
-                catch (ArgumentOutOfRangeException) {
+                catch (ArgumentOutOfRangeException)
+                {
                     return new HttpNotFoundResult("Nema unetih smerova");
-                    
                 }
-                
             }
-
             else
             {
-                var predmetiposmeru = context.predmetiPoSmeru.Where(x => x.smerId == smerId).Select(c => c.predmetId).ToList();
+                if (predmetId != null && smerId != null)
+                {
+                    var predmetiposmeru = context.predmetiPoSmeru.Where(x => x.smerId == smerId).Select(c => c.predmetId).ToList();
+                    viewModel.PredmetPoSmeru = (viewModel.Predmeti.Where(x => predmetiposmeru.Contains(x.predmetId)));
+                    viewModel.ModulPoPredmetu = viewModel.Moduli.Where(x => x.predmetId == predmetId);
 
-                viewModel.PredmetPoSmeru = (viewModel.Predmeti.Where(x => predmetiposmeru.Contains(x.predmetId)));
+                    return PartialView("_PredmetiNaSmeru", viewModel);
+                }
+                else if (smerId != null && predmetId == null)
+                {
+                    var predmetiposmeru = context.predmetiPoSmeru.Where(x => x.smerId == smerId).Select(c => c.predmetId).ToList();
+                    viewModel.PredmetPoSmeru = (viewModel.Predmeti.Where(x => predmetiposmeru.Contains(x.predmetId)));
+                    viewModel.ModulPoPredmetu = viewModel.Moduli.Where(x => x.predmetId == viewModel.PredmetPoSmeru.First().predmetId);
 
-                return PartialView("_PredmetiNaSmeru", viewModel);
+                    return PartialView("_PredmetiNaSmeru", viewModel);
+                }
+                else
+                {
+                    return new HttpStatusCodeResult(403);
+                }
             }
         }
-
 
         //kod ove akcije treba dodati punjenje tabele namena materijala
         /// <summary>
@@ -192,14 +197,11 @@ namespace Projekat.Controllers
         /// <returns></returns>
         [HttpPost]
         [Authorize(Roles = "SuperAdministrator,Urednik,Profesor")]
-        public ActionResult UploadMaterijal(MaterijalModel materijal, HttpPostedFileBase file, PredmetPoSmeru predmet/*, string hiddenPredmet*/,string idUser,string odobreno)
+        public ActionResult UploadMaterijal(MaterijalModel materijal, HttpPostedFileBase file, PredmetPoSmeru predmet/*, string hiddenPredmet*/, string idUser, string odobreno)
         {
-
-            
             // PredmetModel predmet = new PredmetModel();
             materijal.predmetId = predmet.predmetId;
             context = new MaterijalContext();
-
 
             if (materijal.namenaMaterijalaId == 2)
             {
@@ -246,8 +248,9 @@ namespace Projekat.Controllers
                 // return View("UploadMaterijal", ViewModel);
             }
         }
+
         [HttpGet]
-        [Authorize(Roles ="Urednik,SuperAdministrator")]
+        [Authorize(Roles = "Urednik,SuperAdministrator")]
         public ActionResult MaterijaliCekanje()
         {
             MaterijaliNaprednaPretragaViewModel materijal = new MaterijaliNaprednaPretragaViewModel();
@@ -259,35 +262,37 @@ namespace Projekat.Controllers
 
             return View(materijal);
         }
-        [HttpPost]
-        [Authorize(Roles ="Urednik,SuperAdministrator")]
-        public ActionResult ObrazlozenjeMaterijal(string obrazlozenje,int id)
-        {
-                MaterijalModel model = new MaterijalModel() { materijalId = id, obrazlozenje = obrazlozenje, odobreno = "false" };
-                using (MaterijalContext db = new MaterijalContext())
-                {
-                    db.materijali.Attach(model);
-                    db.Entry(model).Property(x => x.obrazlozenje).IsModified = true;
-                    db.Entry(model).Property(x => x.odobreno).IsModified = true;
-                    db.SaveChanges();
-                }
-                TempData["SuccMsg"] = "Uspesno uneseno";
 
-                return RedirectToAction("MaterijaliCekanje");
+        [HttpPost]
+        [Authorize(Roles = "Urednik,SuperAdministrator")]
+        public ActionResult ObrazlozenjeMaterijal(string obrazlozenje, int id)
+        {
+            MaterijalModel model = new MaterijalModel() { materijalId = id, obrazlozenje = obrazlozenje, odobreno = "false" };
+            using (MaterijalContext db = new MaterijalContext())
+            {
+                db.materijali.Attach(model);
+                db.Entry(model).Property(x => x.obrazlozenje).IsModified = true;
+                db.Entry(model).Property(x => x.odobreno).IsModified = true;
+                db.SaveChanges();
+            }
+            TempData["SuccMsg"] = "Uspesno uneseno";
+
+            return RedirectToAction("MaterijaliCekanje");
         }
+
         [HttpGet]
-        [Authorize(Roles ="Profesor,SuperAdministrator")]
+        [Authorize(Roles = "Profesor,SuperAdministrator")]
         public ActionResult UrednikOdgovor()
         {
             MaterijalContext materijalContext = new MaterijalContext();
             UrednikOdgovorViewModel urednik = new UrednikOdgovorViewModel();
             var idUser = User.Identity.GetUserId();
 
-
-            var odgovor = materijalContext.materijali.Where(x => x.odobreno.Equals("false") && x.obrazlozenje != null&&x.idUser==idUser).Select(x => new UrednikOdgovorViewModel { MaterijalOpis = x.materijalOpis, MaterijalNaslov = x.materijalNaslov, Obrazlozenje = x.obrazlozenje,datum=x.datumMaterijali}).ToList();
+            var odgovor = materijalContext.materijali.Where(x => x.odobreno.Equals("false") && x.obrazlozenje != null && x.idUser == idUser).Select(x => new UrednikOdgovorViewModel { MaterijalOpis = x.materijalOpis, MaterijalNaslov = x.materijalNaslov, Obrazlozenje = x.obrazlozenje, datum = x.datumMaterijali }).ToList();
 
             return View(odgovor);
         }
+
         /*[HttpPost]
         [Authorize(Roles ="Profesor")]
         public ActionResult UploadMaterijalProfesor(MaterijalProfesorModel materijalProfesor,HttpPostedFileBase file,PredmetPoSmeru predmet)
@@ -323,8 +328,6 @@ namespace Projekat.Controllers
             {
                 ViewBag.Message = "Postavljanje materijala nije uspelo!";
                 return RedirectToAction("UploadMaterijal", "Materijal");
-
-                
             }
         }*/
 
@@ -376,18 +379,15 @@ namespace Projekat.Controllers
             }
             catch (Exception)
             {
-
             }
 
             return RedirectToAction("MaterijaliPrikaz");
         }
 
-
         //public ActionResult SortirajPoTipuMaterijala(int id)
         //{
         //    context = new MaterijalContext();
         //    List<MaterijalModel> model = context.materijali.Where(m => m.tipMaterijalId == id).ToList();
-
 
         //    return View("MaterijaliPrikaz", model);
 
@@ -401,12 +401,7 @@ namespace Projekat.Controllers
         /// <param name="materijali">Lista materijala za filtriranje.</param>
         public void FiltrirajPoFormatuMaterijala(string ekstenzija, int id, ref List<MaterijalModel> materijali) //Refaktorisati naziv akcije kasnije jer se ffiltrira i tip materijala ne samo format
         {
-
-
             materijali = context.materijali.Where(m => m.materijalEkstenzija == ekstenzija && m.tipMaterijalId == id).ToList();//scuffed
-
-
-
         }
 
         // IF SCUFFED IN MATERIJALCONTEXT THIS.UNCOMMENT
@@ -422,10 +417,5 @@ namespace Projekat.Controllers
         //    }
         //    return materijali;
         //}
-
-
-
-
-
     }
 }

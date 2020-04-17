@@ -6,7 +6,6 @@
 });
 
 $(document).ready(function () {
-
     brojKlikovaNaLupu = 0;
     genericDropdownBuild();
 
@@ -18,14 +17,13 @@ $(document).ready(function () {
         $(".customSelect").val($(this).attr('id'));
 
         $(".customDropdown").each(function () {
-
             if ($(this).parent().parent().prev().hasClass('smerovi')) {
                 var nameneId = $('.customSelect').find($('option')).toArray();
                 $.each(nameneId, function (index) {
                     $('ul.customLista li').attr('id', index);
                 });
             }
-            
+
             var customSelect = '<div class="customSelect" id="trenutnoPravim"> <div class="izabraniUselectu"> <span>' +
                 $(this).find("option:selected").text() + '</span> <div class="trougao"></div> </div> <ul class="customLista"></ul> </div>';
 
@@ -78,6 +76,31 @@ $(document).ready(function () {
                     }
                 });
             }
+            if ($(this).parent().parent().prev().hasClass('predmeti')) {
+                default_predmetID = $(this).parent().parent().prev().find($("option:selected")).val();
+                console.log(default_predmetID);
+                default_smerID = $(".smerovi").find($("option:selected")).val();
+                console.log(default_smerID);
+                // premestiti u customDropdown.js i append na ovaj event
+                // dodati uslov pod kojim ce se raditi ajax (samo ako su smerovi u pitanju)
+                $.ajax({
+                    method: 'GET',
+                    url: '/Materijal/UploadMaterijal',
+                    data: {
+                        smerId: default_smerID,
+                        predmetId: default_predmetID,
+                    },
+                    success: function (data) {
+                        $('.customSelect').remove();
+                        $('#_predmetiNaSmeru').html('');
+                        $('#_predmetiNaSmeru').html(data);
+                        genericDropdownBuild();
+                    },
+                    error: function () {
+                        console.log("ne valja");
+                    }
+                });
+            }
         });
 
         $(".customLista").each(function () {
@@ -91,7 +114,6 @@ $(document).ready(function () {
 
         $(document).on('click', function (e) {
             if ($(e.target).closest('.customSelect').length === 0) {
-
                 var otvoreniCustomDropdownovi = $('.customLista').filter(function () {
                     return $(this).css("display") === 'block'
                 });
@@ -108,7 +130,6 @@ $(document).ready(function () {
 
     function smerPredmetDropdownBuild() {
         $(".customDropdown").each(function () {
-            
         });
     };
 
@@ -129,7 +150,6 @@ $(document).ready(function () {
         $('.select2_datum').select2({
             width: "auto",
             minimumResultsForSearch: Infinity,
-
         });
 
         function selECT2LbeliResize(ovo) {
@@ -157,7 +177,6 @@ $(document).ready(function () {
     };
 
     $("#lupaPretragaToggle").click(function () {
-
         $('.select2-hidden-accessible').trigger("change");
 
         if (brojKlikovaNaLupu < 1) {
