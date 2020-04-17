@@ -1,5 +1,4 @@
 ﻿using Projekat.ViewModels;
-using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
@@ -99,7 +98,10 @@ namespace Projekat.Models
             get { return nameneMaterijala; }
         }
 
-        IQueryable<MaterijalModel> IMaterijalContext.materijali => throw new NotImplementedException();
+        IQueryable<MaterijalModel> IMaterijalContext.materijali
+        {
+            get { return materijali; }
+        }
 
         T IMaterijalContext.Add<T>(T entity)
         {

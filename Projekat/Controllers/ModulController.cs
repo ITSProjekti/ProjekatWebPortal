@@ -100,11 +100,11 @@ namespace Projekat.Controllers
             {
                 m.predmetId = m.modul.predmetId;
             }
-            else if(m.predmetId!=null)
+            else if (m.predmetId != null)
             {
                 m.modul.predmetId = m.predmetId;
             }
-            
+
             try
             {
                 context.Add<ModulModel>(m.modul);
@@ -122,20 +122,30 @@ namespace Projekat.Controllers
         public ActionResult Delete(int id)
         {
             context = new MaterijalContext();
-            var modul = context.moduli.Single(x => x.modulId == id);
+            ModulModel modul = context.moduli.Single(x => x.modulId == id);
+            IEnumerable<MaterijalModel> materijali = context.materijali.Where(x => x.modulId == id);
+            foreach (MaterijalModel item in materijali)
             {
                 try
                 {
-                    context.Delete(modul);
-                    context.SaveChanges();
+                    context.Delete(item);
                 }
                 catch
                 {
                     return new HttpStatusCodeResult(HttpStatusCode.Forbidden);
                 }
-
-                return RedirectToAction("ModulPrikaz");
             }
+            try
+            {
+                context.Delete(modul);
+                context.SaveChanges();
+            }
+            catch
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.Forbidden);
+            }
+
+            return RedirectToAction("ModulPrikaz");
         }
 
         [HttpGet]
