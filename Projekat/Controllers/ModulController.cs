@@ -119,10 +119,20 @@ namespace Projekat.Controllers
 
         [HttpPost]
         [Authorize(Roles = "SuperAdministrator,Urednik")]
-        public ActionResult Delete(int id)
+        public JsonResult Delete(int id)
         {
+            bool result = false;
             context = new MaterijalContext();
-            ModulModel modul = context.moduli.Single(x => x.modulId == id);
+            ModulModel modul;
+            try
+            {
+               modul = context.moduli.Single(x => x.modulId == id);
+            }
+            catch
+            {
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
+           
             IEnumerable<MaterijalModel> materijali = context.materijali.Where(x => x.modulId == id);
             foreach (MaterijalModel item in materijali)
             {
@@ -132,20 +142,22 @@ namespace Projekat.Controllers
                 }
                 catch
                 {
-                    return new HttpStatusCodeResult(HttpStatusCode.Forbidden);
+                    return Json(result, JsonRequestBehavior.AllowGet);
                 }
             }
             try
             {
                 context.Delete(modul);
                 context.SaveChanges();
+                result = true;
             }
             catch
             {
-                return new HttpStatusCodeResult(HttpStatusCode.Forbidden);
+                result = false;
+                return Json(result, JsonRequestBehavior.AllowGet);
             }
 
-            return RedirectToAction("ModulPrikaz");
+            return Json(result,JsonRequestBehavior.AllowGet);
         }
 
         [HttpGet]

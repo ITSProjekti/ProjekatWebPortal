@@ -36,10 +36,10 @@
                     <a href=@("/Modul/EditModul/"+modul.modulId) class="kontrola-ikonica edit"><img src="~/Content/img/uredi.png" alt="uredi" /></a>
                     <a href="#" class="kontrola-ikonica delete"><img style="height:14.2px;" src="~/Content/img/obrisi.png" /></a>
                 }
-                <a class="predmet-kontrole opis" href="#" data-toggle="modal" data-target="#opisModal">OPIS</a>
+                <a class="predmet-kontrole opis" id="showOpis" href="#" data-opis="@modul.modulOpis" data-toggle="modal" data-target="#opisModal">OPIS</a>
                 @Html.ActionLink("MATERIJALI", "MaterijaliPrikaz", "Materijal", new { id = modul.modulId }, new { @class = "predmet-kontrole getMaterijali", tabindex = modul.modulId })
             </div>
-            <div class="opisPredmeta" style="display:none"><p>@modul.modulOpis</p></div>
+            
         </div>
         @*if (this.User.IsInRole("SuperAdministrator") || this.User.IsInRole("Urednik"))
             {
@@ -90,10 +90,10 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4 class="modal-title">Opis predmeta <span>   </span></h4>
+                    <h4 class="modal-title">Opis modula <span>   </span></h4>
                 </div>
                 <div class="modal-body">
-                    <pre></pre>
+                    <p id="PrikazOpis"></p>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Zatvori</button>
@@ -101,6 +101,26 @@
             </div>
         </div>
     </div>
+    <div class="modal fade" id="deleteModal" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Obavestenje <span>   </span></h4>
+                </div>
+                <div class="modal-body">
+                    <p>Da li ste sigurni da želite da obrisete modul?</p>
+                    <input type="hidden" id="hiddenModulId" />
+                </div>
+                <div class="modal-footer">
+                    <button id="deleteConfirm" type="button" class="btn btn-default">Potvrdi</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Odustani</button>
+
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
 @Scripts.Render("~/Scripts/Modul/ModulDelete.js")
+@Scripts.Render("~/Scripts/Modul/OpisShow.js")
