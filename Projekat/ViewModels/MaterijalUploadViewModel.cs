@@ -1,8 +1,5 @@
-﻿using System;
+﻿using Projekat.Models;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using Projekat.Models;
 
 namespace Projekat.ViewModels
 {
@@ -11,15 +8,16 @@ namespace Projekat.ViewModels
     /// </summary>
     public class MaterijalUploadViewModel
     {
-
         /// <summary>
         /// Gets or sets the materijal.
         /// </summary>
         /// <value>
         /// The materijal.
         /// </value>
-        public MaterijalModel  Materijal { get; set; }
+        public MaterijalModel Materijal { get; set; }
+
         public MaterijalProfesorModel MaterijalProfesor { get; set; }
+
         /// <summary>
         /// Gets or sets the predmeti.
         /// </summary>
@@ -59,6 +57,23 @@ namespace Projekat.ViewModels
         /// The predmet po smeru.
         /// </value>
         public IEnumerable<PredmetModel> PredmetPoSmeru { get; set; }
+
+        /// <summary>
+        /// Gets or sets the moduli.
+        /// </summary>
+        /// <value>
+        /// The moduli.
+        /// </value>
+        public IEnumerable<ModulModel> Moduli { get; set; }
+
+        /// <summary>
+        /// Gets or sets the modul po premdetu.
+        /// </summary>
+        /// <value>
+        /// The modul po predmetu.
+        /// </value>
+        public IEnumerable<ModulModel> ModulPoPredmetu { get; set; }
+
         /// <summary>
         /// Gets or sets the smer identifier.
         /// </summary>
@@ -66,6 +81,7 @@ namespace Projekat.ViewModels
         /// The smer identifier.
         /// </value>
         public int smerId { get; set; }
+
         /// <summary>
         /// Gets or sets the predmet identifier.
         /// </summary>
@@ -74,6 +90,12 @@ namespace Projekat.ViewModels
         /// </value>
         public int predmetId { get; set; }
 
-
+        /// <summary>
+        /// Gets or sets the predmet identifier.
+        /// </summary>
+        /// <value>
+        /// The predmet identifier.
+        /// </value>
+        public int modulId { get; set; }
     }
 }

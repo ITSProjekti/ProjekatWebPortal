@@ -19,9 +19,12 @@
 });
 
 var forma = $('#postavkaMat');
+var modulId = $('#modulId').find($("option:selected")).val();
+$('#modulId').on('change', function () {
+    modulId = $('#modulId').find($("option:selected")).val();
+}
 
 $('#postavkaMat').validate({
-
     rules: {
         "Materijal.materijalNaslov": {
             required: true
@@ -65,15 +68,14 @@ $('#postavkaMat').validate({
         else {
             error.insertAfter(element);
         }
-
     },
     submitHandler: function (forma) {
         $.ajax({
             method: 'POST',
             url: '/Materijal/UplaodMaterijal',
             data: {
-
                 id: predmetId,
+                modulId: modulId,
                 sort: sort,
                 tipovi: tipovi,
                 formati: formati
