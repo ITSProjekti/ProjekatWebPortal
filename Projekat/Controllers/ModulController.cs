@@ -161,7 +161,7 @@ namespace Projekat.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles = "SuberPadministrator,Urednik")]
+        [Authorize(Roles = "SuperAdministrator, Urednik")]
         public ActionResult EditModul(int id)
         {
             ModulModel modul = context.moduli.Where(x => x.modulId == id).Single();
@@ -193,7 +193,14 @@ namespace Projekat.Controllers
         [Authorize(Roles = "SuperAdministrator,Urednik")]
         public ActionResult EditModul(DodajModulViewModel m)
         {
-            m.modul.predmetId = m.predmetId;
+            if (m.modul.predmetId != null)
+            {
+                m.predmetId = m.modul.predmetId;
+            }
+            else if (m.predmetId != null)
+            {
+                m.modul.predmetId = m.predmetId;
+            }
             ModulModel editovan = m.modul;
             ModulModel modul = context.moduli.Where(x => x.modulId == editovan.modulId).Single();
 
