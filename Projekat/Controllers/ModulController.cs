@@ -54,44 +54,47 @@ namespace Projekat.Controllers
 
         [HttpGet]
         [Authorize(Roles = "SuperAdministrator,Urednik")]
-        public ActionResult DodajModul(int? id)
+        public ActionResult DodajModul(int? smerId)
         {
-            /*if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            */
-
-            ViewModels.DodajModulViewModel mm = new DodajModulViewModel();
-            ModulModel m = new ModulModel();
-            m.predmetId = id;
-
             DodajModulViewModel viewModel = new DodajModulViewModel
             {
                 Predmeti = context.predmeti.ToList(),
                 Smerovi = context.smerovi.ToList()
             };
-            try
+
+            if (smerId == null)
             {
-                var smerId = viewModel.Smerovi.ToList()[0].smerId;
+                try
+                {
+                    var id = viewModel.Smerovi.ToList()[0].smerId;
 
-                var predmetiposmeru = context.predmetiPoSmeru.Where(x => x.smerId == smerId).Select(c => c.predmetId).ToList();
-                viewModel.PredmetPoSmeru = (viewModel.Predmeti.Where(x => predmetiposmeru.Contains(x.predmetId)));
+                    var predmetiposmeru = context.predmetiPoSmeru.Where(x => x.smerId == id).Select(c => c.predmetId).ToList();
+                    viewModel.PredmetPoSmeru = viewModel.Predmeti.Where(x => predmetiposmeru.Contains(x.predmetId));
 
-                if (TempData["SuccMsg"] != null) { ViewBag.SuccMsg = TempData["SuccMsg"]; }
-                //else if (TempData["ErrorMsg"] != null) { ViewBag.ErrorMsg = TempData["ErrorMsg"]; }
+                    if (TempData["SuccMsg"] != null) { ViewBag.SuccMsg = TempData["SuccMsg"]; }
 
-                return View("DodajModul", viewModel);
+                    return View("DodajModul", viewModel);
+                }
+                catch (ArgumentOutOfRangeException) { return new HttpNotFoundResult("Nema unetih smerova"); }
             }
-            catch (ArgumentOutOfRangeException)
+            else
             {
-                return new HttpNotFoundResult("Nema unetih smerova");
+                try
+                {
+                    var predmetiposmeru = context.predmetiPoSmeru.Where(x => x.smerId == smerId).Select(c => c.predmetId).ToList();
+                    viewModel.PredmetPoSmeru = viewModel.Predmeti.Where(x => predmetiposmeru.Contains(x.predmetId));
+                    return PartialView("_PredmetiNaSmeruModul", viewModel);
+                }
+                catch
+                {
+                    return new HttpNotFoundResult("Nije pronadjeno nista u bazi! Greska u DodajModul (GET metoda).");
+                }
             }
         }
 
         [HttpPost]
         [Authorize(Roles = "SuperAdministrator,Urednik")]
-        public ActionResult DodajModul(ViewModels.DodajModulViewModel m)
+        public ActionResult DodajModul(DodajModulViewModel m)
         {
             context = new MaterijalContext();
 
@@ -126,13 +129,13 @@ namespace Projekat.Controllers
             ModulModel modul;
             try
             {
-               modul = context.moduli.Single(x => x.modulId == id);
+                modul = context.moduli.Single(x => x.modulId == id);
             }
             catch
             {
                 return Json(result, JsonRequestBehavior.AllowGet);
             }
-           
+
             IEnumerable<MaterijalModel> materijali = context.materijali.Where(x => x.modulId == id);
             foreach (MaterijalModel item in materijali)
             {
@@ -157,12 +160,12 @@ namespace Projekat.Controllers
                 return Json(result, JsonRequestBehavior.AllowGet);
             }
 
-            return Json(result,JsonRequestBehavior.AllowGet);
+            return Json(result, JsonRequestBehavior.AllowGet);
         }
 
         [HttpGet]
         [Authorize(Roles = "SuperAdministrator, Urednik")]
-        public ActionResult EditModul(int id)
+        public ActionResult EditModul(int id, int? smerId)
         {
             ModulModel modul = context.moduli.Where(x => x.modulId == id).Single();
             DodajModulViewModel viewModel = new DodajModulViewModel()
@@ -171,21 +174,37 @@ namespace Projekat.Controllers
                 Smerovi = context.smerovi.ToList()
             };
             viewModel.modul = modul;
-            try
+            if (smerId == null)
             {
-                var smerId = viewModel.Smerovi.ToList()[0].smerId;
+                try
+                {
+                    var idsmera = viewModel.Smerovi.ToList()[0].smerId;
 
-                var predmetiposmeru = context.predmetiPoSmeru.Where(x => x.smerId == smerId).Select(c => c.predmetId).ToList();
-                viewModel.PredmetPoSmeru = (viewModel.Predmeti.Where(x => predmetiposmeru.Contains(x.predmetId)));
+                    var predmetiposmeru = context.predmetiPoSmeru.Where(x => x.smerId == idsmera).Select(c => c.predmetId).ToList();
+                    viewModel.PredmetPoSmeru = (viewModel.Predmeti.Where(x => predmetiposmeru.Contains(x.predmetId)));
 
-                if (TempData["SuccMsg"] != null) { ViewBag.SuccMsg = TempData["SuccMsg"]; }
-                //else if (TempData["ErrorMsg"] != null) { ViewBag.ErrorMsg = TempData["ErrorMsg"]; }
+                    if (TempData["SuccMsg"] != null) { ViewBag.SuccMsg = TempData["SuccMsg"]; }
+                    //else if (TempData["ErrorMsg"] != null) { ViewBag.ErrorMsg = TempData["ErrorMsg"]; }
 
-                return View("EditModul", viewModel);
+                    return View("EditModul", viewModel);
+                }
+                catch (ArgumentOutOfRangeException)
+                {
+                    return new HttpNotFoundResult("Nema unetih smerova");
+                }
             }
-            catch (ArgumentOutOfRangeException)
+            else
             {
-                return new HttpNotFoundResult("Nema unetih smerova");
+                try
+                {
+                    var predmetiposmeru = context.predmetiPoSmeru.Where(x => x.smerId == smerId).Select(c => c.predmetId).ToList();
+                    viewModel.PredmetPoSmeru = viewModel.Predmeti.Where(x => predmetiposmeru.Contains(x.predmetId));
+                    return PartialView("_PredmetiNaSmeruModul", viewModel);
+                }
+                catch
+                {
+                    return new HttpNotFoundResult("Nije pronadjeno nista u bazi! Greska u DodajModul (GET metoda).");
+                }
             }
         }
 

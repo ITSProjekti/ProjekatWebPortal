@@ -1,5 +1,4 @@
-﻿using System.Web;
-using System.Web.Optimization;
+﻿using System.Web.Optimization;
 
 namespace Projekat
 {
@@ -61,7 +60,7 @@ namespace Projekat
             bundles.Add(new ScriptBundle("~/bundles/DodajModul").Include(
             "~/Scripts/Modul/DodajModul.js",
             //"~/Scripts/Materijal/uploadMaterijal.js",
-            "~/Scripts/customDropdown.js"
+            "~/Scripts//Modul/customDropdownModul.js"
             ));
 
             bundles.Add(new ScriptBundle("~/bundles/predmet_prikaz").Include(
