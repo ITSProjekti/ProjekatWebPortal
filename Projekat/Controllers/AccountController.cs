@@ -13,6 +13,7 @@ using System.Collections.Generic;
 using Projekat.ViewModels;
 using System.Security.Cryptography;
 using System.Net;
+using System.Net.Mail;
 
 namespace Projekat.Controllers
 {
@@ -438,7 +439,7 @@ namespace Projekat.Controllers
                     user.Slika = System.IO.File.ReadAllBytes(Server.MapPath("~/Content/img/Default.png"));
                 }
                 //Generisanje passworda
-                string password = GetRandomPassword(10);
+                string password = "123123";
                 var result = await UserManager.CreateAsync(user, password);
 
 
@@ -450,9 +451,27 @@ namespace Projekat.Controllers
                     // Send an email with this link
                     // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
                     // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
-                    await UserManager.SendEmailAsync(user.Id, "Login informacije", "Vase korisnicko ime za ulaz u web portal je " + user.UserName + " , a vasa lozinka je:  " + password + "  Lozinku mozete promeniti.");
+                    //await UserManager.SendEmailAsync(user.Id, "Login informacije", "Vase korisnicko ime za ulaz u web portal je " + user.UserName + " , a vasa lozinka je:  " + password + "  Lozinku mozete promeniti.");
 
-                    return RedirectToAction("Index", "Home");
+                    //SmtpClient client = new SmtpClient("smtp.gmail.com", 587);
+                    //client.Credentials = new System.Net.NetworkCredential("culibrkbojan98@gmail.com", "bemyfriend12");
+                    //client.Port = 587;
+                    //client.Host = "smtp.gmail.com";
+                    //client.EnableSsl = true;
+                    //client.DeliveryMethod = SmtpDeliveryMethod.Network;
+                    //var prom = client.ServicePoint.Address.ToString();
+
+                    //MailAddress from = new MailAddress("culibrkbojan98@gmail.com", "Admin");
+                    //MailAddress to = new MailAddress(user.Email);
+                    //MailMessage mail = new MailMessage();
+                    //mail.From = from;
+                    //mail.To.Add(to);
+                    //mail.Subject = "Podaci za login";
+                    //mail.Body = "Vase korisnicko ime za ulaz u web portal je " + user.UserName + " , a vasa lozinka je: " + password;
+
+
+                    //client.Send(mail);
+                    return RedirectToAction("ListaKorisnika", "Account");
                 }
                 AddErrors(result);
             }
@@ -649,38 +668,38 @@ namespace Projekat.Controllers
 
         //
         // GET: /Account/SendCode
-        [AllowAnonymous]
-        public async Task<ActionResult> SendCode(string returnUrl, bool rememberMe)
-        {
-            var userId = await SignInManager.GetVerifiedUserIdAsync();
-            if (userId == null)
-            {
-                return View("Error");
-            }
-            var userFactors = await UserManager.GetValidTwoFactorProvidersAsync(userId);
-            var factorOptions = userFactors.Select(purpose => new SelectListItem { Text = purpose, Value = purpose }).ToList();
-            return View(new SendCodeViewModel { Providers = factorOptions, ReturnUrl = returnUrl, RememberMe = rememberMe });
-        }
+        //[AllowAnonymous]
+        //public async Task<ActionResult> SendCode(string returnUrl, bool rememberMe)
+        //{
+        //    var userId = await SignInManager.GetVerifiedUserIdAsync();
+        //    if (userId == null)
+        //    {
+        //        return View("Error");
+        //    }
+        //    var userFactors = await UserManager.GetValidTwoFactorProvidersAsync(userId);
+        //    var factorOptions = userFactors.Select(purpose => new SelectListItem { Text = purpose, Value = purpose }).ToList();
+        //    return View(new SendCodeViewModel { Providers = factorOptions, ReturnUrl = returnUrl, RememberMe = rememberMe });
+        //}
 
-        //
-        // POST: /Account/SendCode
-        [HttpPost]
-        [AllowAnonymous]
-        [ValidateAntiForgeryToken]
-        public async Task<ActionResult> SendCode(SendCodeViewModel model)
-        {
-            if (!ModelState.IsValid)
-            {
-                return View();
-            }
+        ////
+        //// POST: /Account/SendCode
+        //[HttpPost]
+        //[AllowAnonymous]
+        //[ValidateAntiForgeryToken]
+        //public async Task<ActionResult> SendCode(SendCodeViewModel model)
+        //{
+        //    if (!ModelState.IsValid)
+        //    {
+        //        return View();
+        //    }
 
-            // Generate the token and send it
-            if (!await SignInManager.SendTwoFactorCodeAsync(model.SelectedProvider))
-            {
-                return View("Error");
-            }
-            return RedirectToAction("VerifyCode", new { Provider = model.SelectedProvider, ReturnUrl = model.ReturnUrl, RememberMe = model.RememberMe });
-        }
+        //    // Generate the token and send it
+        //    if (!await SignInManager.SendTwoFactorCodeAsync(model.SelectedProvider))
+        //    {
+        //        return View("Error");
+        //    }
+        //    return RedirectToAction("VerifyCode", new { Provider = model.SelectedProvider, ReturnUrl = model.ReturnUrl, RememberMe = model.RememberMe });
+        //}
 
         //
         // GET: /Account/ExternalLoginCallback

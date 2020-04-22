@@ -74,6 +74,14 @@ namespace Projekat
              "~/Scripts/Predmet/validacijaNovogPredmeta.js"
             ));
 
+            bundles.Add(new ScriptBundle("~/bundles/novi_modul").Include(
+             "~/Scripts/Modul/validacijaNovogModula.js"
+            ));
+
+            bundles.Add(new ScriptBundle("~/bundles/edit_modul").Include(
+             "~/Scripts/Modul/validacijaEditModula.js"
+            ));
+
             bundles.Add(new ScriptBundle("~/bundles/smer_prikaz").Include(
                 "~/Scripts/Smer/editSmera.js",
                 "~/Scripts/Smer/modalOpisSmer.js",
