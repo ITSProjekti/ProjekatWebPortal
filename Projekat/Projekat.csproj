@@ -542,6 +542,7 @@
     <Content Include="Scripts\modernizr-2.8.3.js" />
     <Content Include="Scripts\Modul\customDropdownModul.js" />
     <Content Include="Scripts\Modul\ModulDelete.js" />
+    <Content Include="Scripts\Modul\ProveraImena.js" />
     <Content Include="Scripts\Modul\validacijaEditModula.js" />
     <Content Include="Scripts\Modul\validacijaNovogModula.js" />
     <Content Include="Scripts\Modul\OpisShow.js" />

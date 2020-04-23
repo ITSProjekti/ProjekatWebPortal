@@ -108,16 +108,42 @@ namespace Projekat.Controllers
                 m.modul.predmetId = m.predmetId;
             }
 
-            try
-            {
-                context.Add<ModulModel>(m.modul);
-                context.SaveChanges();
-            }
-            catch
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.Forbidden);
-            }
+            //var modulime = m.modul.modulNaziv;
+            //var provera = context.moduli.Where(x => x.modulNaziv == modulime).FirstOrDefault();
+
+            //if(provera == null)
+            //{
+                try
+                {
+                    context.Add<ModulModel>(m.modul);
+                    context.SaveChanges();
+                }
+                catch
+                {
+                    return new HttpStatusCodeResult(HttpStatusCode.Forbidden);
+                }
+               
+            //}
             return RedirectToAction("DodajModul");
+
+        }
+
+        [HttpGet]
+        public JsonResult Provera (string ime, int predmetID)
+        {
+            bool result = false;
+            var provera = context.moduli.Where(x => x.modulNaziv == ime && x.predmetId==predmetID).FirstOrDefault();
+
+            if(provera == null)
+            {
+                result = true;
+
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
+            else
+            {
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
         }
 
         [HttpPost]
