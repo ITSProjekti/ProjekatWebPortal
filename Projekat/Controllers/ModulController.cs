@@ -113,28 +113,27 @@ namespace Projekat.Controllers
 
             //if(provera == null)
             //{
-                try
-                {
-                    context.Add<ModulModel>(m.modul);
-                    context.SaveChanges();
-                }
-                catch
-                {
-                    return new HttpStatusCodeResult(HttpStatusCode.Forbidden);
-                }
-               
+            try
+            {
+                context.Add<ModulModel>(m.modul);
+                context.SaveChanges();
+            }
+            catch
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.Forbidden);
+            }
+
             //}
             return RedirectToAction("DodajModul");
-
         }
 
         [HttpGet]
-        public JsonResult Provera (string ime, int predmetID)
+        public JsonResult Provera(string ime, int predmetID)
         {
             bool result = false;
-            var provera = context.moduli.Where(x => x.modulNaziv == ime && x.predmetId==predmetID).FirstOrDefault();
+            var provera = context.moduli.Where(x => x.modulNaziv == ime && x.predmetId == predmetID).FirstOrDefault();
 
-            if(provera == null)
+            if (provera == null)
             {
                 result = true;
 
@@ -143,6 +142,34 @@ namespace Projekat.Controllers
             else
             {
                 return Json(result, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        [HttpGet]
+        public JsonResult ProveraIzmena(string ime, int predmetID, int modulID)
+        {
+            bool result = false;
+            ModulModel provera = context.moduli.Where(x => x.modulNaziv == ime && x.predmetId == predmetID).FirstOrDefault();
+            ModulModel trenutni = context.moduli.Where(x => x.modulId == modulID).FirstOrDefault();
+
+            if (provera == null)
+            {
+                result = true;
+
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
+            else
+            {
+                if (provera.modulId == trenutni.modulId)
+                {
+                    result = true;
+
+                    return Json(result, JsonRequestBehavior.AllowGet);
+                }
+                else
+                {
+                    return Json(result, JsonRequestBehavior.AllowGet);
+                }
             }
         }
 

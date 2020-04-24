@@ -12,6 +12,7 @@
         @Html.HiddenFor(m => m.modul.modulId, new { @name = "modulId" })
         <label class="matDesignLabel" for="modulNaziv">Naziv modula</label>
         @Html.TextBoxFor(m => m.modul.modulNaziv, new { @name = "modulNaziv" });
+        <label id="poruka" class="error"></label>
 
         <label class="matDesignLabel" for="modulOpis">Opis</label>
         @Html.TextAreaFor(m => m.modul.modulOpis, new { @name = "modulOpis" });
@@ -20,7 +21,6 @@
             <div id="_predmetiNaSmeru">
                 @{ Html.RenderPartial("_PredmetiNaSmeruModul", Model);}
             </div>
-
         </div>
 
         <button type="submit" id="postavi">IZMENI</button>
@@ -28,6 +28,7 @@
     <div id="snackbar"><span>Modul uspešno izmenjen!</span></div>
 </div>
 
+@Scripts.Render("~/Scripts/Modul/ProveraImenaIzmena.js")
 @Scripts.Render("~/bundles/DodajModul")
 @Scripts.Render("~/bundles/edit_modul")
 

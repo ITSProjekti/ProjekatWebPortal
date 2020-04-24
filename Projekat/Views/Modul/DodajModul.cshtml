@@ -5,30 +5,29 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-    <div id="sredina">
-        @using (Html.BeginForm("DodajModul", "Modul", FormMethod.Post, new { @class = "modulForma", @id = "modulForma" }))
-        {
-            <h2>Novi modul</h2>
-            <label class="matDesignLabel" for="modulNaziv">Naziv modula</label>
-            @Html.TextBoxFor(m => m.modul.modulNaziv, new { @name = "modulNaziv" });
-            <label id="poruka" class="error"></label>
+<div id="sredina">
+    @using (Html.BeginForm("DodajModul", "Modul", FormMethod.Post, new { @class = "modulForma", @id = "modulForma" }))
+    {
+        <h2>Novi modul</h2>
+        <label class="matDesignLabel" for="modulNaziv">Naziv modula</label>
+        @Html.TextBoxFor(m => m.modul.modulNaziv, new { @name = "modulNaziv" });
+        <label id="poruka" class="error"></label>
 
+        <label class="matDesignLabel" for="modulOpis">Opis</label>
+        @Html.TextAreaFor(m => m.modul.modulOpis, new { @name = "modulOpis" });
 
-            <label class="matDesignLabel" for="modulOpis">Opis</label>
-            @Html.TextAreaFor(m => m.modul.modulOpis, new { @name = "modulOpis" });
-
-            <div id="dropDownovi">
-                <div id="_predmetiNaSmeru">
-                    @{ Html.RenderPartial("_PredmetiNaSmeruModul", Model);}
-                </div>
+        <div id="dropDownovi">
+            <div id="_predmetiNaSmeru">
+                @{ Html.RenderPartial("_PredmetiNaSmeruModul", Model);}
             </div>
+        </div>
 
-            <button type="submit" id="postavi">POSTAVI</button>
-        }
-        <div id="snackbar"><span>Smer uspešno dodat!</span></div>
-    </div>
+        <button type="submit" id="postavi">POSTAVI</button>
+    }
+    <div id="snackbar"><span>Smer uspešno dodat!</span></div>
+</div>
 
-@Scripts.Render("~/Scripts/Modul/ProveraImena.js")
+@Scripts.Render("~/Scripts/Modul/ProveraImenaDodaj.js")
 @Scripts.Render("~/bundles/DodajModul")
 @Scripts.Render("~/bundles/novi_modul")
 
