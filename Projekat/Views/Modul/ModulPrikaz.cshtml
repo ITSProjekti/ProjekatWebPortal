@@ -34,7 +34,7 @@
                 @if (this.User.IsInRole("SuperAdministrator") || this.User.IsInRole("Urednik"))
                 {
                     <a href=@("/Modul/EditModul/"+modul.modulId) class="kontrola-ikonica edit"><img src="~/Content/img/uredi.png" alt="uredi" /></a>
-                    <a href="#" class="kontrola-ikonica delete"><img style="height:14.2px;" src="~/Content/img/obrisi.png" /></a>
+                    <a href="#" class="kontrola-ikonica dugme-delete"><img  src="~/Content/img/obrisi.png" /></a>
                 }
                 <a class="predmet-kontrole opis" id="showOpis" href="#" data-opis="@modul.modulOpis" data-toggle="modal" data-target="#opisModal">OPIS</a>
                 @Html.ActionLink("MATERIJALI", "MaterijaliPrikaz", "Materijal", new { id = modul.modulId }, new { @class = "predmet-kontrole getMaterijali", tabindex = modul.modulId })

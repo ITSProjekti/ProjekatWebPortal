@@ -1,4 +1,4 @@
-﻿$('.delete').click(function () {
+﻿$('.dugme-delete').click(function () {
     event.preventDefault();
     var id = $(this).closest('.kartica-predmet').attr('id');
     $("#hiddenModulId").val(id);
