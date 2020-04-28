@@ -136,23 +136,6 @@ namespace Projekat.Models
         public int? modulId { get; set; }
 
         /// <summary>
-        /// Gets or sets the predmet model.
-        /// </summary>
-        /// <value>
-        /// The predmet model.
-        /// </value>
-        public PredmetModel PredmetModel { get; set; }
-
-        /// <summary>
-        /// Gets or sets the predmet identifier.
-        /// </summary>
-        /// <value>
-        /// The predmet identifier.
-        /// </value>
-        [ForeignKey("PredmetModel")]
-        public int? predmetId { get; set; }
-
-        /// <summary>
         /// Gets or sets the tip materijal model.
         /// </summary>
         /// <value>
