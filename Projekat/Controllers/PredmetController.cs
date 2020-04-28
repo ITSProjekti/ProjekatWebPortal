@@ -3,7 +3,6 @@ using Projekat.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 
 namespace Projekat.Controllers
@@ -193,48 +192,71 @@ namespace Projekat.Controllers
         /// <param name="Smer">Naziv smera za koji zelimo da prikazemo predmete.</param>
         /// <returns></returns>
         [HttpGet]
-        public ActionResult PredmetiPrikaz(string Smer, int razred)
+        public ActionResult PredmetiPrikaz(string Smer, int razred, string tip)
         {
-            Smer = HttpUtility.UrlDecode(Smer);
-            int id;
             context = new MaterijalContext();
-
-            int razredPOM = razred;
-            try
-            {
-                id = context.smerovi.FirstOrDefault(x => x.smerNaziv == Smer).smerId;
-            }
-            catch
-            {
-                return View("FileNotFound");
-            }
-
-            List<PredmetPoSmeru> poSmeru = context.predmetiPoSmeru.Where(m => m.smerId == id && m.PredmetModel.Razred.Value == razredPOM).ToList();
-            List<PredmetModel> model = new List<PredmetModel>();
-            List<PredmetModel> tempPredmet = context.predmeti.ToList();
+            int tipId = context.tipPredmeta.Where(x => x.tipNaziv == tip).FirstOrDefault().tipId;
             List<SmerModel> smerovi = context.smerovi.ToList();
 
-            foreach (PredmetPoSmeru ps in poSmeru)
+            if (tip == "lokalni")
             {
-                model.Add(tempPredmet.Where(m => m.predmetId == ps.predmetId).Single());
+                int smerId;
+
+                int razredPOM = razred;
+                try
+                {
+                    smerId = context.smerovi.FirstOrDefault(x => x.smerNaziv == Smer).smerId;
+                }
+                catch
+                {
+                    return View("FileNotFound");
+                }
+
+                List<PredmetPoSmeru> poSmeru = context.predmetiPoSmeru.Where(m => m.smerId == smerId && m.PredmetModel.Razred.Value == razredPOM).ToList();
+                List<PredmetModel> model = new List<PredmetModel>();
+                List<PredmetModel> tempPredmet = context.predmeti.ToList();
+
+                foreach (PredmetPoSmeru ps in poSmeru)
+                {
+                    PredmetModel temp = tempPredmet.Where(m => m.predmetId == ps.predmetId && m.tipId == tipId).SingleOrDefault();
+                    if (temp != null)
+                    {
+                        model.Add(temp);
+                    }
+                }
+
+                PredmetPoSmeruViewModel predmetiPoSmeru = new PredmetPoSmeruViewModel
+                {
+                    predmeti = model,
+                    smerovi = smerovi,
+                    smerId = smerId
+                };
+
+                //try
+                //{
+                //}
+                //catch (Exception)
+                //{
+                //    throw;
+                //}
+
+                return View("PredmetiPrikaz", predmetiPoSmeru);
             }
-
-            PredmetPoSmeruViewModel predmetiPoSmeru = new PredmetPoSmeruViewModel
+            else if (tip == "globalni")
             {
-                predmeti = model,
-                smerovi = smerovi,
-                smerId = id
-            };
+                List<PredmetModel> model = context.predmeti.Where(x => x.tipId == 2).ToList();
+                int id = 1;
 
-            //try
-            //{
-            //}
-            //catch (Exception)
-            //{
-            //    throw;
-            //}
+                PredmetPoSmeruViewModel predmetiPoSmeru = new PredmetPoSmeruViewModel
+                {
+                    predmeti = model,
+                    smerovi = smerovi,
+                    smerId = id
+                };
 
-            return View("PredmetiPrikaz", predmetiPoSmeru);
+                return View("PredmetiPrikaz", predmetiPoSmeru);
+            }
+            return View("FileNotFound");
         }
     }
 }

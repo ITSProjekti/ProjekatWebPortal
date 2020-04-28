@@ -60,6 +60,14 @@ namespace Projekat.Models
         /// </value>
         public DbSet<TipMaterijalModel> tipMaterijala { get; set; }
 
+        /// <summary>
+        /// Gets the queryable data source for tipPredmeta.
+        /// </summary>
+        /// <value>
+        /// The queryable selection of tipPredmeta Classes.
+        /// </value>
+        public DbSet<TipPredmetaModel> tipPredmeta { get; set; }
+
         public DbSet<SkolaModel> Skole { get; set; }
         public DbSet<Forum_Post> Forum { get; set; }
         public DbSet<Forum_Message> Message { get; set; }
@@ -71,6 +79,11 @@ namespace Projekat.Models
         IQueryable<TipMaterijalModel> IMaterijalContext.tipMaterijala
         {
             get { return tipMaterijala; }
+        }
+
+        IQueryable<TipPredmetaModel> IMaterijalContext.tipPredmeta
+        {
+            get { return tipPredmeta; }
         }
 
         IQueryable<ModulModel> IMaterijalContext.moduli

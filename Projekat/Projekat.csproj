@@ -343,6 +343,10 @@
     <Compile Include="Migrations\MaterijalContext\202004281616586_IzmenaMaterijala.Designer.cs">
       <DependentUpon>202004281616586_IzmenaMaterijala.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\MaterijalContext\202004281722043_IzmenaPredmeta.cs" />
+    <Compile Include="Migrations\MaterijalContext\202004281722043_IzmenaPredmeta.Designer.cs">
+      <DependentUpon>202004281722043_IzmenaPredmeta.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\MaterijalContext\MaterijalConfiguration.cs" />
     <Compile Include="Migrations\VestiContext\201808170921538_Dodavanje_Vesti_U_Bazu.cs" />
     <Compile Include="Migrations\VestiContext\201808170921538_Dodavanje_Vesti_U_Bazu.Designer.cs">
@@ -384,6 +388,7 @@
     <Compile Include="Models\StrucnaSpremaModel.cs" />
     <Compile Include="Models\TeloVestiModel.cs" />
     <Compile Include="Models\TipMaterijalModel.cs" />
+    <Compile Include="Models\TipPredmetaModel.cs" />
     <Compile Include="Models\VestiContext.cs" />
     <Compile Include="Models\VestModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -847,6 +852,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\MaterijalContext\202004281616586_IzmenaMaterijala.resx">
       <DependentUpon>202004281616586_IzmenaMaterijala.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\MaterijalContext\202004281722043_IzmenaPredmeta.resx">
+      <DependentUpon>202004281722043_IzmenaPredmeta.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\VestiContext\201808170921538_Dodavanje_Vesti_U_Bazu.resx">
       <DependentUpon>201808170921538_Dodavanje_Vesti_U_Bazu.cs</DependentUpon>

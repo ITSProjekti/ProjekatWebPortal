@@ -139,6 +139,14 @@
                         <p id="l4">Nastavni materijal</p>
                     </a>
                 </li>
+                <li class="blok">
+                    <a href="@Url.Action("PredmetiPrikaz", "Predmet", new { Smer = "", razred = 0, tip="globalni"})">
+                        <div class="slikaLi">
+                            <img src="~/Content/img/ucenik.png" alt="slika1" />
+                        </div>
+                        <p id="14">Globalni materijal</p>
+                    </a>
+                </li>
             </ul>
             @if (!this.User.IsInRole("Ucenik"))
             {
