@@ -1,10 +1,6 @@
 namespace Projekat.Migrations.MaterijalContext
 {
-    using System;
-    using System.Data.Entity;
     using System.Data.Entity.Migrations;
-    using System.Linq;
-    using System.Text;
 
     internal sealed class MaterijalConfiguration : DbMigrationsConfiguration<Projekat.Models.MaterijalContext>
     {
@@ -19,9 +15,10 @@ namespace Projekat.Migrations.MaterijalContext
             context.Roles.AddOrUpdate(x => x.Id,
                 new Microsoft.AspNet.Identity.EntityFramework.IdentityRole() { Id = "5", Name = "SuperAdministrator" },
                 new Microsoft.AspNet.Identity.EntityFramework.IdentityRole() { Id = "1", Name = "Administrator" },
-                new Microsoft.AspNet.Identity.EntityFramework.IdentityRole() { Id = "2", Name = "Urednik" },
+                new Microsoft.AspNet.Identity.EntityFramework.IdentityRole() { Id = "2", Name = "LokalniUrednik" },
                 new Microsoft.AspNet.Identity.EntityFramework.IdentityRole() { Id = "3", Name = "Profesor" },
-                new Microsoft.AspNet.Identity.EntityFramework.IdentityRole() { Id = "4", Name = "Ucenik" }
+                new Microsoft.AspNet.Identity.EntityFramework.IdentityRole() { Id = "4", Name = "Ucenik" },
+                new Microsoft.AspNet.Identity.EntityFramework.IdentityRole() { Id = "6", Name = "GlobalniUrednik" }
             );
             context.nameneMaterijala.AddOrUpdate(x => x.namenaMaterijalaId,
             new Models.NamenaMaterijalaModel() { namenaMaterijalaId = 1, namenaMaterijalaNaziv = "Materijal za ucenike" },
@@ -34,7 +31,7 @@ namespace Projekat.Migrations.MaterijalContext
 
             );
             context.Skole.AddOrUpdate(x => x.IdSkole,
-                new Models.SkolaModel() { IdSkole = 1,NazivSkole = "Information Technology High School", Skraceno = "ITHS"},
+                new Models.SkolaModel() { IdSkole = 1, NazivSkole = "Information Technology High School", Skraceno = "ITHS" },
                 new Models.SkolaModel() { IdSkole = 2, NazivSkole = "Nikola Tesla", Skraceno = "NiTe" },
                 new Models.SkolaModel() { IdSkole = 3, NazivSkole = "Mihajlo Pupin", Skraceno = "MihP" }
                 );
@@ -48,7 +45,6 @@ namespace Projekat.Migrations.MaterijalContext
             //new Models.AspNetUser() { Id = "7e621d52-394f-44d6-aaf6-5450bae830da", Email = "ivan.seguljev@yahoo.com", EmailConfirmed = false, PasswordHash = "ADghIDx7h8PC/5tszCPgWCqbWamOXk3JNq+JNmYGVzuNKh0bNhMOimUExvJ1xUlXqg==", SecurityStamp = "32ac5133-cdc7-49cd-9f48-e1e02cb0fe21", PhoneNumber = "12323", PhoneNumberConfirmed = false, TwoFactorEnabled = false, LockoutEndDateUtc = null, LockoutEnabled = true, AccessFailedCount = 0, UserName = "Ucenik", Ime = "fnaofnoiaf", Prezime = "fafawfawf", Slika = Encoding.ASCII.GetBytes("0x89504E470D0A1A0A0000000D49484452000001F4000001F4080200000044B448DD000000017352474200AECE1CE90000000467414D410000B18F0BFC61050000000970485973000012740000127401DE661F780000103549444154785EEDDAD1721BC7B244D1FBFF3F7D6E48B119362D42C4800360BA7AAD779998AECC7CF2FF"), SkolaId = 1, GodinaUpisa = null, SmerId = 8, Uloga = "Ucenik" },
             //new Models.AspNetUser() { Id = "e902beaf-f539-4876-8e12-78bec19a0559", Email = "ivawafw@fafawfaw.com", EmailConfirmed = false, PasswordHash = "ADE3Zyyui75yao0JTCxWZ8FI8/qUSfQ8x3tExZpTxMeunvk0X+C47A/AZFXFuoqBGw==", SecurityStamp = "2d0b94a7-f94e-4270-9382-e87f01f84b5c", PhoneNumber = "12323", PhoneNumberConfirmed = false, TwoFactorEnabled = false, LockoutEndDateUtc = null, LockoutEnabled = true, AccessFailedCount = 0, UserName = "SuperAdministrator", Ime = "fnaofnoiaf", Prezime = "fafawfawf", Slika = Encoding.ASCII.GetBytes("0x89504E470D0A1A0A0000000D49484452000001F4000001F4080200000044B448DD000000017352474200AECE1CE90000000467414D410000B18F0BFC61050000000970485973000012740000127401DE661F780000103549444154785EEDDAD1721BC7B244D1FBFF3F7D6E48B119362D42C4800360BA7AAD779998AECC7CF2FF"), SkolaId = 1, GodinaUpisa = null, SmerId = 8, Uloga = "SuperAdministrator" }
             //);
-
         }
     }
 }

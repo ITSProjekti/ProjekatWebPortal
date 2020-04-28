@@ -16,24 +16,23 @@
                 @osiromaseni.materijalOpis
             </p>
             <div class="kontrole">
-                @*if (this.User.IsInRole("Urednik"))
-                {
-                    <div class="triTackeKontrole" tabindex="1">
-                        <img src="~/Content/img/tri-tacke.png" alt="jos-opcija">
-                        <div class="dropdown-sadrzaj">
-                            <button class="dropdownOpcija btn btn-link" href="#" data-toggle="modal" data-target="#myModal2" data-materijalid="@osiromaseni.materijalId">Odobri</button>
+                @*if (this.User.IsInRole("LokalniUrednik"))
+                    {
+                        <div class="triTackeKontrole" tabindex="1">
+                            <img src="~/Content/img/tri-tacke.png" alt="jos-opcija">
+                            <div class="dropdown-sadrzaj">
+                                <button class="dropdownOpcija btn btn-link" href="#" data-toggle="modal" data-target="#myModal2" data-materijalid="@osiromaseni.materijalId">Odobri</button>
+                            </div>
                         </div>
-                    </div>
-                }*@
+                    }*@
 
                 <a class="preuzmi" href="@Url.Action("DownloadMaterijal", "Materijal", new { id = osiromaseni.materijalId })">preuzmi</a>
-                    @if (this.User.IsInRole("Urednik"))
-                    {
-                        <a class="preuzmi" href="#" data-toggle="modal" data-target="#myModal2" data-materijalid="@osiromaseni.materijalId">Odobri</a>
-                    }
-                </div>
+                @if (this.User.IsInRole("LokalniUrednik"))
+                {
+                    <a class="preuzmi" href="#" data-toggle="modal" data-target="#myModal2" data-materijalid="@osiromaseni.materijalId">Odobri</a>
+                }
+            </div>
         </div>
-
 
         @*<select class="js-example-basic-single" name="state" multiple="multiple">
                 <option value="AL">Alabama</option>
@@ -41,13 +40,11 @@
                 <option value="WY">Wyoming</option>
             </select>*@
 
-
         <div class="karticaFormat">
             <a href="#">
                 <img class="imgPath" src="@Url.Content(osiromaseni.ImgPath)" alt="preuzmi-PDF">
             </a>
         </div>
         @*@Html.HiddenFor(Model => osiromaseni.materijalId, new {@id ="nesto" })*@
-
     </div>
 }

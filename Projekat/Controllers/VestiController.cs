@@ -1,13 +1,12 @@
-﻿using System;
+﻿using Projekat.Models;
+using Projekat.ViewModels;
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using Projekat.Models;
-using Projekat.ViewModels;
-using System.IO;
 using System.Xml.Linq;
-using System.Xml;
 
 namespace Projekat.Controllers
 {
@@ -18,7 +17,7 @@ namespace Projekat.Controllers
     [Authorize]
     public class VestiController : Controller
     {
-        VestiContext context;
+        private VestiContext context;
 
         public VestiController()
         {
@@ -32,51 +31,48 @@ namespace Projekat.Controllers
         private VestModel VratiGlavnuVest()
         {
             XDocument xmlFajl = null;
-          try { 
-            xmlFajl = XDocument.Load(Server.MapPath("~/Content/Konfiguracija/MojaKonfiguracija.xml"));
-            }
-            catch(FileNotFoundException)
+            try
             {
-                xmlFajl = new XDocument(new XElement("konfigurcija",new XElement("glavnaVest",new List<XAttribute>{ new XAttribute("idGlavne",0), new XAttribute("datumIsteka", 0) } )));
+                xmlFajl = XDocument.Load(Server.MapPath("~/Content/Konfiguracija/MojaKonfiguracija.xml"));
+            }
+            catch (FileNotFoundException)
+            {
+                xmlFajl = new XDocument(new XElement("konfigurcija", new XElement("glavnaVest", new List<XAttribute> { new XAttribute("idGlavne", 0), new XAttribute("datumIsteka", 0) })));
                 xmlFajl.Save(Server.MapPath("~/Content/Konfiguracija/MojaKonfiguracija.xml"));
-
             }
 
-            
-
-                   int ID;
-                DateTime datum;
-                var Konfiguracija = xmlFajl.Descendants("glavnaVest").FirstOrDefault();
-                try                   
-                {
-                    ID = (int)Konfiguracija.Attribute("idGlavne");
-                    datum = (DateTime)Konfiguracija.Attribute("datumIsteka");
-                }
-                catch
-                {
-                    return context.Vesti.OrderByDescending(m => m.DatumPostavljanja).FirstOrDefault();
-                }
-                if ( DateTime.Today.Date<=datum.Date)
-                {
-                    VestModel Vest = context.Vesti.FirstOrDefault(m => m.Id == ID);
-                    if(Vest != null)
-                        return Vest;
-                    else
-                        return context.Vesti.OrderByDescending(m => m.DatumPostavljanja).FirstOrDefault();
-                }
+            int ID;
+            DateTime datum;
+            var Konfiguracija = xmlFajl.Descendants("glavnaVest").FirstOrDefault();
+            try
+            {
+                ID = (int)Konfiguracija.Attribute("idGlavne");
+                datum = (DateTime)Konfiguracija.Attribute("datumIsteka");
+            }
+            catch
+            {
+                return context.Vesti.OrderByDescending(m => m.DatumPostavljanja).FirstOrDefault();
+            }
+            if (DateTime.Today.Date <= datum.Date)
+            {
+                VestModel Vest = context.Vesti.FirstOrDefault(m => m.Id == ID);
+                if (Vest != null)
+                    return Vest;
                 else
-                {
                     return context.Vesti.OrderByDescending(m => m.DatumPostavljanja).FirstOrDefault();
-                }
-          }
-
+            }
+            else
+            {
+                return context.Vesti.OrderByDescending(m => m.DatumPostavljanja).FirstOrDefault();
+            }
+        }
 
         /// <summary>
         /// Snima Id vesti i datum do kada ce ova vest biti glavna u konfiguraciji
         /// </summary>
         /// <param name="ID">Id vesti koja treba da postane glavna.</param>
         /// <param name="DatDo">Datum do kada ce se vest gledati kao glavna vest.</param>
-        private void SnimiGlavnuVest(int ID,DateTime DatDo)
+        private void SnimiGlavnuVest(int ID, DateTime DatDo)
         {
             XDocument xmlFajl = XDocument.Load(Server.MapPath("~/Content/Konfiguracija/MojaKonfiguracija.xml"));
             var Konfiguracija = xmlFajl.Descendants("glavnaVest").FirstOrDefault();
@@ -90,7 +86,7 @@ namespace Projekat.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        [Authorize(Roles = "SuperAdministrator,Urednik")]
+        [Authorize(Roles = "SuperAdministrator,LokalniUrednik")]
         public ActionResult NovaVest()
         {
             DodajVestViewModel vm = new DodajVestViewModel();
@@ -105,33 +101,30 @@ namespace Projekat.Controllers
         /// <returns></returns>
         [ValidateInput(false)]
         [HttpPost]
-        [Authorize(Roles = "SuperAdministrator,Urednik")]
+        [Authorize(Roles = "SuperAdministrator,LokalniUrednik")]
         public ActionResult SnimiVest(HttpPostedFileBase Fajl, DodajVestViewModel vm)
         {
-            
-             VestModel Vest = new VestModel();
-             TeloVestiModel Telo = new TeloVestiModel();
-             Vest.Naslov = vm.Naslov;
+            VestModel Vest = new VestModel();
+            TeloVestiModel Telo = new TeloVestiModel();
+            Vest.Naslov = vm.Naslov;
 
-             Vest.KratakOpis = vm.KratakOpis;
-             if (Fajl != null)
-             {
-                 string ekstenzija = Fajl.FileName.Remove(0, Fajl.FileName.LastIndexOf('.'));
-                 string fileId = Guid.NewGuid().ToString().Replace("-", "");
-                 string path = Path.Combine(Server.MapPath("~/Content/uploads/Thumbnails/"), fileId + ekstenzija);
-                 string pathzaserver = "/Content/uploads/Thumbnails/" + fileId + ekstenzija;
-                 Fajl.SaveAs(path);
-                 Vest.Thumbnail = pathzaserver;
-             }
-             context.Vesti.Add(Vest);
-             context.SaveChanges();
-             Telo.TeloVesti = vm.Vest;
-             Telo.VestId = Vest.Id;
-             context.TelaVesti.Add(Telo);
-             context.SaveChanges();
-             return RedirectToAction("PrikazVesti", "Vesti");
-
-            
+            Vest.KratakOpis = vm.KratakOpis;
+            if (Fajl != null)
+            {
+                string ekstenzija = Fajl.FileName.Remove(0, Fajl.FileName.LastIndexOf('.'));
+                string fileId = Guid.NewGuid().ToString().Replace("-", "");
+                string path = Path.Combine(Server.MapPath("~/Content/uploads/Thumbnails/"), fileId + ekstenzija);
+                string pathzaserver = "/Content/uploads/Thumbnails/" + fileId + ekstenzija;
+                Fajl.SaveAs(path);
+                Vest.Thumbnail = pathzaserver;
+            }
+            context.Vesti.Add(Vest);
+            context.SaveChanges();
+            Telo.TeloVesti = vm.Vest;
+            Telo.VestId = Vest.Id;
+            context.TelaVesti.Add(Telo);
+            context.SaveChanges();
+            return RedirectToAction("PrikazVesti", "Vesti");
         }
 
         /// <summary>
@@ -141,13 +134,9 @@ namespace Projekat.Controllers
         [HttpGet]
         public ActionResult PrikazVesti()
         {
-            
             VestModel GlavnaVest = VratiGlavnuVest();
-           
-                return View(GlavnaVest);
 
-            
-          
+            return View(GlavnaVest);
         }
 
         /// <summary>
@@ -160,10 +149,8 @@ namespace Projekat.Controllers
         [HttpGet]
         public ActionResult PosaljiVesti(int pageindex, int pagesize, int idGlavne)
         {
-            
             List<VestModel> vesti = context.Vesti.OrderByDescending(m => m.DatumPostavljanja).Where(m => m.Id != idGlavne).Skip(pageindex * pagesize).Take(pagesize).ToList();
             return Json(vesti.ToList(), JsonRequestBehavior.AllowGet);
-
         }
 
         /// <summary>
@@ -174,7 +161,6 @@ namespace Projekat.Controllers
         [HttpGet]
         public ActionResult PretragaPoNaslovu(string kveri)
         {
-           
             List<VestModel> RezultatPretrage = context.Vesti.Where(x => x.Naslov.ToLower().Contains(kveri.ToLower())).Take(10).ToList();
             return Json(RezultatPretrage, JsonRequestBehavior.AllowGet);
         }
@@ -186,10 +172,9 @@ namespace Projekat.Controllers
         /// <param name="glavna">Da li je vest glavna vest, ako jeste, brise se i iz konfiguracije.</param>
         /// <returns></returns>
         [HttpPost]
-        [Authorize(Roles = "SuperAdministrator,Urednik")]
+        [Authorize(Roles = "SuperAdministrator,LokalniUrednik")]
         public ActionResult BrisanjeVesti(int Id, bool glavna = false)
         {
-           
             VestModel ZaBrisanje = context.Vesti.FirstOrDefault(x => x.Id == Id);
             if (glavna)
             {
@@ -211,7 +196,6 @@ namespace Projekat.Controllers
                     context.TelaVesti.Remove(telo);
                 context.Vesti.Remove(ZaBrisanje);
 
-
                 context.SaveChanges();
             }
             return RedirectToAction("PrikazVesti");
@@ -224,42 +208,42 @@ namespace Projekat.Controllers
             string datum;
             try
             {
-                 datum = Convert.ToDateTime(Datum).ToShortDateString();
+                datum = Convert.ToDateTime(Datum).ToShortDateString();
             }
             catch
             {
                 return new HttpNotFoundResult("Na zalost vest koju trazite nije nadjena");
             }
             List<VestModel> VestiZaPrikaz = context.Vesti.Where(x => x.Naslov == Naslov).ToList();
-            if(VestiZaPrikaz == null)
+            if (VestiZaPrikaz == null)
             {
                 return new HttpNotFoundResult("Na zalost vest koju trazite nije nadjena");
             }
 
             for (int i = 0; i < VestiZaPrikaz.Count; i++)
-            { 
-            if (VestiZaPrikaz[i].DatumPostavljanja.ToShortDateString() == datum)
             {
-                    int id = VestiZaPrikaz[i].Id;
-                PrikazVestiViewModel vm = new PrikazVestiViewModel
+                if (VestiZaPrikaz[i].DatumPostavljanja.ToShortDateString() == datum)
                 {
-                    Naslov = VestiZaPrikaz[i].Naslov,
-                    KratakOpis = VestiZaPrikaz[i].KratakOpis,
-                    DatumPostavljanja = Convert.ToDateTime(datum),
-                    TeloVesti = context.TelaVesti.FirstOrDefault(x=>x.VestId == id).TeloVesti
-                };
-                return View(vm);
+                    int id = VestiZaPrikaz[i].Id;
+                    PrikazVestiViewModel vm = new PrikazVestiViewModel
+                    {
+                        Naslov = VestiZaPrikaz[i].Naslov,
+                        KratakOpis = VestiZaPrikaz[i].KratakOpis,
+                        DatumPostavljanja = Convert.ToDateTime(datum),
+                        TeloVesti = context.TelaVesti.FirstOrDefault(x => x.VestId == id).TeloVesti
+                    };
+                    return View(vm);
+                }
             }
-            }
-           return new HttpNotFoundResult("Na zalost vest koju trazite nije nadjena");
+            return new HttpNotFoundResult("Na zalost vest koju trazite nije nadjena");
         }
 
         [ValidateAntiForgeryToken]
         [HttpPost]
-        [Authorize(Roles = "SuperAdministrator,Urednik")]
-        public ActionResult PostaviGlavnuVest(DateTime datum,string naslov,DateTime novDatum)
+        [Authorize(Roles = "SuperAdministrator,LokalniUrednik")]
+        public ActionResult PostaviGlavnuVest(DateTime datum, string naslov, DateTime novDatum)
         {
-            if(datum!= null && naslov != null && novDatum != null)
+            if (datum != null && naslov != null && novDatum != null)
             {
                 int id;
                 List<VestModel> Vesti = context.Vesti.Where(x => x.Naslov == naslov).ToList();
@@ -278,7 +262,6 @@ namespace Projekat.Controllers
                 }
 
                 return new HttpNotFoundResult("Vest nije mogla biti postavljena kao glavna, pokusajte ponovo, ako se ova greska i dalje pojavljuje, kontaktirajte administratora");
-
             }
             else return new HttpNotFoundResult("Vest nije mogla biti postavljena kao glavna, pokusajte ponovo, ako se ova greska i dalje pojavljuje, kontaktirajte administratora");
         }

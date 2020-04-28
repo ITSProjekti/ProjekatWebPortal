@@ -9,7 +9,7 @@
 }
 
 <div id="sredina">
-    @if (this.User.IsInRole("SuperAdministrator") || this.User.IsInRole("Urednik"))
+    @if (this.User.IsInRole("SuperAdministrator") || this.User.IsInRole("LokalniUrednik"))
     {
         <a id="novi-materijal" href="/Predmet/DodajPredmet">
             <svg width="60" height="60" xmlns="http://www.w3.org/2000/svg">
@@ -35,7 +35,7 @@
         <div class="kartica-predmet clear-fix" id="@predmet.predmetId">
             <a class="naziv-predmeta-na-kartici" href="#">@predmet.predmetNaziv</a>
             <div class="kontrole clear-fix">
-                @if (this.User.IsInRole("SuperAdministrator") || this.User.IsInRole("Urednik"))
+                @if (this.User.IsInRole("SuperAdministrator") || this.User.IsInRole("LokalniUrednik"))
                 {
                     <a href="#" class="kontrola-ikonica edit" data-toggle="modal" data-target="@("#editModal"+ predmet.predmetId)"><img src="~/Content/img/uredi.png" alt="uredi" /></a>
                 }
@@ -44,7 +44,7 @@
             </div>
             <div class="opisPredmeta" style="display:none"><p>@predmet.predmetOpis</p></div>
         </div>
-        if (this.User.IsInRole("SuperAdministrator") || this.User.IsInRole("Urednik"))
+        if (this.User.IsInRole("SuperAdministrator") || this.User.IsInRole("LokalniUrednik"))
         {
             <div class="modal modal-edit fade editModalPredmeta" id="@("editModal"+ predmet.predmetId)" role="dialog">
                 <div class="modal-dialog">

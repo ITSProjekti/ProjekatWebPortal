@@ -126,7 +126,7 @@ namespace Projekat.Controllers
         /// <param name="smerId">Id smera za koji je predmet koji se dodaje.</param>
         /// <returns></returns>
         [HttpGet]
-        [Authorize(Roles = "SuperAdministrator,Urednik,Profesor")]
+        [Authorize(Roles = "SuperAdministrator,LokalniUrednik,Profesor")]
         public ActionResult UploadMaterijal(int? smerId, int? predmetId)
         {
             context = new MaterijalContext();
@@ -196,7 +196,7 @@ namespace Projekat.Controllers
         /// <param name="predmet">Predmet za koji je materijal.</param>
         /// <returns></returns>
         [HttpPost]
-        [Authorize(Roles = "SuperAdministrator,Urednik,Profesor")]
+        [Authorize(Roles = "SuperAdministrator,LokalniUrednik,Profesor")]
         public ActionResult UploadMaterijal(MaterijalModel materijal, HttpPostedFileBase file, int modulId, PredmetPoSmeru predmet/*, string hiddenPredmet*/, string idUser, string odobreno)
         {
             // PredmetModel predmet = new PredmetModel();
@@ -208,6 +208,7 @@ namespace Projekat.Controllers
             if (materijal.namenaMaterijalaId == 2)
             {
                 materijal.predmetId = null;
+                materijal.modulId = null;
             }
             if (idUser != null)
             {
@@ -252,7 +253,7 @@ namespace Projekat.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles = "Urednik,SuperAdministrator")]
+        [Authorize(Roles = "SuperAdministrator,LokalniUrednik")]
         public ActionResult MaterijaliCekanje()
         {
             MaterijaliNaprednaPretragaViewModel materijal = new MaterijaliNaprednaPretragaViewModel();
@@ -266,7 +267,7 @@ namespace Projekat.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = "Urednik,SuperAdministrator")]
+        [Authorize(Roles = "SuperAdministrator,LokalniUrednik")]
         public ActionResult ObrazlozenjeMaterijal(string obrazlozenje, int id)
         {
             MaterijalModel model = new MaterijalModel() { materijalId = id, obrazlozenje = obrazlozenje, odobreno = "false" };
@@ -283,7 +284,7 @@ namespace Projekat.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles = "Profesor,SuperAdministrator")]
+        [Authorize(Roles = "SuperAdministrator,Profesor")]
         public ActionResult UrednikOdgovor()
         {
             MaterijalContext materijalContext = new MaterijalContext();
@@ -367,7 +368,7 @@ namespace Projekat.Controllers
         /// <param name="id">Id materijala za brisanje</param>
         /// <returns></returns>
         [HttpPost]
-        [Authorize(Roles = "SuperAdministrator,Urednik")]
+        [Authorize(Roles = "SuperAdministrator,LokalniUrednik")]
         //[ActionName("Delete")]
         //[Route("UploadMaterijal/DeleteConfirmed/{id:int}")]
         public ActionResult DeleteConfirmed(int id)

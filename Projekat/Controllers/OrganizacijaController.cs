@@ -1,18 +1,16 @@
-﻿using System;
+﻿using Projekat.Models;
+using Projekat.ViewModels;
 using System.Collections.Generic;
-using System.Data.Entity.Validation;
 using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using Projekat.Models;
-using Projekat.ViewModels;
 
 namespace Projekat.Controllers
 {
     public class OrganizacijaController : Controller
     {
-        MaterijalContext materijal;
+        private MaterijalContext materijal;
 
         public OrganizacijaController()
         {
@@ -20,14 +18,16 @@ namespace Projekat.Controllers
         }
 
         // GET: Organizacija
-        [Authorize(Roles ="Urednik,Profesor,Ucenik,SuperAdministrator")]
+        [Authorize(Roles = "LokalniUrednik,Profesor,Ucenik,SuperAdministrator")]
         public ViewResult kalendarNastave()
         {
             return View();
         }
-        [Authorize(Roles ="Urednik,Profesor,Ucenik,SuperAdministrator,Administrator")]
+
+        [Authorize(Roles = "LokalniUrednik,Profesor,Ucenik,SuperAdministrator,Administrator")]
         [HttpGet]
-        public ViewResult planNastave() {
+        public ViewResult planNastave()
+        {
             List<SmerModel> model = materijal.smerovi.ToList();
             if (model.Count() > 0)
             {
@@ -43,8 +43,9 @@ namespace Projekat.Controllers
                 return View();
             }
         }
+
         [HttpGet]
-        [Authorize(Roles ="Urednik")]
+        [Authorize(Roles = "LokalniUrednik")]
         public ActionResult dodavanjeNastave()
         {
             List<SmerModel> model = materijal.smerovi.ToList();
@@ -61,11 +62,11 @@ namespace Projekat.Controllers
             {
                 return new HttpNotFoundResult("Nešto nije u redu!");
             }
-
         }
+
         [HttpPost]
-        [Authorize(Roles ="Urednik")]
-        public ActionResult UploadPlan(string tip,HttpPostedFileBase file,SmerViewModel model)
+        [Authorize(Roles = "LokalniUrednik")]
+        public ActionResult UploadPlan(string tip, HttpPostedFileBase file, SmerViewModel model)
         {
             int smerId = model.smeroviModel.smerId;
             SmerModel modelsmer = materijal.smerovi.Find(smerId);
@@ -120,28 +121,30 @@ namespace Projekat.Controllers
                 return RedirectToAction("dodavanjeNastave", "Organizacija");
             }
             return HttpNotFound();
-
         }
+
         [HttpGet]
-        public ActionResult SkidanjePlana(int id,string type)
+        public ActionResult SkidanjePlana(int id, string type)
         {
             SmerModel model = materijal.smerovi.Find(id);
             if (type.Equals("iths"))
             {
-                return File(model.fajlIts,model.fileMimeTypeIts,model.nazivFajlIts);
+                return File(model.fajlIts, model.fileMimeTypeIts, model.nazivFajlIts);
             }
             else if (type.Equals("ns"))
             {
-                return File(model.fajlNs,model.fileMimeTypeNs,model.nazivFajlNs);
+                return File(model.fajlNs, model.fileMimeTypeNs, model.nazivFajlNs);
             }
             else if (type.Equals("ms"))
             {
-                return File(model.fajlMs,model.fileMimeTypeMs,model.nazivFajlMs);
+                return File(model.fajlMs, model.fileMimeTypeMs, model.nazivFajlMs);
             }
             return HttpNotFound();
         }
-        [Authorize(Roles = "Urednik,Profesor,Ucenik,SuperAdministrator")]
-        public ViewResult rasporedCasova() {
+
+        [Authorize(Roles = "LokalniUrednik,Profesor,Ucenik,SuperAdministrator")]
+        public ViewResult rasporedCasova()
+        {
             return View();
         }
     }

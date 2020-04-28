@@ -1,11 +1,8 @@
-﻿using System;
+﻿using Projekat.Models;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
-using System.Web.Mvc;
-using Projekat.Models;
-using Microsoft.AspNet.Identity;
 using System.Threading.Tasks;
+using System.Web.Mvc;
 
 namespace Projekat.Controllers
 {
@@ -16,7 +13,6 @@ namespace Projekat.Controllers
     [Authorize]
     public class SmerController : Controller
     {
-        
         private IMaterijalContext context;
 
         /// <summary>
@@ -53,7 +49,7 @@ namespace Projekat.Controllers
         [HttpGet]
         public async Task<ActionResult> SmeroviPrikaz()
         {
-            if(this.User.IsInRole("Ucenik"))
+            if (this.User.IsInRole("Ucenik"))
             {
                 string SmerNaziv = await ApplicationUser.VratiSmer(User.Identity.Name);
                 if (SmerNaziv != null)
@@ -74,10 +70,9 @@ namespace Projekat.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        [Authorize(Roles = "SuperAdministrator,Urednik")]
+        [Authorize(Roles = "SuperAdministrator,LokalniUrednik")]
         public ActionResult DodajSmer()
         {
-
             return View();
         }
 
@@ -87,9 +82,9 @@ namespace Projekat.Controllers
         /// <param name="smer">Smer za dodavanje</param>
         /// <returns></returns>
         [HttpPost]
-        [Authorize(Roles = "SuperAdministrator,Urednik")]
+        [Authorize(Roles = "SuperAdministrator,LokalniUrednik")]
         public ActionResult DodajSmer(SmerModel smer)
-        {   
+        {
             if (ModelState.IsValid)
             {
                 if (smer.smerId == 0)
@@ -107,10 +102,7 @@ namespace Projekat.Controllers
                     context.SaveChanges();
                 }
 
-
                 return RedirectToAction("SmeroviPrikaz");
-
-
             }
             return View();
         }

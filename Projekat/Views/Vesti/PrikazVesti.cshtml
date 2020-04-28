@@ -6,33 +6,23 @@
 <style>
 </style>
 
-
-
-
 <div id="sredina" name="sredina" class="sredina-upload-mat">
     <div id="naprednaPretraga" style="width:100%;margin-left:0px;z-index:2;">
         <input type="text" id="PretragaVesti" onkeyup="PretragaVesti()" style="width:30%;font-size: large" placeholder="Pretraga po naslovu vesti...">
         <div style="width:30%;background-color:white;z-index: 100000; position:relative;">
             <ul id="RezultatiPretrage" style="font-size:large;"></ul>
         </div>
-
-
     </div>
     <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
-
-
 
     <!--
 
     -->
 
-
-
     <div id="container" class="flex-container">
 
         @if (Model != null)
         {
-
 
             <div class="glavna" id="glavna">
                 <a href="@string.Format( Url.Action("PrikaziVest","Vesti") + "?Naslov=" + Url.Encode(Url.Encode(Model.Naslov)) + "&Datum=" + Url.Encode(Model.DatumPostavljanja.ToShortDateString()))">
@@ -44,7 +34,7 @@
                         </div>
                         <div style="width: 100%; background: linear-gradient(to bottom, #494949, transparent); height: 17%; position: absolute; left: 1px; top: 0;">
                             <p class="card-text" style="position: absolute; font-size: 13px; color: whitesmoke; top: 10px;"> @Model.DatumPostavljanja.ToShortDateString()</p>
-                            @if (User.IsInRole("SuperAdministrator") || User.IsInRole("Urednik"))
+                            @if (User.IsInRole("SuperAdministrator") || User.IsInRole("LokalniUrednik"))
                             {
                                 <form action="/Vesti/BrisanjeVesti" method="post">
                                     <input type="hidden" value="@Model.Id" name="Id" />
@@ -53,7 +43,6 @@
                                 </form>
                             }
                         </div>
-
                     </div>
                 </a>
             </div>
@@ -63,7 +52,6 @@
         {
             <h1>Na žalost, nema vesti</h1>
         }
-
 
         <div id="progress" style="display:none">
             <h4>Loading...</h4>
@@ -82,20 +70,18 @@
         <script src="~/Scripts/Materijal/filterMaterijal.js"></script>
 
         <script src="~/Scripts/customDropdown.js"></script>
-
     </div>
 </div>
 @if (Model != null)
 {
-    if (User.IsInRole("SuperAdministrator") || User.IsInRole("Urednik"))
+    if (User.IsInRole("SuperAdministrator") || User.IsInRole("LokalniUrednik"))
     {
         <script>changeAllow = true;</script>
-        
 
     }
     else
     {
-        <script> changeAllow = false;</script>
+        <script>changeAllow = false;</script>
 
     }
     <script>
@@ -111,15 +97,15 @@
             {
             var glavnaukartici= "<div id=\"glavnaukartici\" class=\"card\">" +
            "<div class=\"slikaNaslov\"><img class=\"card-img-top\" src=\"" + thumbnail + "\" alt=\"Card image cap\"> <div class=\"naslovVesti\"><p class=\"card-text\">" + naslov + "</p></div></div>" +
-           "<div class=\"card-body\"><div class=\"preveiw\"> <p class=\"prvText\">" + kratakopis + "</p></div> <hr/> <div class=\"prikazi\">" +
+           "<div class=\"card-body\"><div class=\"preveiw\"> <p class=\"prvText\">" + kratakopis + "</p></div> <hr /> <div class=\"prikazi\">" +
                    "<form action=\"/Vesti/PrikaziVest\" method=\"get\">"+
                    "<input type=\"submit\" class=\"btnsVestiPrikaz\" value=\"SAZNAJ VIŠE\" />" +
-                    "<input type=\"hidden\" value =\"" + encodeURIComponent(naslov) + "\" name=\"Naslov\"/>" +
-                     "<input type=\"hidden\" value =\"" + encodeURIComponent(datum) + "\" name=\"Datum\"/>" +
+                    "<input type=\"hidden\" value =\"" + encodeURIComponent(naslov) + "\" name=\"Naslov\" />" +
+                     "<input type=\"hidden\" value =\"" + encodeURIComponent(datum) + "\" name=\"Datum\" />" +
                     "</form>"+
                    "<form action=\"/Vesti/BrisanjeVesti\" method=\"post\">" +
-                   "<input type=\"hidden\" value =\"" + id + "\" name=\"Id\"/>" +
-                   "<input type=\"submit\" class=\"btnsVestiPrikaz\" value=\"OBRIŠI\" onclick=\"return confirm('Da li želite da obrišete vest?')\"/>" +
+                   "<input type=\"hidden\" value =\"" + id + "\" name=\"Id\" />" +
+                   "<input type=\"submit\" class=\"btnsVestiPrikaz\" value=\"OBRIŠI\" onclick=\"return confirm('Da li želite da obrišete vest?')\" />" +
                    "</form>"+
                "</div>" +
            "</div>" +
@@ -129,9 +115,9 @@
         {
             var glavnaukartici= "<div id=\"glavnaukartici\" class=\"card\">" +
    "<div class=\"slikaNaslov\"><img class=\"card-img-top\" src=\"" + thumbnail + "\" alt=\"Card image cap\"> <div class=\"naslovVesti\"><p class=\"card-text\">" + naslov + "</p></div></div>" +
-   "<div class=\"card-body\"><div class=\"preveiw\"> <p class=\"prvText\">" + kratakopis + "</p></div> <hr/> <div class=\"prikazi\">" +
+   "<div class=\"card-body\"><div class=\"preveiw\"> <p class=\"prvText\">" + kratakopis + "</p></div> <hr /> <div class=\"prikazi\">" +
            "<input type=\"submit\" class=\"btnsVestiPrikaz\" value=\"SAZNAJ VIŠE\" />" +
-          
+
        "</div>" +
    "</div>" +
    "</div>";
@@ -139,9 +125,6 @@
 
     var child = document.getElementById("glavna");
     var parent=document.getElementById("container");
-
-
-
 
     $( window ).resize(function() {
         if($(window).width() <930)
@@ -158,13 +141,9 @@
 
             $("#container").removeClass("flex-container");
 
-
-
                 parent.removeChild(child);              //brise glavnu vest
 
                 $("#container").prepend(glavnaukartici);            //stavlja glavnu vest kao karticu
-
-
 
         }
         else
@@ -179,14 +158,11 @@
         }
 
     });
-
-
-
     </script>
 }
 
-    <script src="~/Scripts/prikaziLupicuPretraga.js"></script>
-    @section Scripts{
-        @Scripts.Render("~/Scripts/UI/hamburger.js");
+<script src="~/Scripts/prikaziLupicuPretraga.js"></script>
+@section Scripts{
+    @Scripts.Render("~/Scripts/UI/hamburger.js");
 
-    }
+}

@@ -53,7 +53,7 @@ namespace Projekat.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles = "SuperAdministrator,Urednik")]
+        [Authorize(Roles = "SuperAdministrator,LokalniUrednik")]
         public ActionResult DodajModul(int? smerId)
         {
             DodajModulViewModel viewModel = new DodajModulViewModel
@@ -93,7 +93,7 @@ namespace Projekat.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = "SuperAdministrator,Urednik")]
+        [Authorize(Roles = "SuperAdministrator,LokalniUrednik")]
         public ActionResult DodajModul(DodajModulViewModel m)
         {
             context = new MaterijalContext();
@@ -174,7 +174,7 @@ namespace Projekat.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = "SuperAdministrator,Urednik")]
+        [Authorize(Roles = "SuperAdministrator,LokalniUrednik")]
         public JsonResult Delete(int id)
         {
             bool result = false;
@@ -217,7 +217,7 @@ namespace Projekat.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles = "SuperAdministrator, Urednik")]
+        [Authorize(Roles = "SuperAdministrator, LokalniUrednik")]
         public ActionResult EditModul(int id, int? smerId)
         {
             ModulModel modul = context.moduli.Where(x => x.modulId == id).Single();
@@ -262,7 +262,7 @@ namespace Projekat.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = "SuperAdministrator,Urednik")]
+        [Authorize(Roles = "SuperAdministrator,LokalniUrednik")]
         public ActionResult EditModul(DodajModulViewModel m)
         {
             if (m.modul.predmetId != null)

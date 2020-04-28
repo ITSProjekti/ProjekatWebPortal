@@ -730,7 +730,6 @@
     <Content Include="Scripts\popper-utils.min.js.map" />
     <Content Include="Scripts\popper-utils.js.map" />
     <Content Include="Views\Vesti\PrikaziVest.cshtml" />
-    <Content Include="Views\Shared\FileNotFound2.cshtml" />
     <Content Include="Views\Account\LoggedUserData.cshtml" />
     <Content Include="Scripts\jquery-3.3.1.slim.min.map" />
     <Content Include="Scripts\jquery-3.3.1.min.map" />
@@ -755,7 +754,6 @@
     <Content Include="Views\Modul\ModulPrikaz.cshtml" />
     <Content Include="Views\Modul\DodajModul.cshtml" />
     <Content Include="Views\Modul\_PredmetiNaSmeruModul.cshtml" />
-    <Content Include="Views\Modul\Index.cshtml" />
     <Content Include="Views\Modul\EditModul.cshtml" />
   </ItemGroup>
   <ItemGroup>

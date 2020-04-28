@@ -11,9 +11,6 @@
     @Styles.Render("~/Content/css/select2izgled.css")
     @Styles.Render("~/Content/css/simplebar.css")
 
-
-
-
     <script src="https://unpkg.com/simplebar@latest/dist/simplebar.js"></script>
     @*CDN za simplebar*@
 </head>
@@ -52,7 +49,6 @@
 
             @{Html.RenderAction("LoggedUserData", "Account");}
 
-
             <!-- Ovde su one levo sto stoje u listi ovo stoji ovde samo da bi mogo da nadjem de pocinje, zato je ovako dugacko -->
             @if (this.User.IsInRole("SuperAdministrator") || User.IsInRole("Administrator"))
             {
@@ -84,7 +80,6 @@
                 </ul>
             }
 
-
             <ul class="ListaNav" id="n2">
                 <li class="naslov">
                     <div id="Materijali" class="slikaOdNaslova">
@@ -92,7 +87,7 @@
                     </div>
                     <p>Materijali</p>
                 </li>
-                @if (this.User.IsInRole("SuperAdministrator") || this.User.IsInRole("Urednik") || this.User.IsInRole("Profesor"))
+                @if (this.User.IsInRole("SuperAdministrator") || this.User.IsInRole("LokalniUrednik") || this.User.IsInRole("Profesor"))
                 {
                     <li class="blok">
                         <a href="@Url.Action("UploadMaterijal", "Materijal")">
@@ -113,7 +108,7 @@
                             </a>
                         </li>
                     }
-                    if (!this.User.IsInRole("Urednik"))
+                    if (!this.User.IsInRole("LokalniUrednik"))
                     {
                         <li class="blok">
                             <a href="@Url.Action("UrednikOdgovor", "Materijal")">
@@ -157,9 +152,8 @@
                         <p id="vestiP">Organizacija</p> <!-- POGLEDAJ ID!-->
                     </li>
 
-                    @if (this.User.IsInRole("Urednik") || this.User.IsInRole("SuperAdministrator") || this.User.IsInRole("Profesor") || this.User.IsInRole("Administrator"))
+                    @if (this.User.IsInRole("LokalniUrednik") || this.User.IsInRole("SuperAdministrator") || this.User.IsInRole("Profesor") || this.User.IsInRole("Administrator"))
                     {
-
 
                         <li class="blok">
                             <a href="@Url.Action("planNastave", "Organizacija")">
@@ -169,7 +163,7 @@
                                 <p id="22">Plan nastave</p>
                             </a>
                         </li>
-                        if (this.User.IsInRole("Urednik"))
+                        if (this.User.IsInRole("LokalniUrednik"))
                         {
                             <li class="blok">
                                 <a href="@Url.Action("dodavanjeNastave", "Organizacija")">
@@ -190,7 +184,6 @@
                                 <p id="l1">Kalendar nastave</p>
                             </a>
                         </li>
-
 
                         <li class="blok">
                             <a href="@Url.Action("rasporedCasova", "Organizacija")">
@@ -255,7 +248,6 @@
                 </ul>
             }
 
-
             <ul class="ListaNav" id="n3">
                 <li class="naslov">
                     <div id="Novine" class="slikaOdNaslova">
@@ -271,7 +263,7 @@
                         <p id="l5">Pregled vesti</p>
                     </a>
                 </li>
-                @if (this.User.IsInRole("Urednik") || this.User.IsInRole("SuperAdministrator"))
+                @if (this.User.IsInRole("LokalniUrednik") || this.User.IsInRole("SuperAdministrator"))
                 {
                     <li class="blok">
                         <a href="@Url.Action("NovaVest", "Vesti")">
@@ -282,7 +274,6 @@
                         </a>
                     </li>
                 }
-
             </ul>
         </div>
     }
@@ -306,7 +297,6 @@
             <a id="nazad" href="#"> </a><br />
         }
 
-
         <div class="divMapiranje">
 
             @Html.MvcSiteMap().SiteMapPath()
@@ -320,9 +310,7 @@
         @*<img class="gornjiNavIkonice" id="lupaPretragaToggle" src="~/Content/img/lupaPretraga.png" alt="pretraga" />*@
 
         <div id="zaPretragu">
-
         </div>
-
     </div>
     @if (User.Identity.IsAuthenticated)
     {
@@ -337,7 +325,6 @@
                         <input class="ttDugme" type="submit" value="LOG OUT" />
                     }
                 </li>
-
             </ul>
         </div>}
     <script>
@@ -354,7 +341,6 @@
         }
     </script>
 
-
     <script src="~/Scripts/umdPopper.js"></script>
     @Scripts.Render("~/bundles/modernizr")
     @Scripts.Render("~/bundles/jquery")
@@ -365,7 +351,6 @@
     @Scripts.Render("~/bundles/ui")
 
     @RenderBody()
-
 
     @*<hr />
         <footer>

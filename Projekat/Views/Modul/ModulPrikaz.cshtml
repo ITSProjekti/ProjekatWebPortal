@@ -6,7 +6,7 @@
 }
 
 <div id="sredina">
-    @if (this.User.IsInRole("SuperAdministrator") || this.User.IsInRole("Urednik"))
+    @if (this.User.IsInRole("SuperAdministrator") || this.User.IsInRole("LokalniUrednik"))
     {
         <a id="novi-materijal" href="/Modul/DodajModul">
             <svg width="60" height="60" xmlns="http://www.w3.org/2000/svg">
@@ -31,17 +31,16 @@
         <div class="kartica-predmet clear-fix" id="@modul.modulId">
             <a class="naziv-predmeta-na-kartici" href="#">@modul.modulNaziv</a>
             <div class="kontrole clear-fix">
-                @if (this.User.IsInRole("SuperAdministrator") || this.User.IsInRole("Urednik"))
+                @if (this.User.IsInRole("SuperAdministrator") || this.User.IsInRole("LokalniUrednik"))
                 {
                     <a href=@("/Modul/EditModul/"+modul.modulId) class="kontrola-ikonica edit"><img src="~/Content/img/uredi.png" alt="uredi" /></a>
-                    <a href="#" class="kontrola-ikonica dugme-delete"><img  src="~/Content/img/obrisi.png" /></a>
+                    <a href="#" class="kontrola-ikonica dugme-delete"><img src="~/Content/img/obrisi.png" /></a>
                 }
                 <a class="predmet-kontrole opis" id="showOpis" href="#" data-opis="@modul.modulOpis" data-toggle="modal" data-target="#opisModal">OPIS</a>
                 @Html.ActionLink("MATERIJALI", "MaterijaliPrikaz", "Materijal", new { id = modul.modulId }, new { @class = "predmet-kontrole getMaterijali", tabindex = modul.modulId })
             </div>
-            
         </div>
-        @*if (this.User.IsInRole("SuperAdministrator") || this.User.IsInRole("Urednik"))
+        @*if (this.User.IsInRole("SuperAdministrator") || this.User.IsInRole("LokalniUrednik"))
             {
                 <div class="modal modal-edit fade editModalPredmeta" id="@("editModal"+ predmet.predmetId)" role="dialog">
                     <div class="modal-dialog">
@@ -115,7 +114,6 @@
                 <div class="modal-footer">
                     <button id="deleteConfirm" type="button" class="btn btn-default">Potvrdi</button>
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Odustani</button>
-
                 </div>
             </div>
         </div>
