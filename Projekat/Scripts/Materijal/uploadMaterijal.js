@@ -22,7 +22,7 @@ var forma = $('#postavkaMat');
 var modulId = $('#modulId').find($("option:selected")).val();
 $('#modulId').on('change', function () {
     modulId = $('#modulId').find($("option:selected")).val();
-}
+})
 
 $('#postavkaMat').validate({
     rules: {
@@ -84,4 +84,4 @@ $('#postavkaMat').validate({
         sessionStorage.setItem('upload', true);
         forma.submit();
     }
-});
+})

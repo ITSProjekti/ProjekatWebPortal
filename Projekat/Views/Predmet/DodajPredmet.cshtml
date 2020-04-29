@@ -28,6 +28,8 @@
             @Html.TextBoxFor(m => m.predmet.predmetNaziv, new { @name = "predmetNaziv" })
             <label for="predmet_predmetOpis" class="matDesignLabel">Opis</label>
             @Html.TextAreaFor(m => m.predmet.predmetOpis, new { @name = "predmetOpis" }) //Ne diraj NAME NIKAKO!
+            @Html.HiddenFor(m=>m.tip, new { @name="tip" })
+                                                                                         
 
             <button type="submit" id="postavi" name="submitPredmet">POSTAVI</button>
         }

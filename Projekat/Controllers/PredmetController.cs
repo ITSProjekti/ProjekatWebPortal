@@ -37,6 +37,8 @@ namespace Projekat.Controllers
             context = new MaterijalContext();
             DodajPremetViewModel viewModel = new DodajPremetViewModel();
             viewModel.smerovi = context.smerovi.ToList();
+            viewModel.tip = 1;
+            
 
             return View("DodajPredmet", viewModel);
         }
@@ -54,7 +56,9 @@ namespace Projekat.Controllers
 
             try
             {
+                viewModel.predmet.tipId = viewModel.tip;
                 context.Add<PredmetModel>(viewModel.predmet);
+                
 
                 foreach (int n in viewModel.smerIds)
                 {
@@ -92,6 +96,9 @@ namespace Projekat.Controllers
             context = new MaterijalContext();
 
             PredmetModel predmetPromenjenji = context.predmeti.FirstOrDefault(m => m.predmetId == predmetId);
+            int tipID = context.predmeti.Where(m => m.predmetId == predmetId).Select(m => m.tipId).First();
+
+            string tip = context.tipPredmeta.Where(m => m.tipId == tipID).Select(m => m.tipNaziv).First();
             List<int> smeroviIdIzBaze = context.predmetiPoSmeru.Where(m => m.predmetId == predmetId).Select(m => m.smerId).ToList();
 
             if (predmetPromenjenji == null)
@@ -159,7 +166,7 @@ namespace Projekat.Controllers
 
             string smernaziv = context.smerovi.FirstOrDefault(x => x.smerId == smerId).smerNaziv;
 
-            return RedirectToAction("PredmetiPrikaz", new { smer = smernaziv, razred = Razred });
+            return RedirectToAction("PredmetiPrikaz", new { smer = smernaziv, razred = Razred, tip });
         }
 
         /// <summary>
