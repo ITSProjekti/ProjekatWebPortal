@@ -60,6 +60,8 @@ namespace Projekat.Models
         /// </value>
         public DbSet<TipMaterijalModel> tipMaterijala { get; set; }
 
+        public DbSet<MaterijalPoModulu> materijalPoModulu { get; set; }
+
         /// <summary>
         /// Gets the queryable data source for tipPredmeta.
         /// </summary>
@@ -71,10 +73,16 @@ namespace Projekat.Models
         public DbSet<SkolaModel> Skole { get; set; }
         public DbSet<Forum_Post> Forum { get; set; }
         public DbSet<Forum_Message> Message { get; set; }
+
         //public DbSet<AspNetUser> Users { get; set; }
         //public DbSet<MaterijalProfesorModel> Profesormaterijali { get; set; }
 
         public DbSet<ModulModel> moduli { get; set; }
+
+        IQueryable<MaterijalPoModulu> IMaterijalContext.materijalPoModulu
+        {
+            get { return materijalPoModulu; }
+        }
 
         IQueryable<TipMaterijalModel> IMaterijalContext.tipMaterijala
         {
@@ -147,16 +155,36 @@ namespace Projekat.Models
         IQueryable<OsiromaseniMaterijali> IMaterijalContext.poModulu(int? modulId)
         {
             IQueryable<OsiromaseniMaterijali> materijali;
-            materijali = this.materijali.Where(m => m.modulId == modulId && m.odobreno != null).Select(m => new OsiromaseniMaterijali
+
+            materijali = from mat in this.materijali
+                         select new OsiromaseniMaterijali
+                         {
+                             namenaID = mat.namenaMaterijalaId,
+                             materijalId = mat.materijalId,
+                             ekstenzija = mat.materijalEkstenzija,
+                             materijalNaslov = mat.materijalNaslov,
+                             materijalOpis = mat.materijalOpis,
+                             tipMaterijalaId = mat.tipMaterijalId,
+                             modulId = mat.materijalId
+                         };
+
+            if (modulId != null)
             {
-                namenaID = m.namenaMaterijalaId,
-                materijalId = m.materijalId,
-                ekstenzija = m.materijalEkstenzija,
-                materijalNaslov = m.materijalNaslov,
-                materijalOpis = m.materijalOpis,
-                tipMaterijalaId = m.tipMaterijalId,
-                modulId = m.modulId
-            });
+                materijali = from mat in this.materijali
+                             join matPoMod in this.materijalPoModulu
+                             on mat.materijalId equals matPoMod.materijalId
+                             where matPoMod.modulId == modulId
+                             select new OsiromaseniMaterijali
+                             {
+                                 namenaID = mat.namenaMaterijalaId,
+                                 materijalId = mat.materijalId,
+                                 ekstenzija = mat.materijalEkstenzija,
+                                 materijalNaslov = mat.materijalNaslov,
+                                 materijalOpis = mat.materijalOpis,
+                                 tipMaterijalaId = mat.tipMaterijalId,
+                                 modulId = mat.materijalId
+                             };
+            }
 
             return materijali;
         }
@@ -172,7 +200,6 @@ namespace Projekat.Models
                 materijalNaslov = m.materijalNaslov,
                 materijalOpis = m.materijalOpis,
                 tipMaterijalaId = m.tipMaterijalId,
-                modulId = m.modulId
             });
             return materijali;
         }

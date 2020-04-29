@@ -200,13 +200,17 @@ namespace Projekat.Controllers
         public ActionResult UploadMaterijal(MaterijalModel materijal, HttpPostedFileBase file, int modulId, string idUser, string odobreno)
         {
             // PredmetModel predmet = new PredmetModel();
-            materijal.modulId = modulId;
+            //materijal.modulId = modulId;
 
             context = new MaterijalContext();
 
-            if (materijal.namenaMaterijalaId == 2)
+            if (materijal.namenaMaterijalaId != 2)
             {
-                materijal.modulId = null;
+                context.Add<MaterijalPoModulu>(new MaterijalPoModulu
+                {
+                    modulId = modulId,
+                    materijalId = materijal.materijalId
+                });
             }
             if (idUser != null)
             {

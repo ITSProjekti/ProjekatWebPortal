@@ -188,19 +188,6 @@ namespace Projekat.Controllers
             {
                 return Json(result, JsonRequestBehavior.AllowGet);
             }
-
-            IEnumerable<MaterijalModel> materijali = context.materijali.Where(x => x.modulId == id);
-            foreach (MaterijalModel item in materijali)
-            {
-                try
-                {
-                    context.Delete(item);
-                }
-                catch
-                {
-                    return Json(result, JsonRequestBehavior.AllowGet);
-                }
-            }
             try
             {
                 context.Delete(modul);

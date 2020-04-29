@@ -74,6 +74,14 @@ namespace Projekat.Models
         IQueryable<TipPredmetaModel> tipPredmeta { get; }
 
         /// <summary>
+        /// Gets the queryable data source for MaterijalPoModulu.
+        /// </summary>
+        /// <value>
+        /// The queryable selection of MaterijalPoModulu Classes.
+        /// </value>
+        IQueryable<MaterijalPoModulu> materijalPoModulu { get; }
+
+        /// <summary>
         /// Saves the changes.
         /// </summary>
         /// <returns></returns>

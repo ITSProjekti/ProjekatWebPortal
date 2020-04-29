@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -119,23 +120,6 @@ namespace Projekat.Models
         }
 
         /// <summary>
-        /// Gets or sets the modul model.
-        /// </summary>
-        /// <value>
-        /// The modul model.
-        /// </value>
-        public ModulModel ModulModel { get; set; }
-
-        /// <summary>
-        /// Gets or sets the modul identifier.
-        /// </summary>
-        /// <value>
-        /// The modul identifier.
-        /// </value>
-        [ForeignKey("ModulModel")]
-        public int? modulId { get; set; }
-
-        /// <summary>
         /// Gets or sets the tip materijal model.
         /// </summary>
         /// <value>
@@ -171,5 +155,7 @@ namespace Projekat.Models
         /// </value>
         [ForeignKey("NamenaMaterijalaModel")]
         public int namenaMaterijalaId { get; set; }
+
+        private IEnumerable<ModulModel> moduli { get; set; }
     }
 }
