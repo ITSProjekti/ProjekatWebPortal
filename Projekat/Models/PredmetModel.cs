@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.IO;
-using System.ComponentModel;
-using System.Web.Mvc;
 
 namespace Projekat.Models
 {
@@ -23,6 +17,7 @@ namespace Projekat.Models
         /// </value>
         [Key]
         public int predmetId { get; set; }
+
         /// <summary>
         /// Gets or sets the predmet name.
         /// </summary>
@@ -30,6 +25,7 @@ namespace Projekat.Models
         /// The predmet name.
         /// </value>
         public string predmetNaziv { get; set; }
+
         /// <summary>
         /// Gets or sets the predmet description.
         /// </summary>
@@ -37,6 +33,17 @@ namespace Projekat.Models
         /// The predmet description.
         /// </value>
         public string predmetOpis { get; set; }
+
+        public TipPredmetaModel TipPredmetaModel { get; set; }
+
+        /// <summary>
+        /// Gets or sets the tip predmeta identifier.
+        /// </summary>
+        /// <value>
+        /// The tip predmeta identifier.
+        /// </value>
+        [ForeignKey("TipPredmetaModel")]
+        public int tipId { get; set; }
 
         /// <summary>
         ///  Gets or sets the queryable data source for Predmeti.
@@ -46,6 +53,6 @@ namespace Projekat.Models
         /// </value>
         public IEnumerable<PredmetModel> predmeti { get; set; }
 
-		public int? Razred { get; set; } // redni broj razreda gde predmet pripada
-	}
+        public int? Razred { get; set; } // redni broj razreda gde predmet pripada
+    }
 }

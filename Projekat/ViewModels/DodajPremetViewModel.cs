@@ -32,5 +32,7 @@ namespace Projekat.ViewModels
         /// The smer ids.
         /// </value>
         public List<int> smerIds { get; set; } //Za upisivanje u bazu
+
+        public int tip { get; set; }
     }
 }
