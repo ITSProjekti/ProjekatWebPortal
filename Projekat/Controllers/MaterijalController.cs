@@ -116,6 +116,11 @@ namespace Projekat.Controllers
                 tipoviMaterijala = context.tipMaterijala.ToList()
             };
 
+            if (sort != null && tipovi.Count != 0)
+            {
+                return View("_Kartice", vm);
+            }
+
             return View("MaterijaliPrikaz", vm);
         }
 
