@@ -33,6 +33,10 @@
                     </a>
 
                 }
+                @if (this.User.IsInRole("LokalniUrednik") || this.User.IsInRole("Profesor"))
+                {
+                    <a class="upgrade" href="#"><img style="width:12px;" src="~/Content/img/upgradeIco.png" /></a>;
+                }
                 <a class="preuzmi" href="@Url.Action("DownloadMaterijal", "Materijal", new { id = osiromaseni.materijalId })">preuzmi</a>
             </div>
         </div>

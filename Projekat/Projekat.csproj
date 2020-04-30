@@ -237,6 +237,7 @@
     <Compile Include="Controllers\RazredController.cs" />
     <Compile Include="Controllers\SmerController.cs" />
     <Compile Include="Controllers\VestiController.cs" />
+    <Compile Include="Controllers\ZahtevController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -351,6 +352,10 @@
     <Compile Include="Migrations\MaterijalContext\202004291031474_ModulMaterijal.Designer.cs">
       <DependentUpon>202004291031474_ModulMaterijal.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\MaterijalContext\202004301654512_GlobalniZahtevi.cs" />
+    <Compile Include="Migrations\MaterijalContext\202004301654512_GlobalniZahtevi.Designer.cs">
+      <DependentUpon>202004301654512_GlobalniZahtevi.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\MaterijalContext\MaterijalConfiguration.cs" />
     <Compile Include="Migrations\VestiContext\201808170921538_Dodavanje_Vesti_U_Bazu.cs" />
     <Compile Include="Migrations\VestiContext\201808170921538_Dodavanje_Vesti_U_Bazu.Designer.cs">
@@ -373,6 +378,7 @@
     <Compile Include="Models\AspNetUser.cs" />
     <Compile Include="Models\Forum_Message.cs" />
     <Compile Include="Models\Forum_Post.cs" />
+    <Compile Include="Models\GlobalniZahteviModel.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\IMaterijalContext.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
@@ -493,6 +499,7 @@
     <Content Include="Content\img\trougao-breadcrumbs.png" />
     <Content Include="Content\img\TXTicon.png" />
     <Content Include="Content\img\ucenik.png" />
+    <Content Include="Content\img\upgradeIco.png" />
     <Content Include="Content\img\upload.png" />
     <Content Include="Content\img\upload2.png" />
     <Content Include="Content\img\uredi.png" />
@@ -553,6 +560,7 @@
     <Content Include="Scripts\datatables.min.js" />
     <Content Include="Scripts\Korisnik\register.js" />
     <Content Include="Scripts\Korisnik\SakrijGodine.js" />
+    <Content Include="Scripts\Materijal\zahtevUpgrade.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
     <Content Include="Scripts\Modul\customDropdownModul.js" />
     <Content Include="Scripts\Modul\ModulDelete.js" />
@@ -775,6 +783,7 @@
     <Folder Include="Scripts\Shared\" />
     <Folder Include="Views\Error\" />
     <Folder Include="Views\Shared\Editor templates\" />
+    <Folder Include="Views\Zahtev\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config">
@@ -863,6 +872,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\MaterijalContext\202004291031474_ModulMaterijal.resx">
       <DependentUpon>202004291031474_ModulMaterijal.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\MaterijalContext\202004301654512_GlobalniZahtevi.resx">
+      <DependentUpon>202004301654512_GlobalniZahtevi.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\VestiContext\201808170921538_Dodavanje_Vesti_U_Bazu.resx">
       <DependentUpon>201808170921538_Dodavanje_Vesti_U_Bazu.cs</DependentUpon>

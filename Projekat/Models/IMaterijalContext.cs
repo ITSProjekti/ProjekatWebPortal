@@ -82,6 +82,14 @@ namespace Projekat.Models
         IQueryable<MaterijalPoModulu> materijalPoModulu { get; }
 
         /// <summary>
+        /// Gets the queryable data source for GlobalniZahtevi.
+        /// </summary>
+        /// <value>
+        /// The queryable selection of GlobalniZahtevi Classes.
+        /// </value>
+        IQueryable<GlobalniZahteviModel> globalniZahtevi { get; }
+
+        /// <summary>
         /// Saves the changes.
         /// </summary>
         /// <returns></returns>

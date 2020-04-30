@@ -78,10 +78,16 @@ namespace Projekat.Models
         //public DbSet<MaterijalProfesorModel> Profesormaterijali { get; set; }
 
         public DbSet<ModulModel> moduli { get; set; }
+        public DbSet<GlobalniZahteviModel> globalniZahtevi { get; set; }
 
         IQueryable<MaterijalPoModulu> IMaterijalContext.materijalPoModulu
         {
             get { return materijalPoModulu; }
+        }
+
+        IQueryable<GlobalniZahteviModel> IMaterijalContext.globalniZahtevi
+        {
+            get { return globalniZahtevi; }
         }
 
         IQueryable<TipMaterijalModel> IMaterijalContext.tipMaterijala
