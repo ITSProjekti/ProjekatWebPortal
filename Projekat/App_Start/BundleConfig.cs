@@ -49,7 +49,7 @@ namespace Projekat
             bundles.Add(new ScriptBundle("~/bundles/materijal_prikaz").Include(
                        "~/Scripts/Materijal/brisanjeMaterijala.js",
                        "~/Scripts/Materijal/filterMaterijal.js",
-                       "~/Scripts/Materijal/zahtevUpgrade.js",
+                       "~/Scripts/Zahtev/zahtevUpgrade.js",
                        "~/Scripts/customDropdown.js"
             ));
 

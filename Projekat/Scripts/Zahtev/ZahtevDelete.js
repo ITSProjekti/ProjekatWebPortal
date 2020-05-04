@@ -3,7 +3,6 @@
     var id = $(this).closest('.kartica').attr('id');
     $("#hiddenZahtevId").val(id);
     $("#deleteModal").modal('show');
-
 })
 $('#deleteConfirm').click(function () {
     var id = $("#hiddenZahtevId").val();
@@ -22,11 +21,7 @@ $('#deleteConfirm').click(function () {
                 alert("Došlo je do greške pri pokušaju brisanja zahteva.");
                 $("#deleteModal").modal("hide");
                 location.reload(true);
-
             }
         }
     });
 })
-
-
-

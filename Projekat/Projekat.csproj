@@ -561,7 +561,7 @@
     <Content Include="Scripts\datatables.min.js" />
     <Content Include="Scripts\Korisnik\register.js" />
     <Content Include="Scripts\Korisnik\SakrijGodine.js" />
-    <Content Include="Scripts\Materijal\zahtevUpgrade.js" />
+    <Content Include="Scripts\Zahtev\zahtevUpgrade.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
     <Content Include="Scripts\Modul\customDropdownModul.js" />
     <Content Include="Scripts\Modul\ModulDelete.js" />
