@@ -171,18 +171,31 @@ namespace Projekat.Controllers
             {
                 if (predmetId != null && smerId != null)
                 {
-                    var predmetiposmeru = context.predmetiPoSmeru.Where(x => x.smerId == smerId).Select(c => c.predmetId).ToList();
-                    viewModel.PredmetPoSmeru = (viewModel.Predmeti.Where(x => predmetiposmeru.Contains(x.predmetId)));
-                    viewModel.ModulPoPredmetu = viewModel.Moduli.Where(x => x.predmetId == predmetId);
+                    try
+                    {
+                        var predmetiposmeru = context.predmetiPoSmeru.Where(x => x.smerId == smerId).Select(c => c.predmetId).ToList();
+                        viewModel.PredmetPoSmeru = (viewModel.Predmeti.Where(x => predmetiposmeru.Contains(x.predmetId)));
+                        viewModel.ModulPoPredmetu = viewModel.Moduli.Where(x => x.predmetId == predmetId);
+                    }
+                    catch (Exception)
+                    {
+                        return View("HttpNotFound");
+                    }
 
                     return PartialView("_PredmetiNaSmeru", viewModel);
                 }
                 else if (smerId != null && predmetId == null)
                 {
-                    var predmetiposmeru = context.predmetiPoSmeru.Where(x => x.smerId == smerId).Select(c => c.predmetId).ToList();
-                    viewModel.PredmetPoSmeru = (viewModel.Predmeti.Where(x => predmetiposmeru.Contains(x.predmetId)));
-                    viewModel.ModulPoPredmetu = viewModel.Moduli.Where(x => x.predmetId == viewModel.PredmetPoSmeru.First().predmetId);
-
+                    try
+                    {
+                        var predmetiposmeru = context.predmetiPoSmeru.Where(x => x.smerId == smerId).Select(c => c.predmetId).ToList();
+                        viewModel.PredmetPoSmeru = (viewModel.Predmeti.Where(x => predmetiposmeru.Contains(x.predmetId)));
+                        viewModel.ModulPoPredmetu = viewModel.Moduli.Where(x => x.predmetId == viewModel.PredmetPoSmeru.First().predmetId);
+                    }
+                    catch (Exception)
+                    {
+                        return View("HttpNotFound");
+                    }
                     return PartialView("_PredmetiNaSmeru", viewModel);
                 }
                 else
