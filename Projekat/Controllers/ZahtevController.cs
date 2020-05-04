@@ -1,6 +1,10 @@
 ﻿using Projekat.Models;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Web.Mvc;
+using Projekat.Models;
+using Projekat.ViewModels;
 
 namespace Projekat.Controllers
 {
@@ -38,6 +42,28 @@ namespace Projekat.Controllers
             catch { }
 
             return Json(true, JsonRequestBehavior.AllowGet);
+        }
+        [HttpGet]
+        public ActionResult PrikazZahteva()
+        {
+            List<GlobalniZahtevViewModel> viewModels = new List<GlobalniZahtevViewModel>();
+
+            List<GlobalniZahteviModel> globalni;
+
+            globalni = context.globalniZahtevi.ToList();
+            
+            foreach(var item in globalni)
+            {
+                GlobalniZahtevViewModel zahtev = new GlobalniZahtevViewModel()
+                {
+                    materijal = context.materijali.Single(x=> x.materijalId == item.materijalId),
+                    globalni = item,
+                };
+
+                viewModels.Add(zahtev);
+            }
+
+            return View(viewModels);
         }
     }
 }
