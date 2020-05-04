@@ -104,6 +104,10 @@ namespace Projekat
            "~/Scripts/Korisnik/SakrijGodine.js"
            ));
 
+            bundles.Add(new ScriptBundle("~/bundles/PrikazZahteva").Include(
+                "~/Scripts/Zahtev/ZahtevDelete.js"
+                ));
+
             bundles.Add(new ScriptBundle("~/bundles/lista_korisnika").Include(
 
              "~/Scripts/datatables.min.js",

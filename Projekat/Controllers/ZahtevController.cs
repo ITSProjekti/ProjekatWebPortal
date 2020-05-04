@@ -3,7 +3,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
-using Projekat.Models;
 using Projekat.ViewModels;
 
 namespace Projekat.Controllers
@@ -64,6 +63,35 @@ namespace Projekat.Controllers
             }
 
             return View(viewModels);
+        }
+
+        [HttpPost]
+        [Authorize(Roles= "GlobalniUrednik")]
+        public JsonResult Delete(int Id)
+        {
+            bool result = false;
+            GlobalniZahteviModel zahtev;
+            try
+            {
+                zahtev = context.globalniZahtevi.Single(x => x.zahtevId == Id);
+            }
+            catch
+            {
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
+            try
+            {
+                context.Delete<GlobalniZahteviModel>(zahtev);
+                context.SaveChanges();
+                result = true;
+            }
+            catch
+            {
+                result = false;
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
+
+            return Json(result, JsonRequestBehavior.AllowGet);
         }
     }
 }

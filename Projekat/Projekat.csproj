@@ -636,6 +636,7 @@
     <Content Include="Scripts\umd\popper.min.js" />
     <Content Include="Scripts\Vesti\prikazVesti.js" />
     <Content Include="Scripts\Vesti\validacijaVesti.js" />
+    <Content Include="Scripts\Zahtev\ZahtevDelete.js" />
     <Content Include="Scripts\_references.js" />
     <Content Include="Summernote\font\summernote.eot" />
     <Content Include="Summernote\font\summernote.ttf" />
@@ -783,6 +784,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Content\Konfiguracija\" />
+    <Folder Include="Scripts\NewFolder1\" />
     <Folder Include="Scripts\Shared\" />
     <Folder Include="Views\Error\" />
     <Folder Include="Views\Shared\Editor templates\" />
