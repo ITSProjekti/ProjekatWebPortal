@@ -22,6 +22,7 @@ namespace Projekat.Controllers
             return View();
         }
 
+        [Authorize(Roles = "GlobalniUrednik,SuperAdministrator")]
         public JsonResult UpgradeMaterijal(int id, string opis)
         {
             context = new MaterijalContext();
@@ -67,6 +68,7 @@ namespace Projekat.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "GlobalniUrednik,SuperAdministrator")]
         public ActionResult PrikazZahteva()
         {
             List<GlobalniZahtevViewModel> viewModels = new List<GlobalniZahtevViewModel>();
@@ -90,7 +92,7 @@ namespace Projekat.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = "GlobalniUrednik")]
+        [Authorize(Roles = "GlobalniUrednik,SuperAdministrator")]
         public JsonResult Delete(int Id)
         {
             bool result = false;
@@ -119,7 +121,7 @@ namespace Projekat.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles = "GlobalniUrednik")]
+        [Authorize(Roles = "GlobalniUrednik,SuperAdministrator")]
         public ActionResult Accept(int id, int? predmetId)
         {
             GlobalniZahtevViewModel viewModel;
@@ -177,7 +179,7 @@ namespace Projekat.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = "GlobalniUrednik")]
+        [Authorize(Roles = "GlobalniUrednik,SuperAdministrator")]
         public ActionResult Accept(GlobalniZahtevViewModel viewmodel)
         {
             MaterijalPoModulu temp = new MaterijalPoModulu()

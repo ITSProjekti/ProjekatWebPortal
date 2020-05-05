@@ -38,25 +38,8 @@ namespace Projekat.Controllers
             DodajPremetViewModel viewModel = new DodajPremetViewModel();
             viewModel.smerovi = context.smerovi.ToList();
             viewModel.tip = 1;
-            
 
             return View("DodajPredmet", viewModel);
-        }
-
-        /// <summary>
-        /// Vraca stranicu sa formom za dodavanje globalnog predmeta
-        /// </summary>
-        /// <returns></returns>
-        [HttpGet]
-        [Authorize(Roles = "SuperAdministrator,GlobalniUrednik")]
-        public ActionResult DodajGlobalniPredmet()
-        {
-            context = new MaterijalContext();
-            DodajPremetViewModel viewModel = new DodajPremetViewModel();
-            viewModel.tipoviPredmeta = context.tipPredmeta.ToList();
-
-
-            return View("DodajGlobalniPredmet", viewModel);
         }
 
         /// <summary>
@@ -94,6 +77,21 @@ namespace Projekat.Controllers
             return RedirectToAction("DodajPredmet", "Predmet");
         }
 
+        /// <summary>
+        /// Vraca stranicu sa formom za dodavanje globalnog predmeta
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        [Authorize(Roles = "SuperAdministrator,GlobalniUrednik")]
+        public ActionResult DodajGlobalniPredmet()
+        {
+            context = new MaterijalContext();
+            DodajPremetViewModel viewModel = new DodajPremetViewModel();
+            viewModel.tipoviPredmeta = context.tipPredmeta.ToList();
+
+            return View("DodajGlobalniPredmet", viewModel);
+        }
+
         [HttpPost]
         [Authorize(Roles = "SuperAdministrator, GlobalniUrednik")]
         public ActionResult DodajGlobalniPredmet(DodajPremetViewModel viewModel)
@@ -102,8 +100,6 @@ namespace Projekat.Controllers
 
             try
             {
-                
-
                 if (User.IsInRole("GlobalniUrednik"))
                 {
                     viewModel.predmet.tipId = 2;
@@ -113,9 +109,8 @@ namespace Projekat.Controllers
                     int id = viewModel.tipIds.FirstOrDefault();
                     viewModel.predmet.tipId = id;
                 }
-                
+
                 context.Add<PredmetModel>(viewModel.predmet);
-                
 
                 context.SaveChanges();
             }

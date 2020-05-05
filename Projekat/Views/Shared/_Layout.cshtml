@@ -147,8 +147,19 @@
                         <p id="14">Globalni materijal</p>
                     </a>
                 </li>
+                @if (this.User.IsInRole("GlobalniUrednik"))
+                {
+                    <li class="blok">
+                        <a href="@Url.Action("PrikazZahteva", "Zahtev")">
+                            <div class="slikaLi">
+                                <img src="~/Content/img/Agenda_Book_Schedule-512.png" height=28 width="27" alt="slika1" />
+                            </div>
+                            <p id="50">Globalni zahtevi</p>
+                        </a>
+                    </li>
+                }
             </ul>
-            @if (!this.User.IsInRole("Ucenik"))
+            @if (!this.User.IsInRole("Ucenik") && !this.User.IsInRole("GlobalniUrednik"))
             {
                 <ul class="ListaNav">
                     <!-- SVE OSTALE su id="1,2,3" PREFORMULISI
