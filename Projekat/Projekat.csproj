@@ -781,6 +781,7 @@
     <Content Include="Views\Modul\EditModul.cshtml" />
     <Content Include="Views\Zahtev\PrikazZahteva.cshtml" />
     <Content Include="Views\Zahtev\_KarticeZahtev.cshtml" />
+    <Content Include="Views\Predmet\DodajGlobalniPredmet.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Content\Konfiguracija\" />

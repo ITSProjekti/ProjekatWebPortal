@@ -25,6 +25,24 @@ namespace Projekat.ViewModels
         /// The predmet.
         /// </value>
         public PredmetModel predmet { get; set; }
+
+        /// <summary>
+        /// Gets or sets the materijalTipId.
+        /// </summary>
+        /// <value>
+        /// The predmet.
+        /// </value>
+        public TipPredmetaModel tipPred { get; set; }
+        public TipPredmetaModel tipId { get; set; }
+
+        /// <summary>
+        /// Gets or sets the tipovi.
+        /// </summary>
+        /// <value>
+        /// The predmet.
+        /// </value>
+        public IEnumerable<TipPredmetaModel> tipoviPredmeta { get; set; } //Za citanje
+
         /// <summary>
         /// Gets or sets the smer ids.
         /// </summary>
@@ -32,6 +50,7 @@ namespace Projekat.ViewModels
         /// The smer ids.
         /// </value>
         public List<int> smerIds { get; set; } //Za upisivanje u bazu
+        public List<int> tipIds { get; set; } //Za upisivanje u bazu
 
         public int tip { get; set; }
     }

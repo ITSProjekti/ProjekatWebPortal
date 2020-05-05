@@ -44,6 +44,22 @@ namespace Projekat.Controllers
         }
 
         /// <summary>
+        /// Vraca stranicu sa formom za dodavanje globalnog predmeta
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        [Authorize(Roles = "SuperAdministrator,GlobalniUrednik")]
+        public ActionResult DodajGlobalniPredmet()
+        {
+            context = new MaterijalContext();
+            DodajPremetViewModel viewModel = new DodajPremetViewModel();
+            viewModel.tipoviPredmeta = context.tipPredmeta.ToList();
+
+
+            return View("DodajGlobalniPredmet", viewModel);
+        }
+
+        /// <summary>
         /// Dodaje predmet u bazu i dodaje smerove na kojima je predmet u tabelu PredmetPoSmeru
         /// </summary>
         /// <param name="viewModel">The view model.</param>
@@ -56,9 +72,7 @@ namespace Projekat.Controllers
 
             try
             {
-                viewModel.predmet.tipId = viewModel.tip;
                 context.Add<PredmetModel>(viewModel.predmet);
-                
 
                 foreach (int n in viewModel.smerIds)
                 {
@@ -78,6 +92,39 @@ namespace Projekat.Controllers
             }
 
             return RedirectToAction("DodajPredmet", "Predmet");
+        }
+
+        [HttpPost]
+        [Authorize(Roles = "SuperAdministrator, GlobalniUrednik")]
+        public ActionResult DodajGlobalniPredmet(DodajPremetViewModel viewModel)
+        {
+            context = new MaterijalContext();
+
+            try
+            {
+                
+
+                if (User.IsInRole("GlobalniUrednik"))
+                {
+                    viewModel.predmet.tipId = 2;
+                }
+                else
+                {
+                    int id = viewModel.tipIds.FirstOrDefault();
+                    viewModel.predmet.tipId = id;
+                }
+                
+                context.Add<PredmetModel>(viewModel.predmet);
+                
+
+                context.SaveChanges();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+
+            return RedirectToAction("DodajGlobalniPredmet", "Predmet");
         }
 
         /// <summary>
