@@ -1,7 +1,6 @@
 ﻿@using Projekat.ViewModels;
 @model  GlobalniZahtevViewModel
 
-
 <div class="kartica" id=@Model.globalni.zahtevId>
     <div class="karticaTekts">
         <h2>
@@ -9,7 +8,7 @@
         </h2>
 
         <p class="opis">
-            @Model.materijal.materijalOpis
+            @Model.globalni.zahtevObrazlozenje
         </p>
         <div class="kontrole">
             <div class="triTackeKontrole" tabindex="1">
@@ -22,14 +21,12 @@
             </div>
             @if (this.User.IsInRole("GlobalniUrednik"))
             {
-                <a href="#" class="kontrola-ikonica dugme-delete">Odbij</a>
+                <a href="#" class="kontrola-ikonica dugme-delete preuzmi">Odbij</a>
             }
-
-
 
             @if (this.User.IsInRole("GlobalniUrednik"))
             {
-                <a class="preuzmi" href="#">Odobri</a>
+                @Html.ActionLink("Odobri", "Accept", "Zahtev", new { id = Model.globalni.zahtevId }, new { @class = "kontrola-ikonica dugme-accept preuzmi" })
             }
             <a class="preuzmi" href="@Url.Action("DownloadMaterijal", "Materijal", new { id = Model.materijal.materijalId })">preuzmi</a>
         </div>
@@ -48,7 +45,3 @@
     </div>
     @*@Html.HiddenFor(Model => osiromaseni.materijalId, new {@id ="nesto" })*@
 </div>
-
-
-
-

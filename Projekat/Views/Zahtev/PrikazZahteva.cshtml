@@ -1,36 +1,4 @@
-﻿@*@model IEnumerable<Projekat.ViewModels.GlobalniZahtevViewModel>
-
-    @{
-        ViewBag.Title = "PrikazZahteva";
-    }
-
-    <h2>PrikazZahteva</h2>
-
-    <p>
-        @Html.ActionLink("Create New", "Create")
-    </p>
-    <table class="table">
-        <tr>
-            <th></th>
-        </tr>
-
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>
-                    @item.materijal
-                    @item.materijal.materijalNaziv
-                    @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-                    @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-                    @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
-                </td>
-            </tr>
-        }
-
-    </table>*@
-
-
-@model IEnumerable<Projekat.ViewModels.GlobalniZahtevViewModel>
+﻿@model IEnumerable<Projekat.ViewModels.GlobalniZahtevViewModel>
 @using Projekat.Helpers;
 @{
     ViewBag.Title = "PrikazZahteva";
@@ -79,5 +47,3 @@
 <script src="~/Scripts/prikaziLupicuPretraga.js"></script>
 @Scripts.Render("~/bundles/materijal_prikaz")
 @Scripts.Render("~/bundles/PrikazZahteva")
-
-

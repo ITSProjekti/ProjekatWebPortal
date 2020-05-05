@@ -1,0 +1,30 @@
+﻿@model Projekat.ViewModels.GlobalniZahtevViewModel
+@using Projekat.Helpers;
+@{
+    ViewBag.Title = "Accept";
+
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div id="sredina">
+    @using (Html.BeginForm("Accept", "Zahtev", FormMethod.Post, new { @class = "modulForma", @id = "modulForma" }))
+    {
+        <h2>Odobrenje zahteva</h2>
+        @Html.HiddenFor(m => m.globalni.zahtevId, new { @class = "hiddenZahtevId" });
+        @Html.HiddenFor(m => m.globalni.materijalId, new { @class = "hiddenMaterijalId" });
+        <div id="dropDownovi">
+            <div id="_moduliNaPredmetu">
+                @{ Html.RenderPartial("_ZahtevDropdown", Model); }
+            </div>
+        </div>
+
+        <button type="submit" id="postavi">POSTAVI</button>
+    }
+    <div id="snackbar"><span>Smer uspešno dodat!</span></div>
+</div>
+
+@Scripts.Render("~/bundles/zahtevDropdown")
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

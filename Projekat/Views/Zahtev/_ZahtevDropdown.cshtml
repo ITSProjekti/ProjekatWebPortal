@@ -1,0 +1,4 @@
+﻿@model Projekat.ViewModels.GlobalniZahtevViewModel
+
+@Html.DropDownListFor(m => m.modulId, new SelectList(Model.ModuliPoPredmetu, "modulId", "modulNaziv"), new { @class = "customDropdown" })
+@Html.DropDownListFor(m => m.predmetId, new SelectList(Model.Predmeti, "predmetId", "predmetNaziv"), new { @class = "customDropdown predmeti predmetDropdown", @id = "'" + @Model.predmetId + "'" })
