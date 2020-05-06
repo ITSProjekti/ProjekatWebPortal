@@ -8,7 +8,7 @@
 <div id="sredina">
     @if (this.User.IsInRole("SuperAdministrator") || this.User.IsInRole("LokalniUrednik"))
     {
-        <a id="novi-materijal" href="@Url.Action("DodajModul", "Modul", new { predmetId = ViewBag.predmetId})">
+        <a id="novi-materijal" href="/Modul/DodajModul">
             <svg width="60" height="60" xmlns="http://www.w3.org/2000/svg">
                 <g>
                     <title>background</title>

@@ -30,7 +30,6 @@ namespace Projekat.Controllers
         /// <param name="id">ID predmeta za koji zelimo da prikazemo module.</param>
         public ActionResult ModulPrikaz(int id)
         {
-
             context = new MaterijalContext();
             int pID = 0;
             int pTip = 0;
@@ -47,7 +46,6 @@ namespace Projekat.Controllers
 
             if (pID != 0)
             {
-
                 //try
                 //{
                 //    modeli = context.moduli.Where(x => x.predmetId == pID).ToList();
@@ -58,11 +56,10 @@ namespace Projekat.Controllers
                 {
                     return View(modeli);
                 }
-                else if(pTip == 2)
+                else if (pTip == 2)
                 {
                     return View("GlobalniModuliPrikaz", modeli);
                 }
-               
             }
             return View("FileNotFound");
         }
@@ -111,7 +108,7 @@ namespace Projekat.Controllers
 
         [HttpGet]
         [Authorize(Roles = "SuperAdministrator,LokalniUrednik")]
-        public ActionResult DodajModul(int? smerId, int? predmetId)
+        public ActionResult DodajModul(int? smerId)
         {
             DodajModulViewModel viewModel = new DodajModulViewModel
             {
@@ -127,7 +124,6 @@ namespace Projekat.Controllers
 
                     var predmetiposmeru = context.predmetiPoSmeru.Where(x => x.smerId == id).Select(c => c.predmetId).ToList();
                     viewModel.PredmetPoSmeru = viewModel.Predmeti.Where(x => predmetiposmeru.Contains(x.predmetId));
-                    viewModel.predmetId = predmetId;
 
                     if (TempData["SuccMsg"] != null) { ViewBag.SuccMsg = TempData["SuccMsg"]; }
 
@@ -274,10 +270,9 @@ namespace Projekat.Controllers
             viewModel.predmetId = modul.predmetId;
             viewModel.modul = modul;
 
-
-            
             return View("EditModulGlobalni", viewModel);
         }
+
         [HttpPost]
         [Authorize(Roles = "SuperAdministrator, GlobalniUrednik")]
         public ActionResult EditModulGlobalni(DodajModulViewModel m)
