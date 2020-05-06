@@ -30,31 +30,88 @@ namespace Projekat.Controllers
         /// <param name="id">ID predmeta za koji zelimo da prikazemo module.</param>
         public ActionResult ModulPrikaz(int id)
         {
+
             context = new MaterijalContext();
             int pID = 0;
+            int pTip = 0;
 
             List<ModulModel> modeli;
             try
             {
                 pID = context.predmeti.FirstOrDefault(x => x.predmetId == id).predmetId;
+                pTip = context.predmeti.FirstOrDefault(x => x.predmetId == id).tipId;
             }
             catch { return View("FileNotFound"); }
 
+            ViewBag.predmetId = pID;
+
             if (pID != 0)
             {
-                try
+
+                //try
+                //{
+                //    modeli = context.moduli.Where(x => x.predmetId == pID).ToList();
+                //}
+                //catch { return new HttpStatusCodeResult(403); }
+                modeli = context.moduli.Where(x => x.predmetId == pID).ToList();
+                if (pTip == 1)
                 {
-                    modeli = context.moduli.Where(x => x.predmetId == pID).ToList();
+                    return View(modeli);
                 }
-                catch { return new HttpStatusCodeResult(403); }
-                return View(modeli);
+                else if(pTip == 2)
+                {
+                    return View("GlobalniModuliPrikaz", modeli);
+                }
+               
             }
             return View("FileNotFound");
         }
 
         [HttpGet]
+        [Authorize(Roles = "SuperAdministrator, GlobalniUrednik")]
+        public ActionResult DodajModulGlobalni(int? predmetId)
+        {
+            DodajModulViewModel viewModel = new DodajModulViewModel()
+            {
+                Predmeti = context.predmeti.Where(x => x.tipId == 2)
+            };
+
+            viewModel.predmetId = predmetId;
+
+            return View(viewModel);
+        }
+
+        [HttpPost]
+        [Authorize(Roles = "SuperAdministrator, GlobalniUrednik")]
+        public ActionResult DodajModulGlobalni(DodajModulViewModel m)
+        {
+            context = new MaterijalContext();
+
+            if (m.modul.predmetId != null)
+            {
+                m.predmetId = m.modul.predmetId;
+            }
+            else if (m.predmetId != null)
+            {
+                m.modul.predmetId = m.predmetId;
+            }
+
+            try
+            {
+                context.Add<ModulModel>(m.modul);
+                context.SaveChanges();
+            }
+            catch
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.Forbidden);
+            }
+
+            return RedirectToAction("DodajModulGlobalni");
+        }
+
+        [HttpGet]
         [Authorize(Roles = "SuperAdministrator,LokalniUrednik")]
-        public ActionResult DodajModul(int? smerId)
+        public ActionResult DodajModul(int? smerId, int? predmetId)
         {
             DodajModulViewModel viewModel = new DodajModulViewModel
             {
@@ -70,6 +127,7 @@ namespace Projekat.Controllers
 
                     var predmetiposmeru = context.predmetiPoSmeru.Where(x => x.smerId == id).Select(c => c.predmetId).ToList();
                     viewModel.PredmetPoSmeru = viewModel.Predmeti.Where(x => predmetiposmeru.Contains(x.predmetId));
+                    viewModel.predmetId = predmetId;
 
                     if (TempData["SuccMsg"] != null) { ViewBag.SuccMsg = TempData["SuccMsg"]; }
 
@@ -174,7 +232,7 @@ namespace Projekat.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = "SuperAdministrator,LokalniUrednik")]
+        [Authorize(Roles = "SuperAdministrator,LokalniUrednik, GlobalniUrednik")]
         public JsonResult Delete(int id)
         {
             bool result = false;
@@ -201,6 +259,52 @@ namespace Projekat.Controllers
             }
 
             return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpGet]
+        [Authorize(Roles = "SuperAdministrator, GlobalniUrednik")]
+        public ActionResult EditModulGlobalni(int id)
+        {
+            ModulModel modul = context.moduli.Where(x => x.modulId == id).Single();
+
+            DodajModulViewModel viewModel = new DodajModulViewModel()
+            {
+                Predmeti = context.predmeti.Where(x => x.tipId == 2)
+            };
+            viewModel.predmetId = modul.predmetId;
+            viewModel.modul = modul;
+
+
+            
+            return View("EditModulGlobalni", viewModel);
+        }
+        [HttpPost]
+        [Authorize(Roles = "SuperAdministrator, GlobalniUrednik")]
+        public ActionResult EditModulGlobalni(DodajModulViewModel m)
+        {
+            if (m.modul.predmetId != null)
+            {
+                m.predmetId = m.modul.predmetId;
+            }
+            else if (m.predmetId != null)
+            {
+                m.modul.predmetId = m.predmetId;
+            }
+            ModulModel editovan = m.modul;
+            ModulModel modul = context.moduli.Where(x => x.modulId == editovan.modulId).Single();
+
+            modul.modulNaziv = editovan.modulNaziv;
+            modul.modulOpis = editovan.modulOpis;
+            modul.predmetId = editovan.predmetId;
+            try
+            {
+                context.SaveChanges();
+            }
+            catch
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.Forbidden);
+            }
+            return RedirectToAction("ModulPrikaz", new { id = modul.predmetId });
         }
 
         [HttpGet]

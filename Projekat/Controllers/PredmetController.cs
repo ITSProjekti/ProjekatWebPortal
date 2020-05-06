@@ -55,6 +55,9 @@ namespace Projekat.Controllers
 
             try
             {
+                viewModel.predmet.tipId = 1;
+                
+
                 context.Add<PredmetModel>(viewModel.predmet);
 
                 foreach (int n in viewModel.smerIds)
@@ -132,7 +135,7 @@ namespace Projekat.Controllers
         /// <param name="predmetId">Id predmeta koji treba promeniti.</param>
         /// <returns></returns>
         [HttpPost]
-        [Authorize(Roles = "SuperAdministrator,LokalniUrednik")]
+        [Authorize(Roles = "SuperAdministrator,LokalniUrednik, GlobalniUrednik")]
         public ActionResult Edit(int smerId, List<int> smeroviId, string predmetNaziv, string predmetOpis, int predmetId, int Razred)
         {
             context = new MaterijalContext();
@@ -209,6 +212,30 @@ namespace Projekat.Controllers
             string smernaziv = context.smerovi.FirstOrDefault(x => x.smerId == smerId).smerNaziv;
 
             return RedirectToAction("PredmetiPrikaz", new { smer = smernaziv, razred = Razred, tip });
+        }
+
+        [HttpPost]
+        public ActionResult EditGlobalni(string predmetNaziv, string predmetOpis, int predmetId)
+        {
+            context = new MaterijalContext();
+
+            PredmetModel predmet = context.predmeti.Where(x => x.predmetId == predmetId).Single();
+
+            predmet.predmetNaziv = predmetNaziv;
+            predmet.predmetOpis = predmetOpis;
+
+            try
+            {
+                context.SaveChanges();
+            }
+            catch
+            {
+                return new HttpStatusCodeResult(System.Net.HttpStatusCode.Forbidden);
+            }
+
+
+
+            return RedirectToAction("PredmetiPrikaz", new {  razred = 0, tip = "globalni" });
         }
 
         /// <summary>
@@ -303,7 +330,7 @@ namespace Projekat.Controllers
                     smerId = id
                 };
 
-                return View("PredmetiPrikaz", predmetiPoSmeru);
+                return View("GlobalniPredmetiPrikaz", predmetiPoSmeru);
             }
             return View("FileNotFound");
         }

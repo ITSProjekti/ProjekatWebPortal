@@ -1,0 +1,37 @@
+﻿@model Projekat.ViewModels.DodajModulViewModel
+
+@{
+    ViewBag.Title = "Edit Modul";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div id="sredina">
+    @using (Html.BeginForm("EditModulGlobalni", "Modul", FormMethod.Post, new { @class = "modulForma", @id = "modulForma" }))
+    {
+        <h2>Izmena modula</h2>
+        @Html.HiddenFor(m => m.modul.modulId, new { @name = "modulId" })
+        <label class="matDesignLabel" for="modulNaziv">Naziv modula</label>
+        @Html.TextBoxFor(m => m.modul.modulNaziv, new { @name = "modulNaziv" });
+        <label id="poruka" class="error"></label>
+
+        <label class="matDesignLabel" for="modulOpis">Opis</label>
+        @Html.TextAreaFor(m => m.modul.modulOpis, new { @name = "modulOpis" });
+
+        <div id="dropDownovi">
+            <div id="_predmetiNaSmeru">
+                @Html.DropDownListFor(m => m.predmetId, new SelectList(Model.Predmeti, "predmetId", "predmetNaziv"), new { @class = "customDropdown", @name = "" })
+            </div>
+        </div>
+
+        <button type="submit" id="postavi">IZMENI</button>
+    }
+    <div id="snackbar"><span>Modul uspešno izmenjen!</span></div>
+</div>
+
+@Scripts.Render("~/Scripts/Modul/ProveraImenaIzmenaGlobalni.js")
+@Scripts.Render("~/bundles/DodajModul")
+@Scripts.Render("~/bundles/edit_modul")
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

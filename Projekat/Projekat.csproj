@@ -561,6 +561,8 @@
     <Content Include="Scripts\datatables.min.js" />
     <Content Include="Scripts\Korisnik\register.js" />
     <Content Include="Scripts\Korisnik\SakrijGodine.js" />
+    <Content Include="Scripts\Modul\ProveraImenaDodajGlobalni.js" />
+    <Content Include="Scripts\Modul\ProveraImenaIzmenaGlobalni.js" />
     <Content Include="Scripts\Zahtev\zahtevDropdown.js" />
     <Content Include="Scripts\Zahtev\zahtevUpgrade.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
@@ -785,6 +787,10 @@
     <Content Include="Views\Predmet\DodajGlobalniPredmet.cshtml" />
     <Content Include="Views\Zahtev\Accept.cshtml" />
     <Content Include="Views\Zahtev\_ZahtevDropdown.cshtml" />
+    <Content Include="Views\Predmet\GlobalniPredmetiPrikaz.cshtml" />
+    <Content Include="Views\Modul\GlobalniModuliPrikaz.cshtml" />
+    <Content Include="Views\Modul\EditModulGlobalni.cshtml" />
+    <Content Include="Views\Modul\DodajModulGlobalni.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Content\Konfiguracija\" />
