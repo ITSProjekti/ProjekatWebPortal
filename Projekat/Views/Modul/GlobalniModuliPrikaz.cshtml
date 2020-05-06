@@ -8,7 +8,7 @@
 <div id="sredina">
     @if (this.User.IsInRole("SuperAdministrator") || this.User.IsInRole("GlobalniUrednik"))
     {
-        <a id="novi-materijal" href="@Url.Action("DodajModulGlobalni", "Modul", new { predmetId = Model.First().predmetId})" >
+        <a id="novi-materijal" href="@Url.Action("DodajModulGlobalni", "Modul", new { predmetId = ViewBag.predmetId })">
             <svg width="60" height="60" xmlns="http://www.w3.org/2000/svg">
                 <g>
                     <title>background</title>
