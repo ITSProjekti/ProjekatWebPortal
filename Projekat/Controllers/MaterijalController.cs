@@ -51,7 +51,7 @@ namespace Projekat.Controllers
         /// <param name="formati">Lista formata za prikaz.</param>
         /// <param name="tipovi">Lista tipova materijala za prikaz.</param>
         /// <param name="number">The number.</param>
-        /// <param name="id">Id predmeta za koji su materijali, ako je id = null, predpostavlja se da je dati materijal za profesore</param>
+        /// <param name="id">Id modula za koji su materijali, ako je id = null, predpostavlja se da je dati materijal za profesore</param>
         /// <returns>Parcijalni pregled karticw</returns>
         [HttpGet]
         public async Task<ActionResult> MaterijaliPrikaz(string sort, List<string> formati, List<int> tipovi, int number = 0, int? id = null)
@@ -392,17 +392,25 @@ namespace Projekat.Controllers
         [Authorize(Roles = "SuperAdministrator,LokalniUrednik")]
         //[ActionName("Delete")]
         //[Route("UploadMaterijal/DeleteConfirmed/{id:int}")]
-        public ActionResult DeleteConfirmed(int id)
+        public ActionResult DeleteConfirmed(int id, int? modulId)
         {
-            MaterijalModel materijal;
-            try
+            if (modulId != null)
             {
-                materijal = context.pronadjiMaterijalPoId(id);
-                context.Delete<MaterijalModel>(materijal);
-                context.SaveChanges();
-            }
-            catch (Exception)
-            {
+                try
+                {
+                    MaterijalPoModulu matPoMod = context.materijalPoModulu.Where(x => x.materijalId == id && x.modulId == modulId).FirstOrDefault();
+                    context.Delete<MaterijalPoModulu>(matPoMod);
+                    context.SaveChanges();
+
+                    List<MaterijalPoModulu> lista = context.materijalPoModulu.Where(x => x.materijalId == id).ToList();
+                    if (lista.Count == 0)
+                    {
+                        MaterijalModel temp = context.pronadjiMaterijalPoId(id);
+                        context.Delete<MaterijalModel>(temp);
+                        context.SaveChanges();
+                    }
+                }
+                catch (Exception) { }
             }
 
             return RedirectToAction("MaterijaliPrikaz");

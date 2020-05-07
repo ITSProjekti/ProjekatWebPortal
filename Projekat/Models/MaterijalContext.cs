@@ -170,8 +170,7 @@ namespace Projekat.Models
                              ekstenzija = mat.materijalEkstenzija,
                              materijalNaslov = mat.materijalNaslov,
                              materijalOpis = mat.materijalOpis,
-                             tipMaterijalaId = mat.tipMaterijalId,
-                             modulId = mat.materijalId
+                             tipMaterijalaId = mat.tipMaterijalId
                          };
 
             if (modulId != null)
@@ -188,7 +187,7 @@ namespace Projekat.Models
                                  materijalNaslov = mat.materijalNaslov,
                                  materijalOpis = mat.materijalOpis,
                                  tipMaterijalaId = mat.tipMaterijalId,
-                                 modulId = mat.materijalId
+                                 modulId = modulId
                              };
             }
 
