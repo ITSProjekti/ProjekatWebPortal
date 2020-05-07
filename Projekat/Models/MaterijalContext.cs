@@ -211,9 +211,27 @@ namespace Projekat.Models
 
         IQueryable<OsiromaseniMaterijali> IMaterijalContext.naprednaPretraga(List<string> ekstenzije, List<int> tipoviMaterijalaIds, int? modulId, int namenaID)//Dodati parametre
         {
-            // && (a => tipoviMaterijalaIds.Any(s => a.tipMaterijalaId)
-
             IMaterijalContext context = new MaterijalContext();
+            // && (a => tipoviMaterijalaIds.Any(s => a.tipMaterijalaId)
+            if (namenaID == 2)
+            {
+                IQueryable<OsiromaseniMaterijali> materijali2;
+
+                materijali2 = from mat in this.materijali
+                              where mat.namenaMaterijalaId == 2
+                              select new OsiromaseniMaterijali
+                              {
+                                  namenaID = mat.namenaMaterijalaId,
+                                  materijalId = mat.materijalId,
+                                  ekstenzija = mat.materijalEkstenzija,
+                                  materijalNaslov = mat.materijalNaslov,
+                                  materijalOpis = mat.materijalOpis,
+                                  tipMaterijalaId = mat.tipMaterijalId
+                              };
+
+                return materijali2;
+            }
+
             var queriable = context.poModulu(modulId);
             queriable = poNameni(namenaID, queriable);
 

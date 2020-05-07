@@ -1,5 +1,4 @@
 ﻿$(document).ready(function () {
-    console.log("test123");
     $(".select2materijali, .select2formati").on("change", filterMaterijali);
     $("ul.customLista li").on("click", filterMaterijali);
     //$(document).delegate(".customLista li", "click", filterMaterijali);

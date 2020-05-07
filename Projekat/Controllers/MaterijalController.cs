@@ -68,6 +68,7 @@ namespace Projekat.Controllers
                 }
                 namenaID = 2;
             }
+            
             if (this.User.IsInRole("Ucenik"))
             {
                 int? smer = await ApplicationUser.VratiSmerId(this.User.Identity.Name);
@@ -81,6 +82,7 @@ namespace Projekat.Controllers
                     }
                 }
             }
+
             materijali = context.naprednaPretraga(formati, tipovi, id, namenaID).ToList();
 
             if (sort == "opadajuce")
