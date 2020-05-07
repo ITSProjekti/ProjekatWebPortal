@@ -22,7 +22,7 @@ namespace Projekat.Controllers
             return View();
         }
 
-        [Authorize(Roles = "GlobalniUrednik,SuperAdministrator")]
+        [Authorize(Roles = "LokalniUrednik,SuperAdministrator,Profesor")]
         public JsonResult UpgradeMaterijal(int id, string opis)
         {
             context = new MaterijalContext();
@@ -47,12 +47,22 @@ namespace Projekat.Controllers
             if (zahtevi.Count == 0 && globalBool)
             {
                 result = true;
+                bool zaGlob = false;
+                if (this.User.IsInRole("LokalniUrednik"))
+                {
+                    zaGlob = true;
+                }
+                else if (this.User.IsInRole("Profesor"))
+                {
+                    zaGlob = false;
+                }
                 DateTime date = DateTime.Now;
                 GlobalniZahteviModel zahtev = new GlobalniZahteviModel()
                 {
                     zahtevDatum = date,
                     zahtevObrazlozenje = opis,
-                    materijalId = id
+                    materijalId = id,
+                    ZaGlobalnog = zaGlob
                 };
                 try
                 {
@@ -68,14 +78,20 @@ namespace Projekat.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles = "GlobalniUrednik,SuperAdministrator")]
+        [Authorize(Roles = "GlobalniUrednik,SuperAdministrator,LokalniUrednik")]
         public ActionResult PrikazZahteva()
         {
             List<GlobalniZahtevViewModel> viewModels = new List<GlobalniZahtevViewModel>();
 
-            List<GlobalniZahteviModel> globalni;
-
-            globalni = context.globalniZahtevi.ToList();
+            List<GlobalniZahteviModel> globalni = context.globalniZahtevi.ToList();
+            if (this.User.IsInRole("LokalniUrednik"))
+            {
+                globalni = context.globalniZahtevi.Where(x => x.ZaGlobalnog == false).ToList();
+            }
+            else if (this.User.IsInRole("GlobalniUrednik"))
+            {
+                globalni = context.globalniZahtevi.Where(x => x.ZaGlobalnog == true).ToList();
+            }
 
             foreach (var item in globalni)
             {
@@ -92,7 +108,7 @@ namespace Projekat.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = "GlobalniUrednik,SuperAdministrator")]
+        [Authorize(Roles = "GlobalniUrednik,SuperAdministrator,LokalniUrednik")]
         public JsonResult Delete(int Id)
         {
             bool result = false;
@@ -121,9 +137,20 @@ namespace Projekat.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles = "GlobalniUrednik,SuperAdministrator")]
+        [Authorize(Roles = "GlobalniUrednik,SuperAdministrator,LokalniUrednik")]
         public ActionResult Accept(int id, int? predmetId)
         {
+            if (this.User.IsInRole("LokalniUrednik"))
+            {
+                try
+                {
+                    GlobalniZahteviModel zahtev = context.globalniZahtevi.Where(x => x.zahtevId == id).FirstOrDefault();
+                    zahtev.ZaGlobalnog = true;
+                    context.SaveChanges();
+                    return RedirectToAction("PrikazZahteva");
+                }
+                catch { return View("HttpNotFound"); }
+            }
             GlobalniZahtevViewModel viewModel;
             MaterijalModel mat = context.pronadjiMaterijalPoId(id);
             GlobalniZahteviModel global = context.globalniZahtevi.Where(x => x.zahtevId == id).FirstOrDefault();

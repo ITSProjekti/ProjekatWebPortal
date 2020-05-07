@@ -147,7 +147,7 @@
                         <p id="14">Globalni materijal</p>
                     </a>
                 </li>
-                @if (this.User.IsInRole("GlobalniUrednik"))
+                @if (this.User.IsInRole("GlobalniUrednik")|| this.User.IsInRole("LokalniUrednik"))
                 {
                     <li class="blok">
                         <a href="@Url.Action("PrikazZahteva", "Zahtev")">

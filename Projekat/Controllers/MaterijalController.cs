@@ -73,7 +73,8 @@ namespace Projekat.Controllers
                 int? smer = await ApplicationUser.VratiSmerId(this.User.Identity.Name);
                 if (smer != null)
                 {
-                    PredmetPoSmeru pos = context.predmetiPoSmeru.FirstOrDefault(x => x.predmetId == id && x.smerId == smer);
+                    ModulModel mod = context.moduli.FirstOrDefault(x => x.modulId == id);
+                    PredmetPoSmeru pos = context.predmetiPoSmeru.FirstOrDefault(x => x.predmetId == mod.predmetId && x.smerId == smer);
                     if (pos == null)
                     {
                         return new HttpStatusCodeResult(403);

@@ -356,6 +356,10 @@
     <Compile Include="Migrations\MaterijalContext\202004301654512_GlobalniZahtevi.Designer.cs">
       <DependentUpon>202004301654512_GlobalniZahtevi.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\MaterijalContext\202005070834487_GlobalniZahtevi1.cs" />
+    <Compile Include="Migrations\MaterijalContext\202005070834487_GlobalniZahtevi1.Designer.cs">
+      <DependentUpon>202005070834487_GlobalniZahtevi1.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\MaterijalContext\MaterijalConfiguration.cs" />
     <Compile Include="Migrations\VestiContext\201808170921538_Dodavanje_Vesti_U_Bazu.cs" />
     <Compile Include="Migrations\VestiContext\201808170921538_Dodavanje_Vesti_U_Bazu.Designer.cs">
@@ -889,6 +893,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\MaterijalContext\202004301654512_GlobalniZahtevi.resx">
       <DependentUpon>202004301654512_GlobalniZahtevi.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\MaterijalContext\202005070834487_GlobalniZahtevi1.resx">
+      <DependentUpon>202005070834487_GlobalniZahtevi1.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\VestiContext\201808170921538_Dodavanje_Vesti_U_Bazu.resx">
       <DependentUpon>201808170921538_Dodavanje_Vesti_U_Bazu.cs</DependentUpon>

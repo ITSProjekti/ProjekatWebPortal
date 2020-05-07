@@ -19,12 +19,12 @@
                     <a class="dropdownOpcija" href="#">Komentariši</a>
                 </div>
             </div>
-            @if (this.User.IsInRole("GlobalniUrednik"))
+            @if (this.User.IsInRole("GlobalniUrednik") || this.User.IsInRole("LokalniUrednik"))
             {
                 <a href="#" class="kontrola-ikonica dugme-delete preuzmi">Odbij</a>
             }
 
-            @if (this.User.IsInRole("GlobalniUrednik"))
+            @if (this.User.IsInRole("GlobalniUrednik") || this.User.IsInRole("LokalniUrednik"))
             {
                 @Html.ActionLink("Odobri", "Accept", "Zahtev", new { id = Model.globalni.zahtevId }, new { @class = "kontrola-ikonica dugme-accept preuzmi" })
             }
