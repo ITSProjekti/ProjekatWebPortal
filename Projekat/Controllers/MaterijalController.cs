@@ -401,16 +401,15 @@ namespace Projekat.Controllers
                     MaterijalPoModulu matPoMod = context.materijalPoModulu.Where(x => x.materijalId == id && x.modulId == modulId).FirstOrDefault();
                     context.Delete<MaterijalPoModulu>(matPoMod);
                     context.SaveChanges();
-
-                    List<MaterijalPoModulu> lista = context.materijalPoModulu.Where(x => x.materijalId == id).ToList();
-                    if (lista.Count == 0)
-                    {
-                        MaterijalModel temp = context.pronadjiMaterijalPoId(id);
-                        context.Delete<MaterijalModel>(temp);
-                        context.SaveChanges();
-                    }
                 }
                 catch (Exception) { }
+            }
+            List<MaterijalPoModulu> lista = context.materijalPoModulu.Where(x => x.materijalId == id).ToList();
+            if (lista.Count == 0)
+            {
+                MaterijalModel temp = context.pronadjiMaterijalPoId(id);
+                context.Delete<MaterijalModel>(temp);
+                context.SaveChanges();
             }
 
             return RedirectToAction("MaterijaliPrikaz");
