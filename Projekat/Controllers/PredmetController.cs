@@ -56,7 +56,6 @@ namespace Projekat.Controllers
             try
             {
                 viewModel.predmet.tipId = 1;
-                
 
                 context.Add<PredmetModel>(viewModel.predmet);
 
@@ -78,51 +77,6 @@ namespace Projekat.Controllers
             }
 
             return RedirectToAction("DodajPredmet", "Predmet");
-        }
-
-        /// <summary>
-        /// Vraca stranicu sa formom za dodavanje globalnog predmeta
-        /// </summary>
-        /// <returns></returns>
-        [HttpGet]
-        [Authorize(Roles = "SuperAdministrator,GlobalniUrednik")]
-        public ActionResult DodajGlobalniPredmet()
-        {
-            context = new MaterijalContext();
-            DodajPremetViewModel viewModel = new DodajPremetViewModel();
-            viewModel.tipoviPredmeta = context.tipPredmeta.ToList();
-
-            return View("DodajGlobalniPredmet", viewModel);
-        }
-
-        [HttpPost]
-        [Authorize(Roles = "SuperAdministrator, GlobalniUrednik")]
-        public ActionResult DodajGlobalniPredmet(DodajPremetViewModel viewModel)
-        {
-            context = new MaterijalContext();
-
-            try
-            {
-                if (User.IsInRole("GlobalniUrednik"))
-                {
-                    viewModel.predmet.tipId = 2;
-                }
-                else
-                {
-                    int id = viewModel.tipIds.FirstOrDefault();
-                    viewModel.predmet.tipId = id;
-                }
-
-                context.Add<PredmetModel>(viewModel.predmet);
-
-                context.SaveChanges();
-            }
-            catch (Exception)
-            {
-                throw;
-            }
-
-            return RedirectToAction("DodajGlobalniPredmet", "Predmet");
         }
 
         /// <summary>
@@ -154,41 +108,6 @@ namespace Projekat.Controllers
             predmetPromenjenji.predmetOpis = predmetOpis;
             predmetPromenjenji.Razred = Razred;
 
-            /*foreach (int smerID in smeroviId)
-						{
-							if (!smeroviIdIzBaze.Contains(smerID))
-							{
-								context.Add<PredmetPoSmeru>(new PredmetPoSmeru
-								{
-									predmetId = predmetId,
-									smerId = smerID
-								});
-							}
-						}
-						foreach (int smerID in smeroviIdIzBaze)
-						{
-							if (!smeroviId.Contains(smerID))
-							{
-								List<PredmetPoSmeru> lista = context.predmetiPoSmeru.Where(m => m.predmetId == predmetId).ToList();
-								foreach (PredmetPoSmeru predmet in lista)
-								{
-									context.Delete(predmet);
-								}
-							}
-						}
-
-						foreach (int smerID in smeroviIdIzBaze)
-						{
-							if (!smeroviId.Contains(smerID))
-							{
-								List<PredmetPoSmeru> lista = context.predmetiPoSmeru.Where(m => m.predmetId == predmetId).ToList();
-								foreach (PredmetPoSmeru predmetPoSmeru in lista)
-								{
-									context.Delete(predmetPoSmeru);
-								}
-							}
-						}*/
-
             var predmetiPoSmeruZaBrisanje = context.predmetiPoSmeru.Where(pps => pps.predmetId == predmetId);
             foreach (PredmetPoSmeru pps in predmetiPoSmeruZaBrisanje)
             {
@@ -212,30 +131,6 @@ namespace Projekat.Controllers
             string smernaziv = context.smerovi.FirstOrDefault(x => x.smerId == smerId).smerNaziv;
 
             return RedirectToAction("PredmetiPrikaz", new { smer = smernaziv, razred = Razred, tip });
-        }
-
-        [HttpPost]
-        public ActionResult EditGlobalni(string predmetNaziv, string predmetOpis, int predmetId)
-        {
-            context = new MaterijalContext();
-
-            PredmetModel predmet = context.predmeti.Where(x => x.predmetId == predmetId).Single();
-
-            predmet.predmetNaziv = predmetNaziv;
-            predmet.predmetOpis = predmetOpis;
-
-            try
-            {
-                context.SaveChanges();
-            }
-            catch
-            {
-                return new HttpStatusCodeResult(System.Net.HttpStatusCode.Forbidden);
-            }
-
-
-
-            return RedirectToAction("PredmetiPrikaz", new {  razred = 0, tip = "globalni" });
         }
 
         /// <summary>
@@ -268,71 +163,35 @@ namespace Projekat.Controllers
         /// <param name="Smer">Naziv smera za koji zelimo da prikazemo predmete.</param>
         /// <returns></returns>
         [HttpGet]
-        public ActionResult PredmetiPrikaz(string Smer, int razred, string tip)
+        public ActionResult PredmetiPrikaz(string Smer, int razred)
         {
             context = new MaterijalContext();
-            int tipId = context.tipPredmeta.Where(x => x.tipNaziv == tip).FirstOrDefault().tipId;
             List<SmerModel> smerovi = context.smerovi.ToList();
 
-            if (tip == "lokalni")
+            int smerId;
+
+            int razredPOM = razred;
+            try
             {
-                int smerId;
-
-                int razredPOM = razred;
-                try
-                {
-                    smerId = context.smerovi.FirstOrDefault(x => x.smerNaziv == Smer).smerId;
-                }
-                catch
-                {
-                    return View("FileNotFound");
-                }
-
-                List<PredmetPoSmeru> poSmeru = context.predmetiPoSmeru.Where(m => m.smerId == smerId && m.PredmetModel.Razred.Value == razredPOM).ToList();
-                List<PredmetModel> model = new List<PredmetModel>();
-                List<PredmetModel> tempPredmet = context.predmeti.ToList();
-
-                foreach (PredmetPoSmeru ps in poSmeru)
-                {
-                    PredmetModel temp = tempPredmet.Where(m => m.predmetId == ps.predmetId && m.tipId == tipId).SingleOrDefault();
-                    if (temp != null)
-                    {
-                        model.Add(temp);
-                    }
-                }
-
-                PredmetPoSmeruViewModel predmetiPoSmeru = new PredmetPoSmeruViewModel
-                {
-                    predmeti = model,
-                    smerovi = smerovi,
-                    smerId = smerId
-                };
-
-                //try
-                //{
-                //}
-                //catch (Exception)
-                //{
-                //    throw;
-                //}
-
-                return View("PredmetiPrikaz", predmetiPoSmeru);
+                smerId = context.smerovi.FirstOrDefault(x => x.smerNaziv == Smer).smerId;
             }
-            else if (tip == "globalni")
+            catch
             {
-                List<PredmetModel> model = context.predmeti.Where(x => x.tipId == 2).ToList();
-                int id = 1;
-
-                PredmetPoSmeruViewModel predmetiPoSmeru = new PredmetPoSmeruViewModel
-                {
-                    predmeti = model,
-                    smerovi = smerovi,
-                    smerId = id
-                };
-
-                return View("GlobalniPredmetiPrikaz", predmetiPoSmeru);
+                return View("FileNotFound");
             }
-            return View("FileNotFound");
+            if (smerId != 0)
+            {
+            }
+            var predPoSmer = context.predmetiPoSmeru.Where(x => x.smerId == smerId).Select(x => x.predmetId);
+            List<PredmetModel> predmeti = context.predmeti.Where(x => predPoSmer.Contains(x.predmetId)).ToList();
+
+            PredmetPoSmeruViewModel predmetiPoSmeru = new PredmetPoSmeruViewModel
+            {
+                predmeti = predmeti,
+                smerovi = smerovi,
+                smerId = smerId
+            };
+            return View("PredmetiPrikaz", predmetiPoSmeru);
         }
     }
 }

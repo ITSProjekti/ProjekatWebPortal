@@ -228,6 +228,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Controllers\ForumController.cs" />
+    <Compile Include="Controllers\GlobalniController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\MaterijalController.cs" />
@@ -788,17 +789,18 @@
     <Content Include="Views\Modul\EditModul.cshtml" />
     <Content Include="Views\Zahtev\PrikazZahteva.cshtml" />
     <Content Include="Views\Zahtev\_KarticeZahtev.cshtml" />
-    <Content Include="Views\Predmet\DodajGlobalniPredmet.cshtml" />
     <Content Include="Views\Zahtev\Accept.cshtml" />
     <Content Include="Views\Zahtev\_ZahtevDropdown.cshtml" />
-    <Content Include="Views\Predmet\GlobalniPredmetiPrikaz.cshtml" />
-    <Content Include="Views\Modul\GlobalniModuliPrikaz.cshtml" />
-    <Content Include="Views\Modul\EditModulGlobalni.cshtml" />
-    <Content Include="Views\Modul\DodajModulGlobalni.cshtml" />
+    <Content Include="Views\Globalni\MaterijaliPrikaz.cshtml" />
+    <Content Include="Views\Globalni\_Kartice.cshtml" />
+    <Content Include="Views\Globalni\DodajPredmet.cshtml" />
+    <Content Include="Views\Globalni\PredmetiPrikaz.cshtml" />
+    <Content Include="Views\Globalni\ModuliPrikaz.cshtml" />
+    <Content Include="Views\Globalni\DodajModul.cshtml" />
+    <Content Include="Views\Globalni\EditModul.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Content\Konfiguracija\" />
-    <Folder Include="Scripts\NewFolder1\" />
     <Folder Include="Scripts\Shared\" />
     <Folder Include="Views\Error\" />
     <Folder Include="Views\Shared\Editor templates\" />

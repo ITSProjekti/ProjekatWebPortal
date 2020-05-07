@@ -8,7 +8,7 @@
 <div id="sredina">
     @if (this.User.IsInRole("SuperAdministrator") || this.User.IsInRole("GlobalniUrednik"))
     {
-        <a id="novi-materijal" href="@Url.Action("DodajModulGlobalni", "Modul", new { predmetId = ViewBag.predmetId })">
+        <a id="novi-materijal" href="@Url.Action("DodajModul", "Globalni", new { predmetId = ViewBag.predmetId })">
             <svg width="60" height="60" xmlns="http://www.w3.org/2000/svg">
                 <g>
                     <title>background</title>
@@ -33,11 +33,11 @@
             <div class="kontrole clear-fix">
                 @if (this.User.IsInRole("SuperAdministrator") || this.User.IsInRole("GlobalniUrednik"))
                 {
-                    <a href=@("/Modul/EditModulGlobalni/"+modul.modulId) class="kontrola-ikonica edit"><img src="~/Content/img/uredi.png" alt="uredi" /></a>
+                    <a href=@("/Globalni/EditModul/"+modul.modulId) class="kontrola-ikonica edit"><img src="~/Content/img/uredi.png" alt="uredi" /></a>
                     <a href="#" class="kontrola-ikonica dugme-delete"><img src="~/Content/img/obrisi.png" /></a>
                 }
                 <a class="predmet-kontrole opis" id="showOpis" href="#" data-opis="@modul.modulOpis" data-toggle="modal" data-target="#opisModal">OPIS</a>
-                @Html.ActionLink("MATERIJALI", "MaterijaliPrikaz", "Materijal", new { id = modul.modulId }, new { @class = "predmet-kontrole getMaterijali", tabindex = modul.modulId })
+                @Html.ActionLink("MATERIJALI", "MaterijaliPrikaz", "Globalni", new { id = modul.modulId }, new { @class = "predmet-kontrole getMaterijali", tabindex = modul.modulId })
             </div>
         </div>
         @*if (this.User.IsInRole("SuperAdministrator") || this.User.IsInRole("LokalniUrednik"))

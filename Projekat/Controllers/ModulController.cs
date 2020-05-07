@@ -32,78 +32,20 @@ namespace Projekat.Controllers
         {
             context = new MaterijalContext();
             int pID = 0;
-            int pTip = 0;
 
-            List<ModulModel> modeli;
+            List<ModulModel> moduli;
             try
             {
                 pID = context.predmeti.FirstOrDefault(x => x.predmetId == id).predmetId;
-                pTip = context.predmeti.FirstOrDefault(x => x.predmetId == id).tipId;
             }
-            catch { return View("FileNotFound"); }
-
-            ViewBag.predmetId = pID;
-
+            catch { }
             if (pID != 0)
             {
-                //try
-                //{
-                //    modeli = context.moduli.Where(x => x.predmetId == pID).ToList();
-                //}
-                //catch { return new HttpStatusCodeResult(403); }
-                modeli = context.moduli.Where(x => x.predmetId == pID).ToList();
-                if (pTip == 1)
-                {
-                    return View(modeli);
-                }
-                else if (pTip == 2)
-                {
-                    return View("GlobalniModuliPrikaz", modeli);
-                }
+                ViewBag.predmetId = pID;
+                moduli = context.moduli.Where(x => x.predmetId == pID).ToList();
+                return View(moduli);
             }
             return View("FileNotFound");
-        }
-
-        [HttpGet]
-        [Authorize(Roles = "SuperAdministrator, GlobalniUrednik")]
-        public ActionResult DodajModulGlobalni(int? predmetId)
-        {
-            DodajModulViewModel viewModel = new DodajModulViewModel()
-            {
-                Predmeti = context.predmeti.Where(x => x.tipId == 2)
-            };
-
-            viewModel.predmetId = predmetId;
-
-            return View(viewModel);
-        }
-
-        [HttpPost]
-        [Authorize(Roles = "SuperAdministrator, GlobalniUrednik")]
-        public ActionResult DodajModulGlobalni(DodajModulViewModel m)
-        {
-            context = new MaterijalContext();
-
-            if (m.modul.predmetId != null)
-            {
-                m.predmetId = m.modul.predmetId;
-            }
-            else if (m.predmetId != null)
-            {
-                m.modul.predmetId = m.predmetId;
-            }
-
-            try
-            {
-                context.Add<ModulModel>(m.modul);
-                context.SaveChanges();
-            }
-            catch
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.Forbidden);
-            }
-
-            return RedirectToAction("DodajModulGlobalni");
         }
 
         [HttpGet]
@@ -162,11 +104,6 @@ namespace Projekat.Controllers
                 m.modul.predmetId = m.predmetId;
             }
 
-            //var modulime = m.modul.modulNaziv;
-            //var provera = context.moduli.Where(x => x.modulNaziv == modulime).FirstOrDefault();
-
-            //if(provera == null)
-            //{
             try
             {
                 context.Add<ModulModel>(m.modul);
@@ -255,51 +192,6 @@ namespace Projekat.Controllers
             }
 
             return Json(result, JsonRequestBehavior.AllowGet);
-        }
-
-        [HttpGet]
-        [Authorize(Roles = "SuperAdministrator, GlobalniUrednik")]
-        public ActionResult EditModulGlobalni(int id)
-        {
-            ModulModel modul = context.moduli.Where(x => x.modulId == id).Single();
-
-            DodajModulViewModel viewModel = new DodajModulViewModel()
-            {
-                Predmeti = context.predmeti.Where(x => x.tipId == 2)
-            };
-            viewModel.predmetId = modul.predmetId;
-            viewModel.modul = modul;
-
-            return View("EditModulGlobalni", viewModel);
-        }
-
-        [HttpPost]
-        [Authorize(Roles = "SuperAdministrator, GlobalniUrednik")]
-        public ActionResult EditModulGlobalni(DodajModulViewModel m)
-        {
-            if (m.modul.predmetId != null)
-            {
-                m.predmetId = m.modul.predmetId;
-            }
-            else if (m.predmetId != null)
-            {
-                m.modul.predmetId = m.predmetId;
-            }
-            ModulModel editovan = m.modul;
-            ModulModel modul = context.moduli.Where(x => x.modulId == editovan.modulId).Single();
-
-            modul.modulNaziv = editovan.modulNaziv;
-            modul.modulOpis = editovan.modulOpis;
-            modul.predmetId = editovan.predmetId;
-            try
-            {
-                context.SaveChanges();
-            }
-            catch
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.Forbidden);
-            }
-            return RedirectToAction("ModulPrikaz", new { id = modul.predmetId });
         }
 
         [HttpGet]

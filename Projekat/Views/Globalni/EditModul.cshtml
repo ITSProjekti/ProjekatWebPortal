@@ -6,7 +6,7 @@
 }
 
 <div id="sredina">
-    @using (Html.BeginForm("EditModulGlobalni", "Modul", FormMethod.Post, new { @class = "modulForma", @id = "modulForma" }))
+    @using (Html.BeginForm("EditModul", "Globalni", FormMethod.Post, new { @class = "modulForma", @id = "modulForma" }))
     {
         <h2>Izmena modula</h2>
         @Html.HiddenFor(m => m.modul.modulId, new { @name = "modulId" })

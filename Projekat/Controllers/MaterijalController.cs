@@ -394,7 +394,7 @@ namespace Projekat.Controllers
         /// <param name="id">Id materijala za brisanje</param>
         /// <returns></returns>
         [HttpPost]
-        [Authorize(Roles = "SuperAdministrator,LokalniUrednik")]
+        [Authorize(Roles = "SuperAdministrator,LokalniUrednik,GlobalniUrednik")]
         //[ActionName("Delete")]
         //[Route("UploadMaterijal/DeleteConfirmed/{id:int}")]
         public ActionResult DeleteConfirmed(int id, int? modulId)

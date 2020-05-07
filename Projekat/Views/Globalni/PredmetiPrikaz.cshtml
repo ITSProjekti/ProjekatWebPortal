@@ -2,17 +2,13 @@
 
 @{
     ViewBag.Title = "PredmetiPrikaz";
-    List<int> RAZREDI = new List<int>
-{
-        1,2,3,4
-    };
 }
 
 <div id="sredina">
     @if (this.User.IsInRole("SuperAdministrator") || this.User.IsInRole("GlobalniUrednik"))
     {
 
-        <a id="novi-materijal" href="/Predmet/DodajGlobalniPredmet">
+        <a id="novi-materijal" href="/Globalni/DodajPredmet">
             <svg width="60" height="60" xmlns="http://www.w3.org/2000/svg">
                 <g>
                     <title>background</title>
@@ -30,9 +26,6 @@
         </a>
     }
 
-
-    <span id="smerId" hidden>@Model.smerId</span>
-
     @foreach (var predmet in Model.predmeti)
     {
         <div class="kartica-predmet clear-fix" id="@predmet.predmetId">
@@ -43,7 +36,7 @@
                     <a href="#" class="kontrola-ikonica edit" data-toggle="modal" data-target="@("#editModal"+ predmet.predmetId)"><img src="~/Content/img/uredi.png" alt="uredi" /></a>
                 }
                 <a class="predmet-kontrole opis" href="#" data-toggle="modal" data-target="#opisModal">OPIS</a>
-                @Html.ActionLink("MODULI", "ModulPrikaz", "Modul", new { id = predmet.predmetId }, new { @class = "predmet-kontrole getMaterijali", tabindex = predmet.predmetId })
+                @Html.ActionLink("MODULI", "ModuliPrikaz", "Globalni", new { id = predmet.predmetId }, new { @class = "predmet-kontrole getMaterijali", tabindex = predmet.predmetId })
             </div>
             <div class="opisPredmeta" style="display:none"><p>@predmet.predmetOpis</p></div>
         </div>
@@ -58,9 +51,8 @@
                         </div>
 
                         <div class="modal-body">
-                            @using (Html.BeginForm("EditGlobalni", "Predmet", FormMethod.Post, new { @id = "editPredmeta" }))
+                            @using (Html.BeginForm("EditPredmet", "Globalni", FormMethod.Post, new { @id = "editPredmeta" }))
                             {
-
 
                                 @Html.HiddenFor(p => p.predmetId, new { @id = @"predmetId", @name = "predmetId" })
 

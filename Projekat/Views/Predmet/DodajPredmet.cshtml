@@ -2,39 +2,31 @@
 @{
     ViewBag.Title = "DodajPredmet";
     List<int> RAZREDI = new List<int>
-    {
+{
         1,2,3,4
     };
 }
-    <div id="sredina">
-        @using (Html.BeginForm("DodajPredmet", "Predmet", FormMethod.Post, new { @class = "predmetForma", @id = "predmetForma" }))
-        {
-            <h2>Novi predmet</h2>
-            <div id="dropDownovi">
-                @Html.DropDownListFor(m => m.smerIds, new SelectList(Model.smerovi, "smerId", "smerNaziv"), new { @class = "select2smerovi", @multiple = "multiple", @id = "smerovi" })
-            </div>
+<div id="sredina">
+    @using (Html.BeginForm("DodajPredmet", "Predmet", FormMethod.Post, new { @class = "predmetForma", @id = "predmetForma" }))
+    {
+        <h2>Novi predmet</h2>
+        <div id="dropDownovi">
+            @Html.DropDownListFor(m => m.smerIds, new SelectList(Model.smerovi, "smerId", "smerNaziv"), new { @class = "select2smerovi", @multiple = "multiple", @id = "smerovi" })
+        </div>
 
-            /* za moguce buduce razvijanje
-               <div class="odabirRazredPoSmeruDIV" id="odabirRazredPoSmeruDIV" style="height:auto">
-                   @*Za svaki selektovani smer, ovde se generise po partial view sa inputom za razred.
-                   Nalazi se u fajlu Scripts/Predmet/dodavanjeRazredaZaPre.js*@
-               </div>
-               */
+        <label class="matDesignLabel">Razred</label>
+        @Html.DropDownListFor(p => p.predmet.Razred, new SelectList(RAZREDI), new { @id = @"Razred", @name = "Razred", @style = "width:50px;position:relative;left:150px;top:12px" })
 
-            <label class="matDesignLabel">Razred</label>
-            @Html.DropDownListFor(p => p.predmet.Razred, new SelectList(RAZREDI), new { @id = @"Razred", @name = "Razred", @style = "width:50px;position:relative;left:150px;top:12px" })
+        <label class="matDesignLabel" for="predmet_predmetNaziv">Naziv predmeta</label>
+        @Html.TextBoxFor(m => m.predmet.predmetNaziv, new { @name = "predmetNaziv" })
+        <label for="predmet_predmetOpis" class="matDesignLabel">Opis</label>
+        @Html.TextAreaFor(m => m.predmet.predmetOpis, new { @name = "predmetOpis" }) //Ne diraj NAME NIKAKO!
+        @Html.HiddenFor(m => m.tip, new { @name = "tip" })
 
-            <label class="matDesignLabel" for="predmet_predmetNaziv">Naziv predmeta</label>
-            @Html.TextBoxFor(m => m.predmet.predmetNaziv, new { @name = "predmetNaziv" })
-            <label for="predmet_predmetOpis" class="matDesignLabel">Opis</label>
-            @Html.TextAreaFor(m => m.predmet.predmetOpis, new { @name = "predmetOpis" }) //Ne diraj NAME NIKAKO!
-            @Html.HiddenFor(m=>m.tip, new { @name="tip" })
-                                                                                         
+        <button type="submit" id="postavi" name="submitPredmet">POSTAVI</button>
+    }
 
-            <button type="submit" id="postavi" name="submitPredmet">POSTAVI</button>
-        }
-
-        <div id="snackbar"><span>Predmet uspešno dodat!</span></div>
-    </div>
+    <div id="snackbar"><span>Predmet uspešno dodat!</span></div>
+</div>
 
 @Scripts.Render("~/bundles/novi_predmet")
