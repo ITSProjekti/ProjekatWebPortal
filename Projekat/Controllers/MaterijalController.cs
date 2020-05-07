@@ -68,7 +68,7 @@ namespace Projekat.Controllers
                 }
                 namenaID = 2;
             }
-            
+
             if (this.User.IsInRole("Ucenik"))
             {
                 int? smer = await ApplicationUser.VratiSmerId(this.User.Identity.Name);
@@ -141,10 +141,10 @@ namespace Projekat.Controllers
 
             MaterijalUploadViewModel viewModel = new MaterijalUploadViewModel
             {
-                Predmeti = context.predmeti.ToList(),
                 tipoviMaterijala = context.tipMaterijala.ToList(),
                 nameneMaterijala = context.nameneMaterijala.ToList(),
                 Smerovi = context.smerovi.ToList(),
+                Predmeti = context.predmeti.ToList(),
                 Moduli = context.moduli.ToList()
             };
 
@@ -157,8 +157,8 @@ namespace Projekat.Controllers
                     smerId = viewModel.Smerovi.ToList()[0].smerId;
 
                     var predmetiposmeru = context.predmetiPoSmeru.Where(x => x.smerId == smerId).Select(c => c.predmetId).ToList();
-                    viewModel.PredmetPoSmeru = viewModel.Predmeti.Where(x => predmetiposmeru.Contains(x.predmetId));
-                    viewModel.ModulPoPredmetu = viewModel.Moduli.Where(x => x.predmetId == viewModel.PredmetPoSmeru.First().predmetId);
+                    viewModel.PredmetPoSmeru = viewModel.Predmeti.Where(x => predmetiposmeru.Contains(x.predmetId)).ToList();
+                    viewModel.ModulPoPredmetu = viewModel.Moduli.Where(x => x.predmetId == viewModel.PredmetPoSmeru.First().predmetId).ToList();
 
                     if (TempData["SuccMsg"] != null) { ViewBag.SuccMsg = TempData["SuccMsg"]; }
                     //else if (TempData["ErrorMsg"] != null) { ViewBag.ErrorMsg = TempData["ErrorMsg"]; }
@@ -172,13 +172,16 @@ namespace Projekat.Controllers
             }
             else
             {
+                viewModel.PredmetPoSmeru = new List<PredmetModel>();
+                viewModel.ModulPoPredmetu = new List<ModulModel>();
+
                 if (predmetId != null && smerId != null)
                 {
                     try
                     {
                         var predmetiposmeru = context.predmetiPoSmeru.Where(x => x.smerId == smerId).Select(c => c.predmetId).ToList();
-                        viewModel.PredmetPoSmeru = (viewModel.Predmeti.Where(x => predmetiposmeru.Contains(x.predmetId)));
-                        viewModel.ModulPoPredmetu = viewModel.Moduli.Where(x => x.predmetId == predmetId);
+                        viewModel.PredmetPoSmeru = viewModel.Predmeti.Where(x => predmetiposmeru.Contains(x.predmetId)).ToList();
+                        viewModel.ModulPoPredmetu = viewModel.Moduli.Where(x => x.predmetId == predmetId).ToList();
                     }
                     catch (Exception)
                     {
@@ -192,8 +195,8 @@ namespace Projekat.Controllers
                     try
                     {
                         var predmetiposmeru = context.predmetiPoSmeru.Where(x => x.smerId == smerId).Select(c => c.predmetId).ToList();
-                        viewModel.PredmetPoSmeru = (viewModel.Predmeti.Where(x => predmetiposmeru.Contains(x.predmetId)));
-                        viewModel.ModulPoPredmetu = viewModel.Moduli.Where(x => x.predmetId == viewModel.PredmetPoSmeru.First().predmetId);
+                        viewModel.PredmetPoSmeru = viewModel.Predmeti.Where(x => predmetiposmeru.Contains(x.predmetId)).ToList();
+                        viewModel.ModulPoPredmetu = viewModel.Moduli.Where(x => x.predmetId == viewModel.PredmetPoSmeru.First().predmetId).ToList();
                     }
                     catch (Exception)
                     {
