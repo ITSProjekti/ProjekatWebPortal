@@ -28,6 +28,8 @@ namespace Projekat.Controllers
         /// </summary>
         /// Prikazuje module na odredjenom predmetu
         /// <param name="id">ID predmeta za koji zelimo da prikazemo module.</param>
+      
+        [Authorize]
         public ActionResult ModulPrikaz(int id)
         {
             context = new MaterijalContext();
@@ -171,6 +173,12 @@ namespace Projekat.Controllers
             bool result = false;
             context = new MaterijalContext();
             ModulModel modul;
+            var materijalPoModulu = from m in context.materijalPoModulu
+                                    join x in context.materijali
+                                    on m.materijalId equals x.materijalId
+                                    where m.modulId == id
+                                    select x.materijalId;
+            var listaMaterijalId = materijalPoModulu.ToList();
             try
             {
                 modul = context.moduli.Single(x => x.modulId == id);
@@ -189,6 +197,40 @@ namespace Projekat.Controllers
             {
                 result = false;
                 return Json(result, JsonRequestBehavior.AllowGet);
+            }
+
+            try
+            {
+                if (listaMaterijalId != null)
+                {
+                    foreach(var i in listaMaterijalId)
+                    {
+                        var postoji = context.materijalPoModulu.Where(x => x.materijalId == i);
+                        if (postoji.Count() == 0)
+                        {
+                            MaterijalModel zaBrisanje = context.materijali.Single(x => x.materijalId == i);
+                            try{
+                                
+
+                                context.Delete<MaterijalModel>(zaBrisanje);
+                                context.SaveChanges();
+                                
+                            }
+
+                            catch
+                            {
+                                result = false;
+                                return Json(result, JsonRequestBehavior.AllowGet);
+                            }
+                            
+                        }
+                    }
+                    result = true;
+                }
+            }
+            catch
+            {
+
             }
 
             return Json(result, JsonRequestBehavior.AllowGet);
