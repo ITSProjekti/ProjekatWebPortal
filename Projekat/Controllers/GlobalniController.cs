@@ -24,6 +24,7 @@ namespace Projekat.Controllers
         /// <param name="Smer">Naziv smera za koji zelimo da prikazemo predmete.</param>
         /// <returns></returns>
         [HttpGet]
+        [Authorize]
         public ActionResult PredmetiPrikaz()
         {
             List<PredmetModel> model = context.predmeti.Where(x => x.tipId == 2).ToList();
