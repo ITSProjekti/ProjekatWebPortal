@@ -181,15 +181,17 @@ namespace Projekat.Controllers
             }
             if (smerId != 0)
             {
+
             }
             var predPoSmer = context.predmetiPoSmeru.Where(x => x.smerId == smerId).Select(x => x.predmetId);
-            List<PredmetModel> predmeti = context.predmeti.Where(x => predPoSmer.Contains(x.predmetId)).ToList();
+            List<PredmetModel> predmeti = context.predmeti.Where(x => predPoSmer.Contains(x.predmetId) && x.Razred == razredPOM).ToList();
 
             PredmetPoSmeruViewModel predmetiPoSmeru = new PredmetPoSmeruViewModel
             {
                 predmeti = predmeti,
                 smerovi = smerovi,
                 smerId = smerId
+                
             };
             return View("PredmetiPrikaz", predmetiPoSmeru);
         }
