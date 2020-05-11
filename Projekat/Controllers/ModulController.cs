@@ -28,26 +28,24 @@ namespace Projekat.Controllers
         /// </summary>
         /// Prikazuje module na odredjenom predmetu
         /// <param name="id">ID predmeta za koji zelimo da prikazemo module.</param>
+      
+        [Authorize]
         public ActionResult ModulPrikaz(int id)
         {
             context = new MaterijalContext();
             int pID = 0;
 
-            List<ModulModel> modeli;
+            List<ModulModel> moduli;
             try
             {
                 pID = context.predmeti.FirstOrDefault(x => x.predmetId == id).predmetId;
             }
-            catch { return View("FileNotFound"); }
-
+            catch { }
             if (pID != 0)
             {
-                try
-                {
-                    modeli = context.moduli.Where(x => x.predmetId == pID).ToList();
-                }
-                catch { return new HttpStatusCodeResult(403); }
-                return View(modeli);
+                ViewBag.predmetId = pID;
+                moduli = context.moduli.Where(x => x.predmetId == pID).ToList();
+                return View(moduli);
             }
             return View("FileNotFound");
         }
@@ -108,11 +106,6 @@ namespace Projekat.Controllers
                 m.modul.predmetId = m.predmetId;
             }
 
-            //var modulime = m.modul.modulNaziv;
-            //var provera = context.moduli.Where(x => x.modulNaziv == modulime).FirstOrDefault();
-
-            //if(provera == null)
-            //{
             try
             {
                 context.Add<ModulModel>(m.modul);
@@ -174,12 +167,18 @@ namespace Projekat.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = "SuperAdministrator,LokalniUrednik")]
+        [Authorize(Roles = "SuperAdministrator,LokalniUrednik, GlobalniUrednik")]
         public JsonResult Delete(int id)
         {
             bool result = false;
             context = new MaterijalContext();
             ModulModel modul;
+            var materijalPoModulu = from m in context.materijalPoModulu
+                                    join x in context.materijali
+                                    on m.materijalId equals x.materijalId
+                                    where m.modulId == id
+                                    select x.materijalId;
+            var listaMaterijalId = materijalPoModulu.ToList();
             try
             {
                 modul = context.moduli.Single(x => x.modulId == id);
@@ -198,6 +197,40 @@ namespace Projekat.Controllers
             {
                 result = false;
                 return Json(result, JsonRequestBehavior.AllowGet);
+            }
+
+            try
+            {
+                if (listaMaterijalId != null)
+                {
+                    foreach(var i in listaMaterijalId)
+                    {
+                        var postoji = context.materijalPoModulu.Where(x => x.materijalId == i);
+                        if (postoji.Count() == 0)
+                        {
+                            MaterijalModel zaBrisanje = context.materijali.Single(x => x.materijalId == i);
+                            try{
+                                
+
+                                context.Delete<MaterijalModel>(zaBrisanje);
+                                context.SaveChanges();
+                                
+                            }
+
+                            catch
+                            {
+                                result = false;
+                                return Json(result, JsonRequestBehavior.AllowGet);
+                            }
+                            
+                        }
+                    }
+                    result = true;
+                }
+            }
+            catch
+            {
+
             }
 
             return Json(result, JsonRequestBehavior.AllowGet);

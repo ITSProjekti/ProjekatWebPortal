@@ -59,7 +59,6 @@ namespace Projekat
             "~/Scripts/customDropdown.js"
             ));
             bundles.Add(new ScriptBundle("~/bundles/DodajModul").Include(
-            "~/Scripts/Modul/DodajModul.js",
             //"~/Scripts/Materijal/uploadMaterijal.js",
             "~/Scripts//Modul/customDropdownModul.js"
             ));

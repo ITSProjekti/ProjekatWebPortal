@@ -51,7 +51,7 @@ namespace Projekat.Controllers
         /// <param name="formati">Lista formata za prikaz.</param>
         /// <param name="tipovi">Lista tipova materijala za prikaz.</param>
         /// <param name="number">The number.</param>
-        /// <param name="id">Id predmeta za koji su materijali, ako je id = null, predpostavlja se da je dati materijal za profesore</param>
+        /// <param name="id">Id modula za koji su materijali, ako je id = null, predpostavlja se da je dati materijal za profesore</param>
         /// <returns>Parcijalni pregled karticw</returns>
         [HttpGet]
         public async Task<ActionResult> MaterijaliPrikaz(string sort, List<string> formati, List<int> tipovi, int number = 0, int? id = null)
@@ -68,18 +68,21 @@ namespace Projekat.Controllers
                 }
                 namenaID = 2;
             }
+
             if (this.User.IsInRole("Ucenik"))
             {
                 int? smer = await ApplicationUser.VratiSmerId(this.User.Identity.Name);
                 if (smer != null)
                 {
-                    PredmetPoSmeru pos = context.predmetiPoSmeru.FirstOrDefault(x => x.predmetId == id && x.smerId == smer);
+                    ModulModel mod = context.moduli.FirstOrDefault(x => x.modulId == id);
+                    PredmetPoSmeru pos = context.predmetiPoSmeru.FirstOrDefault(x => x.predmetId == mod.predmetId && x.smerId == smer);
                     if (pos == null)
                     {
                         return new HttpStatusCodeResult(403);
                     }
                 }
             }
+
             materijali = context.naprednaPretraga(formati, tipovi, id, namenaID).ToList();
 
             if (sort == "opadajuce")
@@ -138,10 +141,10 @@ namespace Projekat.Controllers
 
             MaterijalUploadViewModel viewModel = new MaterijalUploadViewModel
             {
-                Predmeti = context.predmeti.ToList(),
                 tipoviMaterijala = context.tipMaterijala.ToList(),
                 nameneMaterijala = context.nameneMaterijala.ToList(),
                 Smerovi = context.smerovi.ToList(),
+                Predmeti = context.predmeti.ToList(),
                 Moduli = context.moduli.ToList()
             };
 
@@ -154,8 +157,8 @@ namespace Projekat.Controllers
                     smerId = viewModel.Smerovi.ToList()[0].smerId;
 
                     var predmetiposmeru = context.predmetiPoSmeru.Where(x => x.smerId == smerId).Select(c => c.predmetId).ToList();
-                    viewModel.PredmetPoSmeru = viewModel.Predmeti.Where(x => predmetiposmeru.Contains(x.predmetId));
-                    viewModel.ModulPoPredmetu = viewModel.Moduli.Where(x => x.predmetId == viewModel.PredmetPoSmeru.First().predmetId);
+                    viewModel.PredmetPoSmeru = viewModel.Predmeti.Where(x => predmetiposmeru.Contains(x.predmetId)).ToList();
+                    viewModel.ModulPoPredmetu = viewModel.Moduli.Where(x => x.predmetId == viewModel.PredmetPoSmeru.First().predmetId).ToList();
 
                     if (TempData["SuccMsg"] != null) { ViewBag.SuccMsg = TempData["SuccMsg"]; }
                     //else if (TempData["ErrorMsg"] != null) { ViewBag.ErrorMsg = TempData["ErrorMsg"]; }
@@ -169,13 +172,16 @@ namespace Projekat.Controllers
             }
             else
             {
+                viewModel.PredmetPoSmeru = new List<PredmetModel>();
+                viewModel.ModulPoPredmetu = new List<ModulModel>();
+
                 if (predmetId != null && smerId != null)
                 {
                     try
                     {
                         var predmetiposmeru = context.predmetiPoSmeru.Where(x => x.smerId == smerId).Select(c => c.predmetId).ToList();
-                        viewModel.PredmetPoSmeru = (viewModel.Predmeti.Where(x => predmetiposmeru.Contains(x.predmetId)));
-                        viewModel.ModulPoPredmetu = viewModel.Moduli.Where(x => x.predmetId == predmetId);
+                        viewModel.PredmetPoSmeru = viewModel.Predmeti.Where(x => predmetiposmeru.Contains(x.predmetId)).ToList();
+                        viewModel.ModulPoPredmetu = viewModel.Moduli.Where(x => x.predmetId == predmetId).ToList();
                     }
                     catch (Exception)
                     {
@@ -189,8 +195,8 @@ namespace Projekat.Controllers
                     try
                     {
                         var predmetiposmeru = context.predmetiPoSmeru.Where(x => x.smerId == smerId).Select(c => c.predmetId).ToList();
-                        viewModel.PredmetPoSmeru = (viewModel.Predmeti.Where(x => predmetiposmeru.Contains(x.predmetId)));
-                        viewModel.ModulPoPredmetu = viewModel.Moduli.Where(x => x.predmetId == viewModel.PredmetPoSmeru.First().predmetId);
+                        viewModel.PredmetPoSmeru = viewModel.Predmeti.Where(x => predmetiposmeru.Contains(x.predmetId)).ToList();
+                        viewModel.ModulPoPredmetu = viewModel.Moduli.Where(x => x.predmetId == viewModel.PredmetPoSmeru.First().predmetId).ToList();
                     }
                     catch (Exception)
                     {
@@ -388,20 +394,27 @@ namespace Projekat.Controllers
         /// <param name="id">Id materijala za brisanje</param>
         /// <returns></returns>
         [HttpPost]
-        [Authorize(Roles = "SuperAdministrator,LokalniUrednik")]
+        [Authorize(Roles = "SuperAdministrator,LokalniUrednik,GlobalniUrednik")]
         //[ActionName("Delete")]
         //[Route("UploadMaterijal/DeleteConfirmed/{id:int}")]
-        public ActionResult DeleteConfirmed(int id)
+        public ActionResult DeleteConfirmed(int id, int? modulId)
         {
-            MaterijalModel materijal;
-            try
+            if (modulId != null)
             {
-                materijal = context.pronadjiMaterijalPoId(id);
-                context.Delete<MaterijalModel>(materijal);
-                context.SaveChanges();
+                try
+                {
+                    MaterijalPoModulu matPoMod = context.materijalPoModulu.Where(x => x.materijalId == id && x.modulId == modulId).FirstOrDefault();
+                    context.Delete<MaterijalPoModulu>(matPoMod);
+                    context.SaveChanges();
+                }
+                catch (Exception) { }
             }
-            catch (Exception)
+            List<MaterijalPoModulu> lista = context.materijalPoModulu.Where(x => x.materijalId == id).ToList();
+            if (lista.Count == 0)
             {
+                MaterijalModel temp = context.pronadjiMaterijalPoId(id);
+                context.Delete<MaterijalModel>(temp);
+                context.SaveChanges();
             }
 
             return RedirectToAction("MaterijaliPrikaz");

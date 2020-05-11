@@ -7,7 +7,7 @@
 $('#deleteConfirm').click(function () {
     var id = $("#hiddenZahtevId").val();
     $.ajax({
-        url: "/Zahtev/Delete",
+        url: "/Zahtev/Delete/",
         method: "POST",
         data: {
             Id: id

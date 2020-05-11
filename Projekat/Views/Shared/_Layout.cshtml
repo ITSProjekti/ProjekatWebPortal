@@ -140,14 +140,14 @@
                     </a>
                 </li>
                 <li class="blok">
-                    <a href="@Url.Action("PredmetiPrikaz", "Predmet", new { Smer = "", razred = 0, tip="globalni"})">
+                    <a href="@Url.Action("PredmetiPrikaz", "Globalni")">
                         <div class="slikaLi">
                             <img src="~/Content/img/ucenik.png" alt="slika1" />
                         </div>
                         <p id="14">Globalni materijal</p>
                     </a>
                 </li>
-                @if (this.User.IsInRole("GlobalniUrednik"))
+                @if (this.User.IsInRole("GlobalniUrednik") || this.User.IsInRole("LokalniUrednik"))
                 {
                     <li class="blok">
                         <a href="@Url.Action("PrikazZahteva", "Zahtev")">
@@ -333,7 +333,7 @@
     </div>
     @if (User.Identity.IsAuthenticated)
     {
-        <div id="dropdaun" style="display:none;margin-top:70px;">
+        <div id="dropdaun" style="display:none;margin-top:70px;position:fixed;">
             <ul class="dd-lista">
 
                 <li class="dd">Moj Nalog</li>

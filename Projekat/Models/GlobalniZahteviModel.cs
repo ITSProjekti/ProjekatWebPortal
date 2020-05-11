@@ -11,6 +11,7 @@ namespace Projekat.Models
 
         public DateTime zahtevDatum { get; set; }
         public string zahtevObrazlozenje { get; set; }
+        public bool ZaGlobalnog { get; set; }
 
         [ForeignKey("MaterijalModel")]
         public int materijalId { get; set; }

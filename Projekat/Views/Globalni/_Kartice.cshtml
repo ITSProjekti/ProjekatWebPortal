@@ -24,7 +24,7 @@
                         <a class="dropdownOpcija" href="#">Komentariši</a>
                     </div>
                 </div>
-                @if (this.User.IsInRole("SuperAdministrator") || this.User.IsInRole("LokalniUrednik"))
+                @if (this.User.IsInRole("SuperAdministrator") || this.User.IsInRole("GlobalniUrednik"))
                 {
                     <a class="delete" href="#" data-toggle="modal" data-target="#myModal">
                         @*<button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Open Modal</button>*@
@@ -33,10 +33,6 @@
                         <input type="hidden" id="hiddenModulId" value="@osiromaseni.modulId" />
                     </a>
 
-                }
-                @if (this.User.IsInRole("LokalniUrednik") || this.User.IsInRole("Profesor"))
-                {
-                    <a class="upgrade" href="#"><img style="width:12px;" src="~/Content/img/upgradeIco.png" /></a>;
                 }
                 <a class="preuzmi" href="@Url.Action("DownloadMaterijal", "Materijal", new { id = osiromaseni.materijalId })">preuzmi</a>
             </div>
