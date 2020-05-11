@@ -60,6 +60,12 @@ namespace Projekat.Models
         /// </value>
         public DbSet<TipMaterijalModel> tipMaterijala { get; set; }
 
+         /// <summary>
+        /// Gets the queryable data source for MaterijalPoModulu.
+        /// </summary>
+        /// <value>
+        /// The queryable selection of MaterijalPoModulu Classes.
+        /// </value>
         public DbSet<MaterijalPoModulu> materijalPoModulu { get; set; }
 
         /// <summary>
@@ -77,7 +83,20 @@ namespace Projekat.Models
         //public DbSet<AspNetUser> Users { get; set; }
         //public DbSet<MaterijalProfesorModel> Profesormaterijali { get; set; }
 
+        /// <summary>
+        /// Gets the queryable data source for ModulModel.
+        /// </summary>
+        /// <value>
+        /// The queryable selection of ModulModel Classes.
+        /// </value>
         public DbSet<ModulModel> moduli { get; set; }
+        
+        /// <summary>
+        /// Gets the queryable data source for GlobalniZahteviModel.
+        /// </summary>
+        /// <value>
+        /// The queryable selection of GlobalniZahteviModel Classes.
+        /// </value>
         public DbSet<GlobalniZahteviModel> globalniZahtevi { get; set; }
 
         IQueryable<MaterijalPoModulu> IMaterijalContext.materijalPoModulu
@@ -89,6 +108,7 @@ namespace Projekat.Models
         {
             get { return globalniZahtevi; }
         }
+
 
         IQueryable<TipMaterijalModel> IMaterijalContext.tipMaterijala
         {
@@ -190,6 +210,7 @@ namespace Projekat.Models
                                  modulId = modulId
                              };
             }
+
 
             return materijali;
         }

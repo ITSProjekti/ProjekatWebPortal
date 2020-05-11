@@ -32,7 +32,7 @@ $(document).ready(function () {
             var arrayLijeva = $(this).find($('option')).toArray();
 
             $.each(arrayLijeva, function (index, value) {
-                $('#trenutnoPravim ul.customLista').append(($("<li id='" + arrayLijeva[index].getAttribute('id') + "'></li>").text($(this).text())));
+                $('#trenutnoPravim ul.customLista').append(($("<li id='" + arrayLijeva[index].getAttribute('value') + "'></li>").text($(this).text())));
             });
 
             var lista = $('.customLista li');

@@ -109,7 +109,6 @@ namespace Projekat
             bundles.Add(new ScriptBundle("~/bundles/zahtevDropdown").Include(
                 "~/Scripts/Zahtev/zahtevDropdown.js"
             ));
-
             bundles.Add(new ScriptBundle("~/bundles/lista_korisnika").Include(
 
              "~/Scripts/datatables.min.js",

@@ -28,7 +28,6 @@ namespace Projekat.Controllers
         /// </summary>
         /// Prikazuje module na odredjenom predmetu
         /// <param name="id">ID predmeta za koji zelimo da prikazemo module.</param>
-      
         [Authorize]
         public ActionResult ModulPrikaz(int id)
         {
@@ -52,6 +51,7 @@ namespace Projekat.Controllers
 
         [HttpGet]
         [Authorize(Roles = "SuperAdministrator,LokalniUrednik")]
+
         public ActionResult DodajModul(int? smerId)
         {
             DodajModulViewModel viewModel = new DodajModulViewModel
@@ -105,7 +105,7 @@ namespace Projekat.Controllers
             {
                 m.modul.predmetId = m.predmetId;
             }
-
+            
             try
             {
                 context.Add<ModulModel>(m.modul);
@@ -173,6 +173,7 @@ namespace Projekat.Controllers
             bool result = false;
             context = new MaterijalContext();
             ModulModel modul;
+
             var materijalPoModulu = from m in context.materijalPoModulu
                                     join x in context.materijali
                                     on m.materijalId equals x.materijalId
@@ -232,7 +233,6 @@ namespace Projekat.Controllers
             {
 
             }
-
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 

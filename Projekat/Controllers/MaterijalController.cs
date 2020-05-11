@@ -68,7 +68,6 @@ namespace Projekat.Controllers
                 }
                 namenaID = 2;
             }
-
             if (this.User.IsInRole("Ucenik"))
             {
                 int? smer = await ApplicationUser.VratiSmerId(this.User.Identity.Name);
@@ -76,6 +75,7 @@ namespace Projekat.Controllers
                 {
                     ModulModel mod = context.moduli.FirstOrDefault(x => x.modulId == id);
                     PredmetPoSmeru pos = context.predmetiPoSmeru.FirstOrDefault(x => x.predmetId == mod.predmetId && x.smerId == smer);
+
                     if (pos == null)
                     {
                         return new HttpStatusCodeResult(403);
@@ -123,7 +123,7 @@ namespace Projekat.Controllers
             {
                 return View("_Kartice", vm);
             }
-
+            
             return View("MaterijaliPrikaz", vm);
         }
 
@@ -157,6 +157,7 @@ namespace Projekat.Controllers
                     smerId = viewModel.Smerovi.ToList()[0].smerId;
 
                     var predmetiposmeru = context.predmetiPoSmeru.Where(x => x.smerId == smerId).Select(c => c.predmetId).ToList();
+
                     viewModel.PredmetPoSmeru = viewModel.Predmeti.Where(x => predmetiposmeru.Contains(x.predmetId)).ToList();
                     viewModel.ModulPoPredmetu = viewModel.Moduli.Where(x => x.predmetId == viewModel.PredmetPoSmeru.First().predmetId).ToList();
 
@@ -204,6 +205,7 @@ namespace Projekat.Controllers
                     }
                     return PartialView("_PredmetiNaSmeru", viewModel);
                 }
+
                 else
                 {
                     return new HttpStatusCodeResult(403);
@@ -415,6 +417,7 @@ namespace Projekat.Controllers
                 MaterijalModel temp = context.pronadjiMaterijalPoId(id);
                 context.Delete<MaterijalModel>(temp);
                 context.SaveChanges();
+
             }
 
             return RedirectToAction("MaterijaliPrikaz");
